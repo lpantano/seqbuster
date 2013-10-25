@@ -283,6 +283,7 @@ for id in filtered.keys():
         contentDivC+=table.make_div(table.make_table(contentDivL,"loci"),"loci","css_loci")
         contentDivC+=table.make_div(table.make_hs_link("plainseqs"),"linkshowhide","css_seqs_link")
         contentDivC+=table.make_div("<pre>"+clus.showseq_plain+"</pre>","plainseqs","css_seqs")
+        contentDivC+=table.make_div("<pre>"+clus.showseq_plain+"</pre>","expseqs","css_exp")
         #contentDivC+=seqviz.CANVAS
         ##print seq_header
         exp=0
