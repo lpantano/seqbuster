@@ -86,7 +86,7 @@ def make_jshtml(c,name):
 	return "%s %s %s "  % (tmp,c,END )
 
 def make_html(c,showseq,name):
-	header=START1+seqviz.JSVIZ1+showseq+seqviz.JSVIZ2+START2
+	header=START1+showseq+START2
 	return "%s %s %s "  % (header,c,END)
 
 def make_header(c):

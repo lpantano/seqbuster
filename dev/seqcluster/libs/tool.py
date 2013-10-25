@@ -3,7 +3,7 @@ import operator
 import os
 import copy
 from libs.sam2bed import *
-from libs import table,barchart,seqviz
+from libs import table,barchart,seqviz,expchart
 import time
 
 class cluster_info_obj:
@@ -205,7 +205,7 @@ def show_seq(clus_obj,index):
     itern=0
     for idc in current.keys():
         itern+=1
-        print idc
+        #print idc
         #timestamp=str(time.time())
         timestamp=str(idc)
         seqListTemp=()
@@ -239,9 +239,9 @@ def show_seq(clus_obj,index):
         showseq=""
         showseq_plain=""
         for (s,pos) in seqpos_sorted:
-            showseq_plain+="%s%s<br>" % ("".join("." for i in range(pos-1)),clus_seqt[s].seq)
-            showseq+=seqviz.addseq(pos-1,clus_seqt[s].len,clus_seqt[s].seq)
-        current[idc].showseq=showseq
+            showseq_plain+="<br><a href=javascript:loadSeq(\"%s\")>%s%s</a>" % (s,"".join("." for i in range(pos-1)),clus_seqt[s].seq)
+            #showseq+=seqviz.addseq(pos-1,clus_seqt[s].len,clus_seqt[s].seq)
+        #current[idc].showseq=showseq
         current[idc].showseq_plain=showseq_plain
         os.system("rm /tmp/"+timestamp+"*")
         #if (itern==1):
@@ -335,30 +335,6 @@ def parse_align_file(file,format):
        
     f.close()
     return bedfile_clusters
-
-def parse_ma_file(file):
-    f = open(file, 'r')
-    name=""
-    seq_l={}
-    index=1
-    line=f.readline()
-    line=line.strip()
-    cols=line.split("\t")
-    samples=cols[2:]
-    for line in f:
-        line=line.strip()
-        cols=line.split("\t")
-        exp={}
-        for i in range(len(samples)):
-            exp[samples[i]]=cols[i+2]
- 
-        name=cols[0].replace(">","")
-        seq=cols[1]
-       index=index+1
-        new_s=sequence(seq,exp,index)
-        seq_l[name]=new_s      
-    f.close()
-    return seq_l
 
 def parse_merge_file(c,seq_l_in,MIN_SEQ):
     #merge loci with shared sequences in same clusters
@@ -542,3 +518,26 @@ def generate_position_bed(clus_obj):
             bedaligned+= "%s\t%s\t%s\t%s\t%s\t%s\n" % (pos.chr,pos.start,pos.end,idc,idl,pos.strand)
 
     return bedaligned
+
+def parse_ma_file(file):
+    f = open(file, 'r')
+    name=""
+    seq_l={}
+    index=1
+    line=f.readline()
+    line=line.strip()
+    cols=line.split("\t")
+    samples=cols[2:]
+    for line in f:
+        line=line.strip()
+        cols=line.split("\t")
+        exp={}
+        for i in range(len(samples)):
+            exp[samples[i]]=cols[i+2] 
+        name=cols[0].replace(">","")
+        index=index+1
+        seq=cols[1]      
+        new_s=sequence(seq,exp,index)
+        seq_l[name]=new_s      
+    f.close()
+    return seq_l

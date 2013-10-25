@@ -21,8 +21,10 @@ parser.add_option("-g", "--gtf",
 parser.add_option("-b", "--bed",
                    dest="bed", help="annotate with bed_file. It will use the 4rd column as the tag to annotate" +
                    "\nchr1    157783  157886  snRNA   0       -",metavar="BED")
-#parser.add_option("-i", "--index",
-#                   dest="index", help="index hg19",metavar="FILE")
+parser.add_option("-o", "--out",
+                   dest="out", help="output dir",metavar="FILE")
+parser.add_option("-i", "--index",
+                   dest="index", help="reference fasta",metavar="FILE")
 
 if len(sys.argv)==1:
     parser.print_help()
@@ -49,12 +51,17 @@ if options.bed and options.gtf:
 
 
 ####################define variables####################    
-if "/" in options.ffile:
-    samplename=options.ffile.split("/")[-1]
-    dir_out=options.ffile.replace("/"+samplename,"")
-else:
-    dir_out="."
-    samplename="pronoid"
+#if "/" in options.ffile:
+#    samplename=options.ffile.split("/")[-1]
+#    dir_out=options.ffile.replace("/"+samplename,"")
+dir_out=options.out
+samplename="pronoid"
+if options.bed:
+    list_files=options.bed
+    type_ann="bed"
+if options.gtf:
+    list_files=options.gtf
+    type_ann="gtf"
 
 print"output dir %s" % dir_out 
 MIN_SEQ=10
@@ -67,9 +74,9 @@ try:
     f=open(options.afile,'r')
     f.close()
     beds=list_files.split(",")
-        for filebed in beds:
-            f=open(filebed.'r')
-            f.clos()
+    for filebed in beds:
+        f=open(filebed,'r')
+        f.close()
 except IOError as e:
     print "I/O error({0}): {1}".format(e.errno, e.strerror)
     sys.exit(1)
@@ -150,12 +157,6 @@ print "Creating bed file"
 bedfile=generate_position_bed(setclus)
 a = pybedtools.BedTool(bedfile,from_string=True)
 beds=[]
-if options.bed:
-    list_files=options.bed
-    type_ann="bed"
-if options.gtf:
-    list_files=options.gtf
-    type_ann="gtf"
 
 print "Annotating clusters"
 if list_files:
@@ -282,8 +283,9 @@ for id in filtered.keys():
 
         contentDivC+=table.make_div(table.make_table(contentDivL,"loci"),"loci","css_loci")
         contentDivC+=table.make_div(table.make_hs_link("plainseqs"),"linkshowhide","css_seqs_link")
+        contentDivC+=table.make_div(expchart.getExpDiv(),"expseqs","css_exp")
         contentDivC+=table.make_div("<pre>"+clus.showseq_plain+"</pre>","plainseqs","css_seqs")
-        contentDivC+=table.make_div("<pre>"+clus.showseq_plain+"</pre>","expseqs","css_exp")
+        
         #contentDivC+=seqviz.CANVAS
         ##print seq_header
         exp=0
@@ -291,20 +293,25 @@ for id in filtered.keys():
         contentDivS=table.make_header(seq_header)
         freq={}
         showseq=""
+        allData="var allData = ["
         for s in seqListTemp:
+            allData+='{"%s":[' % s
             seq=setclus.seq[s]
-            
             out.write("S %s %s\n" % (seq.seq,seq.len))
             #showseq+="S %s %s " % (seq.seq,seq.len)
             colseqs=[seq.seq,seq.len]
             for sample in samples_list:
+                allData+='{"sample":"%s","reads":"%s","color":"#FF6600"},' % (sample,int(setclus.seq[s].freq[sample]))
                 colseqs.append(int(setclus.seq[s].freq[sample]))
                 exp+=int(setclus.seq[s].freq[sample])
                 if (not freq.has_key(sample)):
                     freq[sample]=0
                 freq[sample]+=int(setclus.seq[s].freq[sample])
 
+            allData=allData[:-1]+"]},"
             contentDivS+=table.make_line("".join(map(table.make_cell,colseqs)))
+        
+        allData=allData[:-1]+"];"
 
         contentDivC+=table.make_div("<pre>"+table.make_table(contentDivS,"seqs")+"</pre>","seqs","css_seqs")
         cons=0
@@ -350,7 +357,7 @@ for id in filtered.keys():
         ccont+=table.make_line(ccell)
         icont=table.make_div(contentDivC,cluster_id,"css_clus")
         #idiv=make_div(clus,clus,"cluster")
-    icont=table.make_html(icont,clus.showseq,samplename)         
+    icont=table.make_html(icont,expchart.addgraph(allData),samplename)         
     icluster_html.write(icont)
     icluster_html.close()
 
