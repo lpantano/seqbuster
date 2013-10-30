@@ -7,8 +7,16 @@ HEAD='''
             var chart;
 
             %(data)s
+chartData=[];
 function loadSeq (x){
-    var chartData=allData[0][x];
+    chartData=allData[0][x];    
+    chart.dataProvider=chartData;
+    chart.validateData();
+    console.log(chartData);
+
+}
+AmCharts.ready(function() {
+
     // SERIAL CHART
     chart = new AmCharts.AmSerialChart();
     chart.dataProvider = chartData;
@@ -27,7 +35,7 @@ function loadSeq (x){
     // value
     var valueAxis = new AmCharts.ValueAxis();
     valueAxis.dashLength = 5;
-    valueAxis.title = "reads per sample";
+    valueAxis.title = "raw counts";
     valueAxis.axisAlpha = 0;
     chart.addValueAxis(valueAxis);
     
@@ -52,7 +60,7 @@ function loadSeq (x){
     
     // WRITE
     chart.write("chartdiv");
-}
+});
 
 
 
@@ -60,8 +68,7 @@ function loadSeq (x){
 '''
 
 DIV='''
-        <div id="chartdiv" style="width: 900px; height: 400px;"></div>
-     <div class="footer">Created by armcharts.com<div>
+        <div id="chartdiv" style="width: 1000px; height: 300px;"></div>
 
 '''
 

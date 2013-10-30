@@ -8,6 +8,7 @@ START1= '''<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/
 @import "../css/info_css.css";	
 </style>
 <script type="text/javascript">
+
 function showstuff(boxid){
    document.getElementById(boxid).style.visibility="visible";
 }
@@ -15,6 +16,7 @@ function showstuff(boxid){
 function hidestuff(boxid){
    document.getElementById(boxid).style.visibility="hidden";
 }
+
 </script>
 <script src="../js/Scribl.1.1.4.min.js" ></script>
 <script src="../js/jquery.min.js"></script>
@@ -29,7 +31,7 @@ function hidestuff(boxid){
 '''
 START2='''
 </head>
-<body id="cluster" onLoad='go()'>
+<body id="cluster">
 '''
 
 JSSTART= '''<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html>

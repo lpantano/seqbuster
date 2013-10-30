@@ -238,6 +238,7 @@ dbhtml = open(dir_out+"/html/annotation.html", 'w')
 ccont=table.make_header("".join(map(table.make_cell_header,["id","DB"]+samples_list)))
 icont=""
 
+print "Creating outputs"
 #####################creating plain text and html files#####################
 out = open(dir_out+"/clus.parse.txt", 'w')
 outbed=dir_out+"/clus.bed"
@@ -282,7 +283,7 @@ for id in filtered.keys():
             contentDivL+=table.make_line("".join(map(table.make_cell,[pos,contentA])))
 
         contentDivC+=table.make_div(table.make_table(contentDivL,"loci"),"loci","css_loci")
-        contentDivC+=table.make_div(table.make_hs_link("plainseqs"),"linkshowhide","css_seqs_link")
+        #contentDivC+=table.make_div(table.make_hs_link("plainseqs"),"linkshowhide","css_seqs_link")
         contentDivC+=table.make_div(expchart.getExpDiv(),"expseqs","css_exp")
         contentDivC+=table.make_div("<pre>"+clus.showseq_plain+"</pre>","plainseqs","css_seqs")
         
@@ -293,9 +294,9 @@ for id in filtered.keys():
         contentDivS=table.make_header(seq_header)
         freq={}
         showseq=""
-        allData="var allData = ["
+        allData="var allData = [{"
         for s in seqListTemp:
-            allData+='{"%s":[' % s
+            allData+='"%s":[' % s
             seq=setclus.seq[s]
             out.write("S %s %s\n" % (seq.seq,seq.len))
             #showseq+="S %s %s " % (seq.seq,seq.len)
@@ -308,12 +309,12 @@ for id in filtered.keys():
                     freq[sample]=0
                 freq[sample]+=int(setclus.seq[s].freq[sample])
 
-            allData=allData[:-1]+"]},"
+            allData=allData[:-1]+"],"
             contentDivS+=table.make_line("".join(map(table.make_cell,colseqs)))
         
-        allData=allData[:-1]+"];"
+        allData=allData[:-1]+"}];"
 
-        contentDivC+=table.make_div("<pre>"+table.make_table(contentDivS,"seqs")+"</pre>","seqs","css_seqs")
+        contentDivC+=table.make_div("<pre>"+table.make_table(contentDivS,"seqs")+"</pre>","seqs","css_table")
         cons=0
         ann=0
         tmp_db4js={}

@@ -239,6 +239,7 @@ def show_seq(clus_obj,index):
         showseq=""
         showseq_plain=""
         for (s,pos) in seqpos_sorted:
+            ##calculate the mean expression of the sequence and change size letter
             showseq_plain+="<br><a href=javascript:loadSeq(\"%s\")>%s%s</a>" % (s,"".join("." for i in range(pos-1)),clus_seqt[s].seq)
             #showseq+=seqviz.addseq(pos-1,clus_seqt[s].len,clus_seqt[s].seq)
         #current[idc].showseq=showseq

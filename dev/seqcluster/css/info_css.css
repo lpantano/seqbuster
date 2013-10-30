@@ -31,8 +31,20 @@ font-size: 16px;
 div.css_seqs {
     padding-top: 10px;
     padding-bottom:10px;
-
+    width: 200px;
+    height: 100px;
+    overflow-y: scroll;
 }
+
+a:link {
+ text-decoration:none;
+ color: #CCCCCC;
+}
+a:hover {
+ color:#333333;
+}
+
+
 
 div.css_loci {
     padding-top: 10px;
