@@ -126,7 +126,8 @@ clus_obj=parse_merge_file(c,seq_l,MIN_SEQ)
 
 #####################reduce loci when possible#############################
 print "Reducing multi-mapping events in the network of clusters"
-setclus=reduceloci(clus_obj,MIN_SEQ)
+setclus=reduceloci(clus_obj,MIN_SEQ,dir_out)
+#sys.exit(1)
 ###########################################################################
 
 ####################Code to check clusters integrity###################

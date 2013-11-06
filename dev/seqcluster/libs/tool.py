@@ -5,6 +5,7 @@ import copy
 from libs.sam2bed import *
 from libs import table,barchart,seqviz,expchart
 import time
+import math
 
 class cluster_info_obj:
     def __init__(self,clus_obj,clus_id,loci_obj,seq_obj):
@@ -28,6 +29,7 @@ class sequence:
         self.len=len(seq)
         self.pos=[]
         self.id=seq_id
+        self.score=0
     def addpos(self,pos_id):
         self.pos.append(pos_id)
 
@@ -196,6 +198,18 @@ def calc_complexity(nl):
     total/=ns
     return (total)
 
+def calculate_size(vector):
+    maxfreq=0
+    zeros=0
+    counts=0
+    total=len(vector.keys())
+    for s in vector.keys():
+        maxfreq=max(vector[s],maxfreq)
+        counts+=int(vector[s])
+        if vector[s]==0:
+            zeros+=1
+    return (counts*((total-zeros)/total))
+
 def show_seq(clus_obj,index):
     ##create vizualization of sequence along precursor for the results
     current=clus_obj.clus
@@ -204,6 +218,7 @@ def show_seq(clus_obj,index):
     
     itern=0
     for idc in current.keys():
+    #for idc in [1]:
         itern+=1
         #print idc
         #timestamp=str(time.time())
@@ -212,7 +227,11 @@ def show_seq(clus_obj,index):
         f=open("/tmp/"+timestamp+".fa","w")
         for idl in current[idc].loci2seq.keys():
             seqListTemp=list(set(seqListTemp).union(current[idc].loci2seq[idl]))
+        maxscore=0
         for s in seqListTemp:
+            score=calculate_size(clus_seqt[s].freq)
+            maxscore=max(maxscore,score)
+            clus_seqt[s].score=score
             seq=clus_seqt[s]
             f.write(">"+s+"\n"+seq.seq+"\n")
         f.close()
@@ -239,8 +258,13 @@ def show_seq(clus_obj,index):
         showseq=""
         showseq_plain=""
         for (s,pos) in seqpos_sorted:
+            ratio=(clus_seqt[s].score*1.0/maxscore*100.0)
+            realScore=(math.log(ratio,2)*2)
+            if realScore<0:
+                realScore=0
+            #print "score %s max %s  ratio %s real %.0f" % (clus_seqt[s].score,maxscore,ratio,realScore)
             ##calculate the mean expression of the sequence and change size letter
-            showseq_plain+="<br><a href=javascript:loadSeq(\"%s\")>%s%s</a>" % (s,"".join("." for i in range(pos-1)),clus_seqt[s].seq)
+            showseq_plain+="<br>%s<a style=\"font-size:%.0fpx;\"href=javascript:loadSeq(\"%s\")>%s</a>" % ("".join("." for i in range(pos-1)),realScore+10,s,clus_seqt[s].seq)
             #showseq+=seqviz.addseq(pos-1,clus_seqt[s].len,clus_seqt[s].seq)
         #current[idc].showseq=showseq
         current[idc].showseq_plain=showseq_plain
@@ -248,6 +272,7 @@ def show_seq(clus_obj,index):
         #if (itern==1):
         #    break
     clus_obj.clus=current
+    clus_obj.seq=clus_seqt
     return clus_obj
 
 def anncluster(c,clus_obj,db,type_ann):
@@ -408,7 +433,7 @@ def parse_merge_file(c,seq_l_in,MIN_SEQ):
             #currentClustersBed=currentClustersBed + "%s\t%s\t%s\t%s\t%s\t%s\n " % (a.chr,a.start,a.end,eindex,lindex,a.strand)
     return cluster_info_obj(currentClus,clus_id,loci_id,seq_l_in)
 
-def reduceloci(clus_obj,min_seq):
+def reduceloci(clus_obj,min_seq,path):
     ##reduce number of loci a cluster has
     filtered={}
     idcNew=0
@@ -417,6 +442,9 @@ def reduceloci(clus_obj,min_seq):
     clus_locit=clus_obj.loci
     clus_seqt=clus_obj.seq
     saved=list()
+    nodes="";
+    nodesInfo="";
+    #for idc in [1]:
     for idc in current.keys():
         clus1=copy.deepcopy(current[idc])
         #print "idc %s " % idc
@@ -429,6 +457,8 @@ def reduceloci(clus_obj,min_seq):
         seqfound=0
         while (nElements<currentElements and nElements!=0):
             cicle+=1
+
+            #print "cicle %s" % cicle
             #print "nC %s nE %s" % (currentElements,nElements)
             ##get loci with more number of sequences
             locilen_sorted=sorted(clus1.locilen.iteritems(), key=operator.itemgetter(1),reverse=True)
@@ -439,12 +469,11 @@ def reduceloci(clus_obj,min_seq):
             #print "max %s" % maxseq
             if maxseq>min_seq:
                 for (idl,lenl) in locilen_sorted:
+                    nodesInfo+="o%s\tblue\n" % (idl)
                     #print "starting %s %s" % (idl,lenl)
-                    #print "pos %s" % clus_locit[idl].chr
                     
-                    #print(clus1.loci2seq[idl])
-                    #tempList=list(set(sorted(clus1.loci2seq[idl])).difference(sorted(removeSeqs)))
                     tempList=clus1.loci2seq[idl]
+                    ##this should be remove to merge more clusters
                     tempList=list(set(sorted(tempList)).difference(sorted(removeSeqs))) 
                     if (first_run==0):
                         seqListTemp=tempList
@@ -454,13 +483,17 @@ def reduceloci(clus_obj,min_seq):
                     #     print "GOT IT:seq in idc %s cicle %s idl %s " % (idc,cicle,idl)
                     #print intersect
                     if (intersect):
+                        ##this could be change to min to merge more clusters
                         common=len(intersect)*1.0/max(len(seqListTemp),len(tempList))
-                        #print "%s %s %s %s" % (len(seqListTemp),len(tempList),
+                    
+                    #print "l:%s m:%s c:%s " % (lenl,maxseq,common)
                         #len(intersect),common)
-                    ##check if number of common sequences is 70% or greater than maxseq
+                    ##check if number of common sequences is 60% or greater than maxseq
+                    
                     if ((first_run==0 and lenl*1.0>0) or (lenl*1.0>=0.6*maxseq and common*1.0>=0.6)):
                         if (first_run==0):
                             idcNew+=1 ##creating new cluster id
+                            nodesInfo+="n%s\tyellow\n" % (idcNew)
                         if (not filtered.has_key(idcNew)):
                             filtered[idcNew]=cluster(idcNew)
                         #print "adding to %s" % (idcNew)
@@ -470,16 +503,16 @@ def reduceloci(clus_obj,min_seq):
                         #     print "INSIDE REMOVE: seq in idc %s cicle %s idl %s newidc %s" % (idc,cicle,idl,idcNew)
                         ##adding sequences to new cluster
                         filtered[idcNew].addidmember(list(tempList),idl)
+                        nodes+="o%s\tn%s\t-1\t%s\n" % (idl,idcNew,len(removeSeqs))
+                        
                         # if ("seq_389564" in tempList):
-                        #     print "ADDED: seq in idc %s cicle %s idl %s newidc %s" % (idc,cicle,idl,idcNew)
+                        #print "ADDED: seq in idc %s cicle %s idl %s newidc %s" % (idc,cicle,idl,idcNew)
                             # seqfound=1
-                        #print  "Lt %s L2S %s IN %s C %s" % (lenl,len(clus1.loci2seq[idl]),
-                        #len(intersect),common)
+ 
                         ##remove loccus from cluster
                         clus1.loci2seq.pop(idl,"None")
                         clus1.locilen.pop(idl,"None")
                     else:
-
                         # if ("seq_389564" in tempList):
                         #     print "###REMOVE seq in idc %s cicle %s idl %s " % (idc,cicle,idl)
                         # print "remove all sequnces in removeSeqs form current cluster"
@@ -489,10 +522,17 @@ def reduceloci(clus_obj,min_seq):
                         #     print "####REMOVING SEQ FROM OTHERS: %s" % idl
                         #     print ("seq_389564" in newList)
                         ##update sequences in this locus
+                        seqsGiven=lenl-len(newList)
+                        if len(newList)!=lenl and len(newList)>0:
+                            nodes+="o%s\tn%s\t%s\t%s\n" % (idl,idcNew,seqsGiven,len(removeSeqs))
+
                         clus1.locilen[idl]=len(newList)
                         clus1.loci2seq[idl]=newList
+                        #print "new length %s old length %s" % (len(newList),lenl)
                         #print "new list %s len %s leninclus %s" % (newList,len(newList),len(clus1.loci2seq[idl]))
                         if (clus1.locilen[idl]==0):
+                            #print "MERGE: seq in idc %s cicle %s idl %s newidc %s" % (idc,cicle,idl,idcNew)
+                            nodes+="o%s\tn%s\t%s\t%s\n" % (idl,idcNew,lenl,len(removeSeqs))
                             clus1.loci2seq.pop(idl,"None")
                             clus1.locilen.pop(idl,"None")
                             
@@ -506,6 +546,13 @@ def reduceloci(clus_obj,min_seq):
             nElements=len(clus1.loci2seq)
             #print(clus1.locilen.keys())
     clus_obj.clus=filtered
+    nodesFiles=open(path+"/nodes.txt",'w')
+    nodesFiles.write(nodes)
+    nodesFiles.close()
+    nodesFiles=open(path+"/nodesInfo.txt",'w')
+    nodesFiles.write(nodesInfo)
+    nodesFiles.close()
+
     return clus_obj
 
 def generate_position_bed(clus_obj):

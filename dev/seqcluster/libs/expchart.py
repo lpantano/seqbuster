@@ -12,7 +12,7 @@ function loadSeq (x){
     chartData=allData[0][x];    
     chart.dataProvider=chartData;
     chart.validateData();
-    console.log(chartData);
+    //console.log(chartData);
 
 }
 AmCharts.ready(function() {
@@ -69,7 +69,7 @@ AmCharts.ready(function() {
 
 DIV='''
         <div id="chartdiv" style="width: 1000px; height: 300px;"></div>
-
+        <div>Click on sequences to see the expression</div>
 '''
 
 def addgraph(data):
