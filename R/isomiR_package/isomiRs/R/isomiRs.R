@@ -4,10 +4,12 @@ summary<-function(x){
   UseMethod("summary")
 }
 
-deIso<-function(x,iso5=T,iso3=T,formula=condition){
+deIso<-function(x,iso5=F,iso3=F,add=F,mism=F,seed=F,formula=condition){
   UseMethod("deIso")
 }
-
+plotTop<-function(x,top=20){
+  UseMethod("plotTop")
+}
 lmsIso<-function(x,formula,merge="all"){
   UseMethod("summary")
 }
@@ -25,27 +27,31 @@ summary.Isomirs<-function(x){
 }
 
 
-deIso.Isomirs<-function(x,iso5=F,iso3=F,formula="condition"){
+deIso.Isomirs<-function(x,iso5=F,iso3=F,add=F,mism=F,seed=F,formula= ~condition){
   print("doing")
-  countData<-do.mir.table(x,iso5=iso5,iso3=iso3)
+  countData<-do.mir.table(x,iso5=iso5,iso3=iso3,add=add,mism=mism,seed=seed)
+  x[["countData"]]<-countData
   dds<-DESeqDataSetFromMatrix(countData = countData,
                          colData = x[["design"]],
-                         design = ~ condition)
-  dds <- DESeq(dds)
-  res <- results(dds)
-  res <- res[order(res$padj),]
-  plotMA(dds)
-  rld <- rlogTransformation(dds)
-  vsd <- varianceStabilizingTransformation(dds)
-  select <- order(rowMeans(counts(dds,normalized=TRUE)),decreasing=TRUE)[1:30]
-  hmcol <- colorRampPalette(brewer.pal(9, "GnBu"))(100)
-  heatmap.2(counts(dds,normalized=TRUE), col = hmcol,
-            scale="none",
-            dendrogram="none", trace="none")
-  print(plotPCA(rld, intgroup=c("condition")))
-  return(dds)
+                         design = formula)
+  dds <- DESeq(dds,quiet=T)
+  x[["dds"]]<-dds
+  return(x)
 }
 
+
+plotTop.Isomirs<-function(x,top=20){
+  dds<-x[["dds"]]
+  rld <- rlogTransformation(dds)
+  #vsd <- varianceStabilizingTransformation(dds)
+  select <- order(rowMeans(counts(dds,normalized=TRUE)),decreasing=TRUE)[1:top]
+  hmcol <- colorRampPalette(brewer.pal(9, "GnBu"))(100)
+  heatmap.2(counts(dds,normalized=TRUE), col = hmcol,
+  scale="none",
+  dendrogram="none", trace="none")
+  
+  return(1)
+}
 
 plotIso.Isomirs<-function(x,type="t5"){
   #whatever to do with my object (generic information)
