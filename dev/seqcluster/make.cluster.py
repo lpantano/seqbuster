@@ -127,7 +127,7 @@ clus_obj=parse_merge_file(c,seq_l,MIN_SEQ)
 #####################reduce loci when possible#############################
 print "Reducing multi-mapping events in the network of clusters"
 setclus=reduceloci(clus_obj,MIN_SEQ,dir_out)
-sys.exit(1)
+#sys.exit(1)
 ###########################################################################
 
 ####################Code to check clusters integrity###################
@@ -242,6 +242,7 @@ icont=""
 print "Creating outputs"
 #####################creating plain text and html files#####################
 out = open(dir_out+"/clus.parse.txt", 'w')
+outann = open(dir_out+"/ann.tab", 'w')
 outbed=dir_out+"/clus.bed"
 
 db4js["None"]=[0,0,0]
@@ -253,6 +254,7 @@ for id in filtered.keys():
     if (len(clus.loci2seq)>0):
         icluster_html = open(dir_out+"/html/clusters/"+str(id)+".html", 'w')
         cluster_id="C:%s" % id
+        outann.write("%s\t" % cluster_id)
         ccell=table.make_cell_link(cluster_id,"clusters/%s.html" % id)
         contentDivC=table.make_div(table.make_a("<b>"+cluster_id+"</b>",cluster_id),"clus","css_id")
         out.write("C %s\n" % id)
@@ -271,14 +273,19 @@ for id in filtered.keys():
             #outtemp.write("%s\t%s\t%s\t%s\t%s\t%s\n" %  (tpos.chr,tpos.start,tpos.end,id,0,tpos.strand))
             idl=int(tpos.idl)
             contentA=""
+            hits={}
             for db in clus.dbann.keys():
                 #print "DBA %s" % (db)
                 tdb=clus.dbann[db]
+                if not hits.has_key(db):
+                    hits[db]=""
                 if (tdb.ann.has_key(idl)):
                     ann=tdb.ann[idl]
                     numlocidb[db]+=1
                     contentA+="%s(%s %s)-(%s,%s);" % (ann.db,ann.name,ann.strand,ann.to5,ann.to3);
                     out.write("A %s %s %s %s %s\n" % (ann.db,ann.name,ann.strand,ann.to5,ann.to3))
+                    hits[db]+=ann.name+","
+                    #print "%s %s => %s" % (db,ann.name,hits[db])
                     #print result for consistent DB
             pos="%s:%s-%s %s" % (tpos.chr,tpos.start,tpos.end,tpos.strand)
             contentDivL+=table.make_line("".join(map(table.make_cell,[pos,contentA])))
@@ -309,6 +316,8 @@ for id in filtered.keys():
                 if (not freq.has_key(sample)):
                     freq[sample]=0
                 freq[sample]+=int(setclus.seq[s].freq[sample])
+        
+
 
             allData=allData[:-1]+"],"
             contentDivS+=table.make_line("".join(map(table.make_cell,colseqs)))
@@ -326,12 +335,15 @@ for id in filtered.keys():
             out.write("DBstat %s %s %s %s \n" % (db,numloci,numlocidb[db],ratio))
             
             if (numlocidb[db]>0):
+                
                 ann=1
                 tmp_db4js[db]=1
                 if(ratio>=0.33):
                     out.write("DB %s %s %s consistent\n" % (db,numloci,numlocidb[db]))
                     dbsummary+="DB(%s) %s/%s consistent;" % (db,numlocidb[db],numloci)
                     cons+=1
+                    #print db
+                    outann.write("%s:%s;" % (db,hits[db]))
                     
                 elif (ratio<0.33):
                    
@@ -352,10 +364,13 @@ for id in filtered.keys():
 
         ccell+=table.make_cell(dbsummary)
         colseqs=[]
+        outann.write("\t")
         for sample in samples_list:
             colseqs.append(freq[sample])
-        ccell+="".join(map(table.make_cell,colseqs))
+            outann.write("%s\t" % freq[sample])
 
+        outann.write("\n")
+        ccell+="".join(map(table.make_cell,colseqs))
         ccont+=table.make_line(ccell)
         icont=table.make_div(contentDivC,cluster_id,"css_clus")
         #idiv=make_div(clus,clus,"cluster")
@@ -375,6 +390,7 @@ ccont=table.make_jshtml(ccont,samplename)
 chtml.write(ccont)
 chtml.close()
 out.close()
+outann.close()
 
 ############################################################
 
