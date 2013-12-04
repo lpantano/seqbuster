@@ -479,9 +479,7 @@ def reduceloci(clus_obj,min_seq,path):
                         seqListTemp=tempList
                     intersect=list(set(seqListTemp).intersection(tempList))
                     common=0
-                    # if ("seq_389564" in tempList):
-                    #     print "GOT IT:seq in idc %s cicle %s idl %s " % (idc,cicle,idl)
-                   
+
                     if (intersect):
                         ##this could be change to min to merge more clusters
                         common=len(intersect)*1.0/max(len(seqListTemp),len(tempList))
