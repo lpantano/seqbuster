@@ -85,26 +85,6 @@ collapse.mirs<-function(table,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
   return(table.out)
 }
 
-
-make.figure.general<-function(table){
-  
-  mism<-isomir.general.type(table,6)
-  add<-isomir.general.type(table,7)
-  t3<-isomir.general.type(table,8)
-  t5<-isomir.general.type(table,9)
-  dat<-data.frame(rbind(t5,t3,add,mism))
-  names(dat)<-"count"
-  dat$type<-c(rep("5 trimming",nrow(t5)),rep("3 trimming",nrow(t3)),rep("nt addition",nrow(add)),rep("nt subst",nrow(mism)))
-  dat$iso<-c(row.names(t5),row.names(t3),row.names(add),row.names(mism))
-  dat$iso<-factor(dat$iso,levels=c(0,1,2,">3"))
-  p<-ggplot(dat,aes(x = factor(type), y = count, fill=iso)) +
-    geom_bar(stat = "identity") +
-    scale_fill_brewer(palette="Set1") +
-    theme_bw(base_size = 12, base_family = "") +
-    labs(list(x="",y="# of miRNAs",fill="# of isomirs"))
-  print(p)
-}
-
 isomir.position<-function(table,colid){
   temp<-table
   temp[,colid]<-as.character(temp[,colid])

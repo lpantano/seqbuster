@@ -218,10 +218,7 @@ def show_seq(clus_obj,index):
     
     itern=0
     for idc in current.keys():
-    #for idc in [1]:
         itern+=1
-        #print idc
-        #timestamp=str(time.time())
         timestamp=str(idc)
         seqListTemp=()
         f=open("/tmp/"+timestamp+".fa","w")
@@ -262,15 +259,13 @@ def show_seq(clus_obj,index):
             realScore=(math.log(ratio,2)*2)
             if realScore<0:
                 realScore=0
-            #print "score %s max %s  ratio %s real %.0f" % (clus_seqt[s].score,maxscore,ratio,realScore)
+            # "score %s max %s  ratio %s real %.0f" % (clus_seqt[s].score,maxscore,ratio,realScore)
             ##calculate the mean expression of the sequence and change size letter
             showseq_plain+="<br>%s<a style=\"font-size:%.0fpx;\"href=javascript:loadSeq(\"%s\")>%s</a>" % ("".join("." for i in range(pos-1)),realScore+10,s,clus_seqt[s].seq)
             #showseq+=seqviz.addseq(pos-1,clus_seqt[s].len,clus_seqt[s].seq)
         #current[idc].showseq=showseq
         current[idc].showseq_plain=showseq_plain
         os.system("rm /tmp/"+timestamp+"*")
-        #if (itern==1):
-        #    break
     clus_obj.clus=current
     clus_obj.seq=clus_seqt
     return clus_obj
@@ -326,15 +321,15 @@ def anncluster(c,clus_obj,db,type_ann):
             else:
                 lento5=sa-sb+1
                 lento3=ea-eb+1
-            #print "EXISTS clus %s with db DBA %s" % (cols[9],db)
+            #"EXISTS clus %s with db DBA %s" % (cols[9],db)
             if (clus.dbann.has_key(db)):
-                #print "NEW clus %s with db DBA %s" % (cols[9],db)
+                # "NEW clus %s with db DBA %s" % (cols[9],db)
                 ann=annotation(db,cols[id_tag],strd,lento5,lento3)
                 tdb=clus.dbann[db]
                 tdb.adddbann(idl,ann)
                 clus.adddb(db,tdb)
             else:
-                #print "UPDATE clus %s with db DBA %s" % (cols[9],db)
+                # "UPDATE clus %s with db DBA %s" % (cols[9],db)
                 ann=annotation(db,cols[id_tag],strd,lento5,lento3)
                 tdb=dbannotation(1)
                 tdb.adddbann(idl,ann)
@@ -374,18 +369,14 @@ def parse_merge_file(c,seq_l_in,MIN_SEQ):
 
     for line in c.features():
         a=mergealigned(line)
-        #print line
         #only keep locus with 10 or more secuences
         if (len(a.names)>=MIN_SEQ):
             exists=0
             lindex=1+lindex
-            #print line
             for e in a.names:
-                if (clus_id.has_key(e)):
-                    
+                if (clus_id.has_key(e)):                   
                     if exists==1 and clus_id[e]!=eindex:
                         toremove=clus_id[e]
-                        #print "####already another cluster detected %s eindex %s" % (clus_id[e],eindex)
                         for e1 in currentClus[clus_id[e]].idmembers.keys():
                             clus_id[e1]=eindex
                             #move idmembers to eindex cluster
@@ -393,24 +384,22 @@ def parse_merge_file(c,seq_l_in,MIN_SEQ):
                             #move loci dic to eindex cluster
                             for loci_old in currentClus[toremove].loci2seq.keys():
                                 if not currentClus[eindex].loci2seq.has_key(loci_old):
-                                    #print "######adding lociold %s of %s to %s" % (loci_old,toremove,eindex)
                                     currentClus[eindex].addidmember(list(currentClus[toremove].loci2seq[loci_old]),loci_old)
-                        #print "#####remove %s but not eindex %s" % (clus_id[e],eindex)
                         del currentClus[toremove]
                     elif exists==0:
                         exists=1
                         eindex=clus_id[e]
-                    #print "exists %s in eindex %s" % (e,eindex)
+                    #exists e in eindex
                     #break;
             if exists ==1:
-                #print "sequences added as %s" % eindex
+                #sequences added as eindex
                 for e in a.names:
                     clus_id[e]=eindex
             else:
 
                 index=index+1
                 eindex=index
-                #print "new cluster %s" % eindex
+                #new cluster eindex
                 for e in a.names:
                     clus_id[e]=eindex
 
@@ -444,12 +433,9 @@ def reduceloci(clus_obj,min_seq,path):
     saved=list()
     nodes="";
     nodesInfo="";
-    #for idc in [1]:
     for idc in current.keys():
         clus1=copy.deepcopy(current[idc])
-        #print "idc %s " % idc
         nElements=len(clus1.loci2seq)
-        #print "loci2seq %s" % clus1.loci2seq.keys()
         currentElements=nElements+1
         removeSeqs=list()
         seqListTemp=list()
@@ -457,69 +443,46 @@ def reduceloci(clus_obj,min_seq,path):
         seqfound=0
         while (nElements<currentElements and nElements!=0):
             cicle+=1
-
-            #print "cicle %s" % cicle
-            #print "nC %s nE %s" % (currentElements,nElements)
             ##get loci with more number of sequences
             locilen_sorted=sorted(clus1.locilen.iteritems(), key=operator.itemgetter(1),reverse=True)
-            #print "locilen %s" % locilen_sorted
             first_run=0
             ##get gigest loci
             maxseq=locilen_sorted[0][1]*1.0
-            #print "max %s" % maxseq
             if maxseq>min_seq:
                 for (idl,lenl) in locilen_sorted:
                     nodesInfo+="o%s\tblue\n" % (idl)
-                    #print "starting %s %s" % (idl,lenl)
                     
                     tempList=clus1.loci2seq[idl]
                     ##this should be remove to merge more clusters
-                    tempList=list(set(sorted(tempList)).difference(sorted(removeSeqs))) 
+                    #tempList=list(set(sorted(tempList)).difference(sorted(removeSeqs))) 
                     if (first_run==0):
                         seqListTemp=tempList
+
                     intersect=list(set(seqListTemp).intersection(tempList))
                     common=0
 
                     if (intersect):
                         ##this could be change to min to merge more clusters
-                        common=len(intersect)*1.0/max(len(seqListTemp),len(tempList))
+                        common=len(intersect)*1.0/min(len(seqListTemp),len(tempList))
                     
-                    #print intersect
-                    #print "l:%s m:%s c:%s " % (lenl,maxseq,common)
-                        #len(intersect),common)
-                    ##check if number of common sequences is 60% or greater than maxseq
-                    
+                    ##check if number of common sequences is 60% or greater than maxseq                  
                     if ((first_run==0 and lenl*1.0>0) or (lenl*1.0>=0.6*maxseq and common*1.0>=0.6)):
                         if (first_run==0):
                             idcNew+=1 ##creating new cluster id
                             nodesInfo+="n%s\tyellow\n" % (idcNew)
                         if (not filtered.has_key(idcNew)):
                             filtered[idcNew]=cluster(idcNew)
-                        #print "adding to %s" % (idcNew)
                         ##remove sequences from cluster
                         removeSeqs=list(set(tempList).union(removeSeqs))
-                        # if ("seq_389564" in removeSeqs):
-                        #     print "INSIDE REMOVE: seq in idc %s cicle %s idl %s newidc %s" % (idc,cicle,idl,idcNew)
                         ##adding sequences to new cluster
                         filtered[idcNew].addidmember(list(tempList),idl)
                         nodes+="o%s\tn%s\t-1\t%s\n" % (idl,idcNew,len(removeSeqs))
-                        
-                        # if ("seq_389564" in tempList):
-                        #print "ADDED: seq in idc %s cicle %s idl %s newidc %s" % (idc,cicle,idl,idcNew)
-                            # seqfound=1
- 
                         ##remove loccus from cluster
                         clus1.loci2seq.pop(idl,"None")
                         clus1.locilen.pop(idl,"None")
                     else:
-                        # if ("seq_389564" in tempList):
-                        #     print "###REMOVE seq in idc %s cicle %s idl %s " % (idc,cicle,idl)
-                        # print "remove all sequnces in removeSeqs form current cluster"
                         ##remove all sequences in the other cluster
                         newList=list(set(sorted(tempList)).difference(sorted(removeSeqs)))                   
-                        # if seqfound==1:
-                        #     print "####REMOVING SEQ FROM OTHERS: %s" % idl
-                        #     print ("seq_389564" in newList)
                         ##update sequences in this locus
                         seqsGiven=lenl-len(newList)
                         if len(newList)!=lenl and len(newList)>0:
@@ -527,10 +490,8 @@ def reduceloci(clus_obj,min_seq,path):
 
                         clus1.locilen[idl]=len(newList)
                         clus1.loci2seq[idl]=newList
-                        #print "new length %s old length %s" % (len(newList),lenl)
-                        #print "new list %s len %s leninclus %s" % (newList,len(newList),len(clus1.loci2seq[idl]))
+                        #if no more sequence in cluster, remove it
                         if (clus1.locilen[idl]==0):
-                            #print "MERGE: seq in idc %s cicle %s idl %s newidc %s" % (idc,cicle,idl,idcNew)
                             nodes+="o%s\tn%s\t%s\t%s\n" % (idl,idcNew,lenl,len(removeSeqs))
                             clus1.loci2seq.pop(idl,"None")
                             clus1.locilen.pop(idl,"None")
@@ -543,7 +504,7 @@ def reduceloci(clus_obj,min_seq,path):
                     clus1.locilen.pop(idl,"None")
 
             nElements=len(clus1.loci2seq)
-            #print(clus1.locilen.keys())
+
     clus_obj.clus=filtered
     nodesFiles=open(path+"/nodes.txt",'w')
     nodesFiles.write(nodes)

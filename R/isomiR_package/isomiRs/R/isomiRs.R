@@ -4,9 +4,7 @@ summary<-function(x){
   UseMethod("summary")
 }
 
-deIso<-function(x,iso5=F,iso3=F,add=F,mism=F,seed=F,formula=condition){
-  UseMethod("deIso")
-}
+
 plotTop<-function(x,top=20){
   UseMethod("plotTop")
 }
@@ -18,16 +16,13 @@ coexpIso<-function(x,merge="all"){
   UseMethod("summary")
 }
 
-plotIso<-function(x,type="t5"){
-  UseMethod("plotIso")
-}
 
 summary.Isomirs<-function(x){
   #whatever to do with my object (generic information)
 }
 
 
-deIso.Isomirs<-function(x,iso5=F,iso3=F,add=F,mism=F,seed=F,formula= ~condition){
+deIso<-function(x,iso5=F,iso3=F,add=F,mism=F,seed=F,formula= ~condition){
   print("doing")
   countData<-do.mir.table(x,iso5=iso5,iso3=iso3,add=add,mism=mism,seed=seed)
   x[["countData"]]<-countData
@@ -53,7 +48,7 @@ plotTop.Isomirs<-function(x,top=20){
   return(1)
 }
 
-plotIso.Isomirs<-function(x,type="t5"){
+plotIso<-function(x,type="t5"){
   #whatever to do with my object (generic information)
   codev<-c(4,5,6,7)
   names(codev)<-c("t5","t3","sub","add")

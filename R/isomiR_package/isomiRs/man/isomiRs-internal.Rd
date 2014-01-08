@@ -1,6 +1,5 @@
  \name{isomiRs-internal} 
-        \alias{filter.by.cov} 
-        \alias{put.header} 
+    
          
         \title{Internal mypackage Functions} 
         \description{ 
