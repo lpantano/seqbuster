@@ -1,0 +1,58 @@
+<?xml version="1.0" ?>
+<param>
+	<conditional>
+		<name description="Frequency" type="number" help="freq">freq</name>
+		<name description="Lenght" type="number" help="len">len</name>
+	</conditional>
+	<text description="Select scale"  value="1000000" help="scale">
+		<name>scale</name>
+	</text>
+	<text description="Discart upper quantile" value="100" help="qmax" >
+		<name>qmax</name>
+	</text>
+	<text description="Discart lower quantile" value="0" help="qmin">
+		<name>qmin</name>
+	</text>
+	<select name="trans" description="Select type of transformation" help="trans">
+		<option text="2">log2</option>
+		<option text="10">log10</option>
+		<option text="n">ln</option>
+		
+		<option text="...">...</option>
+		
+	</select>
+	
+	<select name="center" description="Select type of metric center" help="center">
+		<option text="...">...</option>
+		<option text="mean">mean</option>
+		<option text="median">median</option>
+		<option text="mode">mode</option>
+		<option text="quantile">quantile</option>
+		<option text="min">min</option>
+		
+	</select>
+	<help id="freq">
+		<desc>Filter the sequences according to a frequency cut-off</desc>
+	</help>
+	<help id="len">
+		<desc>Filter the sequences according to a length cut-off</desc>
+	</help>
+	<help id="scale">
+		<desc>Scale the frequency of every sequence according to the following eqaution: Scale freq n= (freq n/(sum freqs all seqs)*X. The default value of X is 1.000.000</desc>
+	</help>
+	<help id="qmax">
+		<desc>Remove all counts above the value determined by this quantile</desc>
+	</help>
+	<help id="qmin">
+		<desc>Remove all counts below the value determined by this quantile</desc>
+	</help>
+	<help id="trans">
+		<desc>Select the type of logarithmic transformation of the sequences frequency (log2, log10, ln) or the absolute frequency values</desc>
+	</help>
+	<help id="center">
+		<desc>Select the type of statistical parameter if the frequency should be
+centered resptect to the mean, median, mode, min  or quantile parametes of the
+distribution, or select (…) if no statistical parameter is chosen.</desc>
+	</help>
+	
+</param>

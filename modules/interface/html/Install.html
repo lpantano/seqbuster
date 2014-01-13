@@ -1,0 +1,77 @@
+<html>
+<head>
+<title>How To</title>
+</head><body >
+
+
+<p><b>What is needed?:</b></p>
+
+<ul style="list-style-type:decimal" align=justify>
+
+<li><b>Java version 1.6</b> You can get it: <a href=http://java.sun.com/javase/downloads/index.jsp >http://java.sun.com/javase/downloads/index.jsp</a>. If you are running in Mac OSX Leopard 10.5 you have to upgrade to Snow Leopard 10.6 to use the tool.</li><br>
+<li><b>Blast+ repository 2.2.X or greater (megablast has been changed to blastx)</b> You can get it: <a href=ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST>ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/<a/>. If you are a macOSX user, select the DMG file (ncbi-blast-2.2.23+.dmg). Also you will find a tutorial with help for installation. </li><br>
+<li><b>Before installing MySQL, read this step if you are an administrator </b>: If do not want that SeqBuster has the total permissions of all the database, we suggest to run other mysql server separatly using the steps explained here: <a href=http://code.openark.org/blog/mysql/manually-installing-multiple-mysql-instances-on-linux-howto>http://code.openark.org/blog/mysql/manually-installing-multiple-mysql-instances-on-linux-howto</a></li>
+
+<li><b>MySQL</b> You can get it from <a href=http://dev.mysql.com/downloads/mysql/>http://dev.mysql.com/downloads/mysql/</a>. Choose you system: Mac OSX (look for the "Mac OSX ver. 10.6 DMG" file) or Linux. Here you can register to MySQL forum or skip this step (there is a link smaller indicating that you only want to download MySQL). 
+<li>For macOSX users: install first the mysql-XXX-osxXXX-XXX.pkg file (where X are numbers) and then the MYSQLStartupitem.pkg file. After that you should <b>restart</b> the computer. </li>
+<li>Follow these instruction if you want to do more secure your connection,but it is not a mandatory step. So if you stop here, your user for mysql in the SeqBuster configuration will be <b>root</b> and the password will be empty. </li><br>
+<ul>
+<li>Open a terminal(for macs ox users: it is in Aplication => tools folder)</li>
+<li>Mac OS X</li>
+<ul>
+<li>Type (change 'newpassword' to the password you want only with alpha-numeric characters): <b>/usr/local/mysql/bin/mysqladmin -u root password newpassword</b></li>
+<li>Type and press enter: <b> /usr/local/mysql/bin/mysql -u root -p</b></li>
+<li>You have to launch mysql every time you restart your computer, if you want to do automatically, install MySQLStartupItem.pkg that is in the dmg file</li>
+<li>write password you have chosen in the previous step</li>
+</ul>
+
+<li>Linux</li>
+<ul>
+<li>Type (change 'newpassword' to the password you want only with alpha-numeric characters): <b>mysqladmin -u root password newpassword</b></li>
+<li>Type and press enter: <b> mysql -u root -p</b></li>
+<li>write password you have chosen in the previous step</li>
+</ul>
+
+<li>Type (change write_yout_password for the password you want): <b>CREATE USER 'seqbuster'@'localhost' IDENTIFIED BY 'write_yout_password';</b></li>
+
+<li>Type: <b>GRANT ALL PRIVILEGES ON *.* TO 'seqbuster'@'localhost' WITH GRANT OPTION;</b></li>
+<li>exit</li>
+
+</ul>
+At the end you will have an user: <b>seqbuster</b> and a password:<b>write_yout_password</b> that will be ask when you configure SeqBuster.
+</li><br>
+<li><b>R statistic program</b> You can get it from <a href=http://www.r-project.org/ >http://www.r-project.org/</a>. Choose your country and then your system: mac OSX or Linux. 
+<p><br><br><br>
+
+<br><br><br>
+</p>
+Select the latest version (first link you see). 
+
+<li><b>XML package</b> needed to generate the output files:
+<ul>
+<li>Linux</li>
+<ul>
+<li>Open a terminal and type <b>su R</b> and then type root password</li>
+<li>type: <b>install.packages('XML')</b> and follow the instructions</li>
+</ul>
+</ul>	
+<ul>
+<li>Mac OSX</li>
+<ul>
+<li>Open the Terminal App (for macs ox users: it is in Aplication => tools folder) and type:<b>sudo R</b> and type password (your user password used to log in to computer)</li>
+<li>type: <b>install.packages('XML')</b> and follow the instructions, normally here you have to select a country to download the package</li>
+</ul>
+</ul>
+</li>
+
+<li><b>RMySQL package</b> needed for the interaction between the analyses and the data storage:
+<ul>
+<li>type: <b>install.packages('RMySQL')</b> and follow the instructions</li>
+</ul>
+</li>
+
+
+</ul>
+
+</body>
+</html>

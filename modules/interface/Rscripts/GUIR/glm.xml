@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<param>
+	<text description="Contribution Cut-Off" value="10">
+		<name>cof</name>
+	</text>
+	<select description="Applied probabilistic model" name="error" help="error">
+		<option text="zscore">Z-score</option>
+		<option text="none">na</option>
+	</select>
+	<checkbox description="Reference" help="ref">
+		<name>ref</name>
+	</checkbox>
+	<checkbox description="Nt-substitution" help="mut">
+		<name>mut</name>
+	</checkbox>
+	<text description="Start position in mutation" value="1" help="start">
+		<name>start</name>
+	</text>
+	<text description="End position in mutation" value="8" help="end">
+		<name>end</name>
+	</text>
+	<checkbox description="5' trimming" help="tr5">
+		<name>trimmed5</name>
+	</checkbox>
+	<checkbox description="3' trimming" help="tr3">
+		<name>trimmed3</name>
+	</checkbox>
+	<text description="Trimming size" value="3" help="size">
+		<name>size</name>
+	</text>
+	<checkbox description="3' addition" help="ad3">
+		<name>addition3</name>
+	</checkbox>
+	<text description="Addition size" value="3" help="sizead">
+		<name>sizead</name>
+	</text>
+	<help id="opt">
+		<desc>Select if every different sequence is aconsidered as one point, or all sequences mapped onto the same locus is considered as one point.</desc>
+	</help>
+	<help id="st">
+		<desc>Choose the type of statistical test (Z-test,Bayesian,Binomial,Fisher) to determine significant differences in the frequency of all sequences, between samples</desc>
+	</help>
+	<help id="pcorrect">
+		<desc>Select "Benjamin and Hochberg" to correct the p-value assigned by the statistical test used to determine significant differential expression</desc>
+	</help>
+</param>

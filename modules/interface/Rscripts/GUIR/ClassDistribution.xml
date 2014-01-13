@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<param>
+	<text description="Frequency greater" help="locus">
+		<name>freq1</name>
+	</text>
+	<text description="Frequency less " help="locus">
+			<name>freq2</name>
+	</text>
+<text description="Select locus" help="locus">
+<name>locus</name>
+</text>
+<text description="Select DB" value="miRNA" help="DB">
+	<name>DB</name>
+</text>
+<select name="dist" description="Select type of parameter" help="dist">
+	<option text="len">length</option>
+	
+	<option text="DB">DB</option>
+</select>
+<select name="operation" description="Select type of data to be considered in the analysis" help="operation">
+	<option text="SUM">Total frequency</option>
+	<option text="chr">Different locus</option>
+	<option text="COUNT">Different reads</option>
+	<option text="MAX">MAX</option>
+	<option text="MIN">MIN</option>
+</select>
+<select name="tchart" description="Select type of chart" help="tchart">
+	<option text="bars">Bars chart</option>
+	<option text="pie">pie chart</option>
+</select>
+<select name="norm" description="Select type of normalization" help="norm">
+	<option text="per">Percentage</option>
+	<option text="na">...</option>
+</select>
+<help id="len">
+	<desc>Filter the sequences according to a length cut-off</desc>
+</help>
+<help id="freq">
+	<desc>Filter the sequences according to a frequency cut-off</desc>
+</help>
+<help id="locus">
+	<desc>Filter the sequences mapping onto a specific locus, for instance "let" in the textbox indicates that only the sequences annotated in the let family of miRNAs are considered in the analysis</desc>
+</help>
+<help id="DB">
+	<desc>Select all sequences mapped onto a specific database. If the textbox is empty all databases used for annotation will be considered in the analysis</desc>
+</help>
+<help id="operation">
+	<desc>Total frequency represents the total number of counts for the different  sequences. Different locus represents the different annotated loci. MAX represents the maximal frequency of the parameter considered in the analysis (length or DB). MIN represents the minimal frequency of the parameter considered in the analysis (length or DB)</desc>
+</help>
+<help id="tchart">
+	<desc>Selet a bars or a pie chart for  the analysis output</desc>
+</help>
+<help id="norm">
+	<desc>Select the representation of the percentage of counts with respect to the total number of counts (Percentage) or the absoulte frequency values (…)</desc>
+</help>
+<help id="dist">
+	<desc>Select the parameters that will be considered in the analysis: sequence length or types of databases</desc>
+</help>
+</param>

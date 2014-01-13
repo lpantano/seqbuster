@@ -1,0 +1,88 @@
+<?xml version="1.0" ?>
+<param>
+	<text description="Frequency greater" help="freq1">
+		<name>freq1</name>
+	</text>
+	<text description="Frequency less " help="freq2">
+		<name>freq2</name>
+	</text>
+	<text description="Select miRNA-like DB" value="miRNA" help="DB">
+		<name>DB</name>
+	</text>
+	<text description="Contribution Cut-Off" value="10" help="cof">
+		<name>cof</name>
+	</text>
+	<select description="Applied probabilistic model" name="error" help="error">
+		<option text="zscore">zscore</option>
+		<option text="...">...</option>
+	</select>
+	
+	<select name="isoseq" description="Select type of isomiRs" help="isoseq">
+		<option text="addition3">3 addition</option>
+		<option text="trimmed5">5 trimming</option>
+		<option text="trimmed3">3 trimming</option>
+		<option text="mut">nt substitution</option>
+	</select>
+	<text description="Start position in nt-substitution" value="1" help="start">
+		<name>start</name>
+	</text>
+	<text description="End position in nt-substitution" value="8" help="end">
+		<name>end</name>
+	</text>
+	<text description="Trimming size" value="3" help="size">
+		<name>size</name>
+	</text>
+	<text description="Addition size" value="3" help="sizead">
+		<name>sizead</name>
+	</text>
+	<select name="nt" description="Show NT (nt-substitution):" help="nt">
+		<option text="ref">miRNA nt</option>
+		<option text="chang">isomiR nt</option>
+	</select>
+	<select name="sort" description="Select type of sorting" help="sort">
+		<option text="ratio">variability significance</option>
+		<option text="freq">frequency</option>
+	</select>
+	<help id="len">
+		<desc>Filter the sequences according to a length cut-off</desc>
+	</help>
+	<help id="freq">
+		<desc>Filter the sequences according to a frequency cut-off</desc>
+	</help>
+	<help id="start">
+		<desc>Select the first position in the reference miRNA for the analysis of nt-substitution variants</desc>
+	</help>
+	<help id="end">
+		<desc>Select the last position in the reference miRNA for the analysis of nt-substitution variants</desc>
+	</help>
+	<help id="size">
+		<desc>Select the number of positions to consider in the trimming variants. The default value of 3 considers 3 positions upstream and 3 positions downstream of the reference 5'-end or 3'-end miRNA</desc>
+	</help>
+	<help id="sizead">
+		<desc>Select the number of nucleotides to be considered in the 3' addition variants</desc>
+	</help>
+	<help id="DB">
+		<desc>Select all sequences mapped onto a miRNA-like database. In the
+			case, the annotation was done usign SeqBuster Server, you can choose
+between: miRNA or misRNA (miRNA star) or the same name chosen when annotating with the stand-alone version.</desc>
+</help>
+	
+	<help id="isoseq">
+		<desc>Select the type of isomiRs to consider in the analysis: addition, 5' trimming, 3' trimming or nt-substitution</desc>
+	</help>
+	<help id="cof">
+		<desc>Select a cut-off value. This value is used to filter the isomiRs contributing in more than a specific percentage to the total of sequences annotated in the same miRNA locus</desc>
+	</help>
+	<help id="zscore">
+		<desc>Select "Z-score" to apply a statistical method to exclude sequencing errors as the possible cause of the nucleotide modifications (Dohm et al., 2008, Nu Ac Res., 36 (16): e105)</desc>
+	</help>
+	<help id="pvaluent">
+		<desc>This option calculate a p-value to highlight a significan bias in the type of the reference miRNA involved in the nt-substitution and the trimming variants; or the type of nucleotide being added in the 3' addition variants</desc>
+	</help>
+	<help id="sort">
+		<desc>Chose “variability significance" to order the miRNAs according to the abundance of the isomiR with respect the corresponding reference miRNA or "frequency" to order the miRNAs according to the total frequency</desc>
+	</help>
+	<help id="nt">
+		<desc>In analyzing the nt-substitution variants, select "reference nt" ot "isomiR nt" to show the nucleotides present in the reference miRNA or in the isomiR, respectivily</desc>
+	</help>
+</param>

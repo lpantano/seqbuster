@@ -1,0 +1,368 @@
+# list<-vector("list",length=3)
+# # list[[1]]<-c("esc","eb")
+# list[[1]]<-c("cel1L","cel2L","cel3L","cel4L")
+# # namefile<-"/projects/srna_sps/data/stem.all.isos"
+# list[[3]]<-"t"
+# names(list)<-c("group1","g2","t")
+# list$project<-"spsmir"
+# list$DB<-"miRNA"
+# list$qmin<-0
+# list$qmax<-100
+# list$scale<-5000000
+# list$error<-"na"
+# list$trimmed5<-"trimmed5"
+# list$ref<-"ref"
+# list$path<-"/home/lpantano/temp/testr/"
+# 
+# library(RMySQL)
+# library(XML)
+# 
+# MySQL(max.con = 1, fetch.default.rec = 10000000, force.reload = FALSE)
+# source("/projects/NetBeansProjects/SeqBuster-2.0/Rscripts/R/stand.R")
+# m <- dbDriver("MySQL")
+# con <- dbConnect(m,host="localhost",user="lpantano",db="seqhand",password="sqllorena")
+# 
+# 
+# norm<-function (n1,n2,max1,max2){
+# 	r<-(n1/max1*1000000)/(n2/max2*1000000)
+# return (r)
+# }
+# 
+# 
+# func<-function(n){
+# 	p<-0
+# 	if (n<=list$ratiocutoff[1] & n>=list$ratiocutoff[2]){
+# 		p<-1
+# 	}
+# 	return (p)
+# }
+# 
+# normalization<-function(n,max){
+# 
+# 	n<-as.numeric(n)
+# 	nn<-round(n/max*scale)
+# 	if (nn==0){nn=1}
+# 	return(nn)
+# }
+# 
+# getid<-function(chr,t5,t3,a3,m){
+#  	id<-paste(sep="",chr,",")
+# 	
+# 	if (is.null(list$trimmed5)==FALSE & t5!=0  ) {
+# 		id<-paste(sep="",id," tr5:",t5)
+# 	}
+# 	if (is.null(list$trimmed3)==FALSE & t3!=0  ){
+# 		id<-paste(sep="",id," tr3:",t3)
+# 	}
+# 	if (is.null(list$addition3)==FALSE & a3!=0){
+# 		id<-paste(sep="",id," ad3:",a3)
+# 	}
+# 	if (is.null(list$mut)==FALSE & m!=0){
+# 	if (m!=0){
+# 		
+# # 		mutation<-unlist(strsplit(gsub("[0-9]+","",m,""),""))
+# # 		nt1<-mutation[1]
+# # 		nt2<-mutation[2]
+# 		pos<-as.numeric(gsub("[ATGC]+","",m))
+# 		if (pos>=as.numeric(list$start) & pos<=as.numeric(list$end)){
+# # 			print (m)
+# 			id<-paste(sep="",id," s:",m)
+# 		}
+# 		
+# 	}
+# 	}
+# 	
+# 	return(id)
+# 	
+# }
+# 
+# getfreq<-function(id){
+# 
+# 	freq<-sum(tabletemp$freq[tabletemp$id==id])
+# # 	print (tabletemp$id==id)
+# 	return (freq)
+# 
+# }
+# 
+# infogroup<-vector()
+# scale<-as.numeric(list$norm)
+# ns<-0
+# listsamples1<-vector("list",length=length(list$group1))
+# max1<-1:length(list$group1)
+# table<-data.frame(id=0,freq=0)
+# cof<-0
+# 
+# for (s in list$group1){
+# 	#s<-paste(sep="",list$project,"`.`",s)
+# 	s<-paste(sep="",s,list$project)
+# 	ns<-ns+1
+# 	#print(s)
+# 	infogroup<-append(infogroup,paste(sep="","G1:",s))
+# 
+# 	query<-paste(sep="","select `id`,`seq`,`chr`,`trimmed5`,`trimmed3`,`addition3`,`mut`,`DB`,`freq` AS freq from `",s,"` where `amb`=1 AND  `mut` like '0' ;")
+# 	print(query)
+# 	rs <- dbSendQuery(con,query) 
+# 	temp <- as.data.frame(fetch(rs))
+# 
+# 
+# 	tempn<-applynorm(temp[,c(1,9)],list)
+# # 	print(tempn[1:10,])
+# 	tempn<-merge(temp,tempn,by=1,all=FALSE)
+# 	tempn<-tempn[tempn$DB==list$DB,]
+# 	#tempn<-tempn[tempn$trimmed5!=0,]
+# #  	print(tempn[1:10,])
+# 	temp<-tempn[,c(1,2,3,4,5,6,7,8,10)]
+# 	names(temp)[9]<-"freq"
+# 	temp$freq<-round(temp$freq)
+# #  	print(temp[1:10,])
+# 	query<-paste(sep="","select SUM(freq) AS freq from `",s,"`;")
+# 	print(query)
+# 	rs <- dbSendQuery(con,query) 
+# 	max1[ns]<- unlist(as.vector(fetch(rs)))
+# 	table<-data.frame(id=0,freq=0)
+# 	listmitemp<-unlist(unique(temp$chr))
+# 	for (mi in listmitemp){
+# 	
+# 		pertemp<-temp[temp$chr==mi & temp$trimmed5==0 & temp$trimmed3==0 & temp$mut==0 & temp$addition3==0,]
+# 		freqperfect<-0
+# 		if (length(pertemp$chr)>0){freqperfect<-pertemp$freq}
+# 		vartemp<-temp[temp$chr==mi & (temp$trimmed5!=0 | temp$trimmed3!=0 | temp$mut!=0 | temp$addition3!=0),]
+# 		tempvalue<-sum(vartemp$freq)
+# 		
+# 		minvalue<-min(freqperfect,tempvalue,na.rm=T)
+# 		
+# 		vartemp<-filter(vartemp,minvalue*cof,7,type="filter",freq=freqperfect,error=list$error)
+# 		
+# 		
+# 		if (length(vartemp$id)>0){
+# 
+# 				parsetemp<-mapply(getid,vartemp$chr,vartemp$trimmed5,vartemp$trimmed3,vartemp$addition3,vartemp$mut)
+# 				#devolver chrmutt5t3a3  and freq en una tabla add new values cbin()
+# # 				print (cutofftemp)
+# 				freqtemp<-vartemp$freq
+# 				if (length(pertemp$chr)>0)
+# 				{
+# 	# 			perfreqtemp<-0
+# 					if (is.null(list$ref)==FALSE){
+# 						labelper<-paste(sep="",pertemp$chr,",Ref")
+# 					}else{
+# 						labelper<-paste(sep="",pertemp$chr,",")
+# 					}
+# 					parsetemp<-append(as.character(parsetemp),as.character(paste(sep="",labelper)))
+# 					freqtemp<-c(vartemp$freq,pertemp$freq)
+# # 					print (pertemp)
+# 				}
+# # 				print (c(parsetemp,freqtemp))
+# 				tabletemp<-data.frame(id=parsetemp,freq=freqtemp)
+# 				
+# 				listidtemp<-unlist(unique(parsetemp))
+# 				freqtemp<-as.numeric(mapply(getfreq,listidtemp))
+# # 				if (mi=="hsa-miR-124"){
+# # 					print (data.frame(id=listidtemp,freq=freqtemp));
+# # 				}
+# 				table<-rbind(table,data.frame(id=listidtemp,freq=freqtemp))
+# # 				print (listidtemp)
+# 		}else if(freqperfect>0 & is.null(list$ref)==F){
+# 			labelper<-paste(sep="",mi,",Ref")
+# 			table<-rbind(table,data.frame(id=labelper,freq=freqperfect))
+# 		}
+# 
+# 		
+# 		
+# 	}
+# 
+# 	if (ns==1){
+# 		all<-table[table$id!=0,]
+# 		names(all)<-c('id',list$group1[ns])
+# 		
+# 	}else{
+# 		
+# 		names(table)<-c('id',list$group1[ns])
+# 		all<-merge(all,table[table$id!=0,],by="id",all=TRUE)
+# 	}
+# }
+# # q()
+# #calculate pvalue intra groups
+# all[is.na(all)]<-1
+# table1<-all
+# 
+# table1<-table1[grep("tr5",table1$id),]
+# tableref<-all[grep("Ref",all$id),]
+# 
+# table<-table1[1:ns]
+# tableq<-table1[1:ns]
+# 
+# tabler<-tableref[1:ns]
+# tablerq<-tableref[1:ns]
+# 
+# 
+# for (i in 2:(ns)){
+# 
+# 	table[,i]<-mapply(ztest,table1[,i],table1[,i+1],sum(table1[,i]),sum(table1[,i+1]))
+# 	names(table)[i]<-paste(sep="-",names(table1)[i],names(table1)[i+1])
+# 	sort<-sort(table[,i],index.return=T)
+# 	ind<-1:nrow(table)
+# 	order<-unlist(lapply(ind,function (x) ind[sort$ix==x]))
+# 	tableq[,i]<-mapply(BHcorrection,table[,i],order,nrow(table))
+# 	names(tableq)[i]<-paste(sep="-",names(table1)[i],names(table1)[i+1])
+# }
+# 
+# for (i in 2:(ns)){
+# 
+# 	tabler[,i]<-mapply(ztest,tableref[,i],tableref[,i+1],sum(tableref[,i]),sum(tableref[,i+1]))
+# 	names(tabler)[i]<-paste(sep="-",names(tableref)[i],names(tableref)[i+1])
+# 	sort<-sort(tabler[,i],index.return=T)
+# 	ind<-1:nrow(tabler)
+# 	order<-unlist(lapply(ind,function (x) ind[sort$ix==x]))
+# 	tablerq[,i]<-mapply(BHcorrection,tabler[,i],order,nrow(tabler))
+# 	names(tablerq)[i]<-paste(sep="-",names(tableref)[i],names(tableref)[i+1])
+# }
+# 
+# #print only q$value <=0.05, some column
+# #row<- mir tr5 plot time serie, in each node text freq
+# meanrow<-rowSums(table1[2:ns+1])
+# indsort<-sort(meanrow,decreasing=T,index.return=T)
+# 
+# #scalecol<-c("#00CCFF","#0000FF","#006633","#99FF33","#CCFF00","#CC3333","#990066","BLACK")
+# scalecol<-(c("#FFCC99","#CC9966","#996633","#663300","#330000"))
+# 
+# #png(paste(sep="",list$path,"mml.iso.exp.png"),width = 520, height = 720, units = "px",res=200)
+doc = newXMLDoc()
+top=newXMLNode("body")
+
+count<-0
+maxfreq<-0
+minfreq<-1000000000
+micros<-0
+
+tablefinal<-table1
+tablefinal$type<-0
+
+for (i in indsort$ix){
+	count<-count+1
+	#i<-indsort$ix[count]
+	name<-unlist(strsplit(table[i,1],","))
+	ref<-tableref[tableref$id==paste(sep="",name[1],",Ref"),]
+	iso<-table1[i,]
+
+	isov<-tableq[i,2:(ns)]
+	refv<-tablerq[tableref$id==paste(sep="",name[1],",Ref"),2:(ns)]
+	if(nrow(ref)==0){
+			dif<-rep(1,ns)
+			refv<-rep(1,ns)
+			ratio<-rep(100,ns)
+	}else{
+		dif<-refv[isov<0.05]
+		total<-iso[2:ns]+ref[2:ns]
+		ratio<-iso[2:ns]/total*100
+	}
+	if (length(isov[isov<0.05])){
+		micros<-append(micros,table1[i,1])
+	}
+# 	if (length(dif)>0){
+# 	if(max(dif)>0.05 & min(isov)<0.05){
+	colp<-as.character(cut(as.numeric(ratio),breaks=c(-1,20,40,60,80,101),labels=scalecol))
+		isoname<-sub(" ","",table1[i,1])
+		isoname<-sub(",",".",table1[i,1])
+		jpeg(paste(sep="",list$path,isoname,".jpg"),quality=100)
+		plot(1:ns,(table1[i,2:(ns+1)]),col=colp,bg=colp,pch=21,cex=1.5,ylab="expression RP5M",xlab="time series",main=table1[i,1],xaxt='n')
+		if (maxfreq<max(log(table1[i,2:(ns+1)]))){
+		maxfreq<-max(log(table1[i,2:(ns+1)]))
+		}
+		if (minfreq>max(log(table1[i,2:(ns+1)]))){
+			minfreq<-min(log(table1[i,2:(ns+1)]))
+		}
+
+	
+		axis(1,c(1:ns),labels=names(table1)[2:(ns+1)])
+
+	#coll<-as.character(cut(as.numeric(tableq[i,2:(ns)]),breaks=c(-1,0.051,2),labels=c("red","black")))
+	opo<-0
+	same<-0
+		for (j in 2:ns){
+			
+			coll<-"black"
+			
+			if (tableq[i,j]<0.05 & refv[j-1]>0.05){
+				coll<-"red"
+				opo<-1
+			}
+			if (tableq[i,j]<0.05 & refv[j-1]<0.05){
+				coll<-"grey"
+				same<-1
+			}
+
+						
+			lines((j-1):j,(table1[i,j:(j+1)]),col=coll)
+
+		}
+			##write in the correct table
+		if (opo<-1){
+			tablefinal$type[i]<-1
+		}else if (opo<-0 & same<-1){
+			tablefinal$type[i]<-2
+		}else if (opo<-0 & same<-0){
+			tablefinal$type[i]<-3
+		}
+		
+		dev.off();
+	
+# 	}
+}
+
+tbl<-newXMLNode("table",attrs=c(align= "center",border=1), parent = top)
+temp<-tablefinal[tablefinal$type==1,]
+for (n in 1:nrow(temp[1:10,])){
+	tr<-newXMLNode("tr",  parent = tbl)
+	td<-newXMLNode("td",parent = tr)
+	isoname<-sub(" ","",temp[n,1])
+	isoname<-sub(",",".",temp[n,1])
+	a<-newXMLNode("a",attrs=c(href=paste(sep="",isoname,".jpg")),isoname ,parent = td)
+# 	a<-newXMLNode("a",attrs=c(href=text),labelsrow[nr],parent=td)
+
+	isop<-table[table$id==temp[n,1],]
+
+	for (r in 2:(ncol(temp)-3)){
+		colt<-"white"
+		if (isop[r]<0.05){
+			colt<-"red"
+		}
+			td<-newXMLNode("td",paste(collapse="",temp[n,r],"=>",temp[n,r+1]),attrs=c(bgcolor=colt) ,parent = tr)
+	}
+	colt<-"white"
+	if (isop[r+1]<0.05){
+			colt<-"red"
+	}
+		td<-newXMLNode("td",paste(collapse="",temp[n,r],"=>",temp[n,r+1]),attrs=c(bgcolor=colt) ,parent = tr)
+
+	tr<-newXMLNode("tr",  parent = tbl)
+	name<-unlist(strsplit(temp[n,1],","))
+
+	td<-newXMLNode("td",paste(sep="",name[1],",Ref") ,parent = tr)
+	
+	ref<-tableref[tableref$id==paste(sep="",name[1],",Ref"),]
+	refp<-tabler[tabler$id==paste(sep="",name[1],",Ref"),]
+	for (r in 2:(length(ref)-2)){
+		colt<-"white"
+		if (refp[r]<0.05){
+			colt<-"orange"
+		}
+		td<-newXMLNode("td",paste(collapse="",ref[r],"=>",ref[r+1]),attrs=c(bgcolor=colt) ,parent = tr)
+		
+	}
+		if (refp[r+1]<0.05){
+			colt<-"orange"
+		}
+		td<-newXMLNode("td",paste(collapse="",ref[r],"=>",ref[r+1]),attrs=c(bgcolor=colt) ,parent = tr)
+}
+
+
+# freq<-as.vector(as.matrix(all[,2:ns]))
+# maxtotal<-max(as.vector(as.matrix(all[,2:ns])))
+# colh<-c(rep("white",round(minfreq)),rep("blue",(round(maxfreq)-round(minfreq))),rep("white",(round(maxtotal)-round(minfreq))) )
+
+saveXML(top,file=paste(sep="",list$path,list$group1[1],"test.html"))
+# write.table(micros, file=namefile,row.names=F,quote=F,col.names=F)
+dbDisconnect(con)
+#dev.off()
+

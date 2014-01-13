@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>How To</title>
+</head><body >
+
+
+<p><b>How to use SeqBuster and SeqCluster extension:</b></p>
+
+<p>Visit our Quick tutorial at: <a href>http://code.google.com/p/seqbuster/wiki/Quick</a><p>
+
+<p><h3>Remember that you have tips for each step and parameter by clicking on each "?" orange button</h3></p>
+
+<ul style="list-style-type:decimal" align=justify>
+
+<li><b>Create a project.</b> This is a mandatory step to analyze the sequencing data in a group of experiments or sequenced samples. Go to the "Create project" button</li><br>
+<li><b>Load the project.</b> Type the name of your project in the box and click "load project"</li><br>
+<li>Now you can upload a sample in two ways:
+    	<ul style="list-style-type:decimal" align=justify>
+	<li><b>Remove the adapters </b> from the reads using the stand-alone version. This will create a file containing unique sequences. The input file looks like (you have a link in this panel to a test file):
+	<br><br><img src="tabfile.jpg"  width="400" height="100" alt="sequence" />
+	</li>
+	<li><b>Sequences without adapter:</b> if you already have removed the adapter, you can upload the file directly. Go to the "upload trimmed reads" button and follow the instructions .The input file looks like:
+	<br><br><img src="trifile.jpg"  width="400" height="100" alt="sequence trimmed" />
+	
+	</li>
+	</ul>
+</li>
+<li><b>miRNAs detection</b> by clicking on "miRNA annotation" button. To test the analysis, run with the default parameters.  </li>
+<br>
+<li><b>miRNA analysis</b> by clicking on "miRNA analysis" button and follow the instruction. To learn about what each package download http://estivill_lab.crg.es/seqbuster/examples/tutorial4.pdf and go to "Manual" option in the top menu. </li>
+<br>
+<li><b>non-miRNA small RNAs detection</b> by clicking on "small RNA detection" button. To test the analysis, run with the default parameters. You will have link to example files to run this analysis completely in this panel.</li>
+<br>
+<li><b>non-miRNA small RNAs analysis</b> by clicking on "Do usRNA analysys" button and then select the fisrt option "start analysis".  This package will create in the project/sample folder the following results:<br>
+
+	<ul style="list-style-type:decimal" align=justify>
+	<li>Amount of each type of usRNAs</li>
+	<li>Length distribution of usRNAs</li>
+	<li>Length distribution of each usRNAs type and sub-type </li>
+	<li>Fasta files containing sequences of each usRNAs type and sub-type </li>
+	<li>Relative positions of each usRNAs on its putative source molecule </li>
+	<li>You can do a differential expression analysis between sample or group of samples selecting in each list the samples to be compared and then clicking on "Calculate". A table with each cluster id, ratio and p-value will appear. You can export the data to a file for custom analysis.</li>
+	</ul>
+
+
+</li><br>
+
+<li><b>non-miRNA small RNAs analysis II</b> by clicking on "Do usRNA analysys" button and then select the fisrt option "claculate" after select the samples to be used. Here you can do a differential expression analysis between samples or group of samples.</li>
+<br>
+<li><b>Manage data</b> by clicking on "Manage data" button. Here you can reset, delete or browse any sample after been analyzed.</li><br>
+</ul>
+
+</body>
+</html>

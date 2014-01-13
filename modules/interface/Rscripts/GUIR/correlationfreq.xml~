@@ -1,0 +1,134 @@
+<?xml version="1.0" ?>
+<param>
+	<text description="Frequency greater" help="freq1">
+		<name>freq1</name>
+	</text>
+	<text description="Frequency less " help="freq2">
+		<name>freq2</name>
+	</text>
+	<text description="Select DB" help="DB" value="miRNA">
+		<name>DB</name>
+	</text>
+
+	<text description="Select scale"  value="1000000" help="scale">
+		<name>scale</name>
+	</text>
+	<text description="Discart upper quantile" value="100" help="qmax" >
+		<name>qmax</name>
+	</text>
+	<text description="Discart lower quantile" value="0" help="qmin">
+		<name>qmin</name>
+	</text>
+	<select name="trans" description="Select type of transformation" help="trans">
+		<option text="2">log2</option>
+		<option text="10">log10</option>
+		<option text="n">ln</option>
+		<option text="...">...</option>
+		
+	</select>
+	
+	<select name="center" description="Select type of metric center" help="center">
+		<option text="...">...</option>
+		<option text="mean">mean</option>
+		<option text="median">median</option>
+		<option text="mode">mode</option>
+		<option text="quantile">quantile</option>
+		<option text="min">min</option>
+		
+	</select>
+	<text description="Contribution Cut-Off" value="10">
+		<name>cof</name>
+	</text>
+	<select description="Applied probabilistic model" name="error" help="error">
+		<option text="zscore">Z-score</option>
+		<option text="none">...</option>
+	</select>
+	<checkbox description="Reference" help="ref">
+		<name>ref</name>
+	</checkbox>
+	<checkbox description="Nt-substitution" help="mut">
+		<name>mut</name>
+	</checkbox>
+	<text description="Start position in mutation" value="1" help="start">
+		<name>start</name>
+	</text>
+	<text description="End position in mutation" value="8" help="end">
+		<name>end</name>
+	</text>
+	<checkbox description="5' trimming" help="tr5">
+		<name>trimmed5</name>
+	</checkbox>
+	<checkbox description="3' trimming" help="tr3">
+		<name>trimmed3</name>
+	</checkbox>
+	<text description="Trimming size" value="3" help="size">
+		<name>size</name>
+	</text>
+	<checkbox description="3' addition" help="ad3">
+		<name>addition3</name>
+	</checkbox>
+	<text description="Addition size" value="3" help="sizead">
+		<name>sizead</name>
+	</text>
+	<help id="len">
+		<desc>Filter the sequences according to a length cut-off</desc>
+	</help>
+	<help id="freq">
+		<desc>Filter the sequences according to a frequency cut-off</desc>
+	</help>
+	<help id="cof">
+		<desc>Select all isomiRs with a frequency contribution more than this value to the total of counts of variants annotated in the same miRNA.</desc>
+	</help>
+	<help id="zscore">
+		<desc>Statistical method to exclude sequencing errors as the possible cause of the nucleotide modifications. (Dohm et al.,2009)</desc>
+	</help>
+	<help id="start">
+		<desc>Select teh start position of the miRNA region in the case of nt-substitution analysis</desc>
+	</help>
+	<help id="end">
+		<desc>Select teh end position of the miRNA region in the case of nt-substitution analysis</desc>
+	</help>
+	<help id="size">
+		<desc>Select window size in the trimming and addition analysis. Default is 6, meaning of 3 position upstream of the dicing site, and 3 position downstream of the dicing site will be considered</desc>
+	</help>
+	<help id="ref">
+		<desc>Differentiate reference miRNAs in the analsys.</desc>
+	</help>
+	<help id="mut">
+		<desc>Differentiate nt-substitution isomiRs in the analsys.</desc>
+	</help>
+	<help id="tr5">
+		<desc>Differentiate 5' trimming isomiRs in the analsys.</desc>
+	</help>
+	<help id="tr3">
+		<desc>Differentiate 3' trimming isomiRs in the analsys.</desc>
+	</help>
+	<help id="ad3">
+		<desc>Differentiate 3' addition isomiRs in the analsys.</desc>
+	</help>
+
+	<help id="scale">
+		<desc>Scale the frequency of every sequence according to the following eqaution: Scale freq n= (freq n/(sum freqs all seqs)*X. The default value of X is 1.000.000</desc>
+	</help>
+	<help id="qmax">
+		<desc>Remove all counts above the value determined by this quantile</desc>
+	</help>
+	<help id="qmin">
+		<desc>Remove all counts below the value determined by this quantile</desc>
+	</help>
+	<help id="trans">
+		<desc>Select the type of logarithmic transformation of the sequences frequency (log2, log10, ln) or the absolute frequency values</desc>
+	</help>
+	<help id="center">
+		<desc>Select the type of statistical parameter if frequency should be center resptect to the mean, median, mode, min or quantile parametes of the distribution.</desc>
+	</help>
+
+	<help id="DB">
+		<desc>Select all sequences mapped onto a miRNA-like database. In the
+			case, the annotation was done usign SeqBuster Server, you can choose
+			between: miRNA or misRNA (miRNA star)</desc>
+</help>
+	<help id="opt">
+		<desc>Select if every different sequence is aconsidered as one point, or all sequences mapped onto the same locus is considered as one point.</desc>
+	</help>
+</param>

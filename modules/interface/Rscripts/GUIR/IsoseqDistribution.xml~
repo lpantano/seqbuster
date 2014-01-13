@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+<param>
+
+	<text description="Frequency greater" help="freq1">
+		<name>freq1</name>
+	</text>
+	<text description="Frequency less " help="freq2">
+		<name>freq2</name>
+	</text>
+<text description="Select miRNA-like DB" value="miRNA" help="DB">
+	<name>DB</name>
+</text>
+
+<checkbox description="Nt-substitution" help="ntsubs">
+	<name>mut</name>
+</checkbox>
+<checkbox description="5' trimming" help="tr5">
+	<name>trimmed5</name>
+</checkbox>
+<checkbox description="3' trimming" help="tr3">
+	<name>trimmed3</name>
+</checkbox>
+<checkbox description="3' addition" help="ad3">
+	<name>addition3</name>
+</checkbox>
+<text description="Contributtion Cut-Off" value="10" help="cof">
+	<name>cof</name>
+</text>
+<select description="Applied probabilistic model" name="error" help="zscore">
+	<option text="zscore">zscore</option>
+	<option text="na">...</option>
+</select>
+<help id="len">
+	<desc>Filter the sequences according to a length cut-off</desc>
+</help>
+<help id="freq">
+	<desc>Filter the sequences according to a frequency cut-off</desc>
+</help>
+<help id="DB">
+	<desc>Select all sequences mapped onto a miRNA-like database. In the
+case, the annotation was done usign SeqBuster Server, you can choose
+between: miRNA or misRNA (miRNA star) or the same name chosen when annotating with the stand-alone version.</desc>
+</help>
+<help id="tr5">
+	<desc>Select "different 5'-terminus" isomiRs. These variants show a different 5'-terminus, resulting from alternative dicing during miRNA biogenesis</desc>
+</help>
+<help id="tr3">
+	<desc>Select "different 3'-terminus" isomiRs. These variants show a different 3'-terminus, resulting from alternative dicing during miRNA biogenesis</desc>
+</help>
+<help id="ad3">
+	<desc>Select "extensions of the 3'-end of the miRNAn" isomiRs. These variants result from nucleotide extensions to the 3'-end of the miRNA</desc>
+</help>
+<help id="ntsubs">
+	<desc>Select "nt-substitution" isomiRs. These variants present a nucleotide modification with respect to the reference miRNA</desc>
+</help>
+<help id="cof">
+	<desc>Select a cut-off value. This value is used to filter the isomiRs contributing in more than a specific percentage to the total of sequences annotated in the same miRNA locus</desc>
+</help>
+<help id="zscore">
+	<desc>Select "Z-score" to apply a statistical method to exclude sequencing errors as the possible cause of the nucleotide modifications (Dohm et al., 2008, Nu Ac Res., 36 (16): e105)</desc>
+</help>
+
+</param>

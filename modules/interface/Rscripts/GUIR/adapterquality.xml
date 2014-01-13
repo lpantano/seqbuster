@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<param>
+	<text description="Frequency greater" help="freq1">
+		<name>freq1</name>
+	</text>
+	<text description="Frequency less " help="freq2">
+		<name>freq2</name>
+	</text>
+	<select description="Select adapter" name="adapter" help="adap">
+		<option text="infoadap3">3 adapter</option>
+		<option text="infoadap5">5 adapter</option>
+	</select>
+	<text description="locus" help="locus" value="" >
+		<name>locus</name>
+	</text>
+	<text description="seq" help="seq" value="" >
+		<name>seq</name>
+	</text>
+	<text description="Select DB" help="DB" value="miRNA">
+		<name>DB</name>
+	</text>
+	<help id="len">
+		<desc>Filter the sequences according to a length cut-off</desc>
+	</help>
+	<help id="freq">
+		<desc>Filter the sequences according to a length cut-off</desc>
+	</help>
+	<help id="locus">
+		<desc>Filter the sequences mapping onto a specific locus, for instance "let" in the textbox indicates that only the sequences annotated in the let family of miRNAs are considered in the analysis</desc>
+	</help>
+	<help id="DB">
+		<desc>Select all sequences mapped onto a specific database. If the textbox is empty all databases used for annotation will be considered in the analysis</desc>
+	</help>
+	<help id="seq">
+		<desc>Select a sequence or group of sequence containing that sequence</desc>
+	</help>
+	<help id="adap">
+		<desc>Chose the "3' adapter" or the "5' adapter" for the output analysis. In case of Illumin/Solexa technology only the 3' adapter is valid, and in case of 454FLX Roche technology both are valid</desc>
+	</help>
+</param>

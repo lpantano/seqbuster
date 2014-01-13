@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<param>
+	<conditional description="Frequency" name="freq" help="freq">
+	</conditional>
+	<text description="Select miRNA-like DB" value="miRNA" help="DB">
+		<name>DB</name>
+	</text>
+	<text description="Start position in nt-substitution" value="1" help="start">
+		<name>start</name>
+	</text>
+	<text description="End position in nt-substitution" value="8" help="end">
+		<name>end</name>
+	</text>
+
+	<text description="Cut off for contribution" value="10" help="cof">
+		<name>cof</name>
+	</text>
+	<select description="Applied probabilistic model" name="error" help="error">
+		<option text="zscore">zscore</option>
+		<option text="...">...</option>
+	</select>
+	<help id="len">
+		<desc>Filter the sequences according to a length cut-off</desc>
+	</help>
+	<help id="freq">
+		<desc>Filter the sequences according to a frequency cut-off</desc>
+	</help>
+	<help id="DB">
+		<desc>Select all sequences mapped onto a miRNA-like database. In the
+			case, the annotation was done usign SeqBuster Server, you can choose
+between: miRNA or misRNA (miRNA star) or the same name chosen when annotating with the stand-alone version.</desc>
+</help>
+	<help id="start">
+		<desc>Select the first position in the reference miRNA for the analysis of nt-substitution variants</desc>
+	</help>
+	<help id="end">
+		<desc>Select the last position in the reference miRNA for the analysis of nt-substitution variants</desc>
+	</help>
+
+	<help id="cof">
+		<desc>Select a cut-off value. This value is used to filter the isomiRs contributing in more than a specific percentage to the total of sequences annotated in the same miRNA locus</desc>
+	</help>
+	<help id="zscore">
+		<desc>Select "Z-score" to apply a statistical method to exclude sequencing errors as the possible cause of the nucleotide modifications (Dohm et al., 2008, Nu Ac Res., 36 (16): e105)</desc>
+	</help>
+</param>

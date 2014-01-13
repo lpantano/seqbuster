@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<param>
+	<text>
+		<description>valor 1</description>
+		<value>test</value>
+		<name>give</name>
+	</text>
+	<text>
+		<description>valor 2</description>
+		 <value>test2</value>
+		 <name>give2</name>
+	</text>
+	<select>
+		<description>valor 3</description>
+		<name>testsel</name>
+		<option>uno,dos</option>
+		
+	</select>
+	<check>
+		 <description>valor 4</description>
+		 <name>check</name>
+	</check>
+</param>	

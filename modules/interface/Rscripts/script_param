@@ -1,0 +1,5 @@
+project:testpro
+path:/home/lpantano/temp/testpro/miRNAscripts/1281520535455/
+group1:test1,
+DB:miRNA
+norm:log2
