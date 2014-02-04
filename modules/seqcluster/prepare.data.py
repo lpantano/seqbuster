@@ -25,8 +25,8 @@ class seq_obj:
 
 try:
 	f = open(options.dir, 'r')
-	out = open(options.output+"/seqs.fa", 'w')
-	maout = open(options.output+"/seqs.ma", 'w')
+	out = open(options.out+"/seqs.fa", 'w')
+	maout = open(options.out+"/seqs.ma", 'w')
 except IOError as e:
     print "I/O error({0}): {1}".format(e.errno, e.strerror)
     sys.exit(1)

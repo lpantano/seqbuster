@@ -32,17 +32,17 @@ if len(sys.argv)==1:
 (options, args) = parser.parse_args()
 
       
+if not os.path.isdir(options.out):
+    print bcolors.FAIL + "the output folder doens't exists" + bcolors.ENDC
+    sys.exit(1)
 if not options.afile:
     print bcolors.FAIL + "-a is a mandatory parameter: alignment file in bed format" + bcolors.ENDC
     parser.print_help()
     sys.exit(1)
-
-
 if not options.ffile:
     print bcolors.FAIL + "-m is a mandatory parameter: seq.ma" + bcolors.ENDC
     parser.print_help()
     sys.exit(1)
-
 if options.bed and options.gtf:
     print bcolors.FAIL + "cannot provide -b and -g at the same time" +  bcolors.ENDC
     parser.print_help()
@@ -52,6 +52,7 @@ if options.bed and options.gtf:
 ####################define variables####################    
 dir_out=options.out
 samplename="pronoid"
+
 if options.bed:
     list_files=options.bed
     type_ann="bed"

@@ -52,17 +52,20 @@ plotIso<-function(x,type="t5"){
   #whatever to do with my object (generic information)
   codev<-c(4,5,6,7)
   names(codev)<-c("t5","t3","sub","add")
+  codevn<-c(2,3,4,5)
+  names(codevn)<-c("t5","t3","sub","add")
   ratiov<-c(1/6,1/6,1/23,1/3)
   names(ratiov)<-names(codev)
   code<-codev[type]
+  coden<-codevn[type]
   ratio<-ratiov[type]
-  des<-x[["design"]]
+  des<-x@design
   table<-data.frame()
   #print(paste(code,ratio))
   for (sample in row.names(des)){
     print(sample)
-    temp<-data.table(x[[sample]][[code]])
-    uniq.dat<-as.data.frame(table(x[[sample]][[code]]$size))
+    temp<-data.table(x@varList[[sample]][[coden]])
+    uniq.dat<-as.data.frame(table(x@varList[[sample]][[coden]]$size))
     temp<-as.data.frame(temp[,list(freq=sum(freq)),by="size"])
     total<-sum(temp$freq)
     temp<-merge(temp,uniq.dat,by=1)
@@ -74,7 +77,7 @@ plotIso<-function(x,type="t5"){
                                   unique=temp$unique,sample=rep(sample,nrow(temp)),
                                   group=rep(des[sample,"condition"],nrow(temp))))
   }
-  x[[type]]<-table
+  x@sumList[[type]]<-table
   #print(table)
   p <- ggplot(table)+
     geom_jitter(aes(x=factor(size),y=unique,colour=factor(group),
