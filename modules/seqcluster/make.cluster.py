@@ -8,7 +8,7 @@ from optparse import OptionParser
 from libs.tool import *
 
     
-usagetxt = "usage: %prog  -a aligned.sam -m seq.fa -b  BED_FILE1,BED_FILE2..."
+usagetxt = "usage: %prog  -a aligned.sam -m seq.fa -b  BED_FILE1,BED_FILE2... -o res -i index/hg19.fa"
 parser = OptionParser(usage=usagetxt, version="%prog 1.0")
 parser.add_option("-a", "--afile", dest="afile",
                   help="aligned file in bed/sam format", metavar="FILE")
