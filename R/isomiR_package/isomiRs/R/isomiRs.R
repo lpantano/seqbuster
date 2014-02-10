@@ -22,16 +22,15 @@ summary.Isomirs<-function(x){
 }
 
 
-deIso<-function(x,iso5=F,iso3=F,add=F,mism=F,seed=F,formula= ~condition){
+deIso<-function(x,formula){
   print("doing")
-  countData<-do.mir.table(x,iso5=iso5,iso3=iso3,add=add,mism=mism,seed=seed)
-  x[["countData"]]<-countData
+  countData<-x@counts
   dds<-DESeqDataSetFromMatrix(countData = countData,
-                         colData = x[["design"]],
+                         colData = x@design,
                          design = formula)
   dds <- DESeq(dds,quiet=T)
-  x[["dds"]]<-dds
-  return(x)
+  #x@"dds"<-dds
+  return(dds)
 }
 
 
@@ -95,23 +94,23 @@ plotIso<-function(x,type="t5"){
 }
 
 
-loadIso<-function(files,design,cov=10,header=F,skip=1){
-  listObj<-vector("list")
-  idx<-0
-  for (f in files){
-    idx<-idx+1
-    print(idx)
-    d<-read.table(f,header=header,skip=skip)
-    d[,2]<-as.numeric(d[,2])
-    d<-put.header(d)
-    d<-filter.by.cov(d,cov)
-    #Run function to describe isomirs
-    out<-list(counts=d,design=design[idx,],summary=0,te5sum=isomir.position(d,8),t3sum=isomir.position(d,9),subsum=subs.position(d,6),addsum=isomir.position(d,7))
-    #class(out)<-"Isomirs"
-    listObj[[row.names(design)[idx]]]<-out
-  }
-  listObj[["design"]]<-design
-  class(listObj)<-"Isomirs"
-  return(listObj)
-}
+# loadIso<-function(files,design,cov=10,header=F,skip=1){
+#   listObj<-vector("list")
+#   idx<-0
+#   for (f in files){
+#     idx<-idx+1
+#     print(idx)
+#     d<-read.table(f,header=header,skip=skip)
+#     d[,2]<-as.numeric(d[,2])
+#     d<-put.header(d)
+#     d<-filter.by.cov(d,cov)
+#     #Run function to describe isomirs
+#     out<-list(counts=d,design=design[idx,],summary=0,te5sum=isomir.position(d,8),t3sum=isomir.position(d,9),subsum=subs.position(d,6),addsum=isomir.position(d,7))
+#     #class(out)<-"Isomirs"
+#     listObj[[row.names(design)[idx]]]<-out
+#   }
+#   listObj[["design"]]<-design
+#   class(listObj)<-"Isomirs"
+#   return(listObj)
+# }
   

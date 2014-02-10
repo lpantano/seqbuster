@@ -6,7 +6,10 @@ library(isomiRs)
 d<-data.frame(condition=c("p","p","c","c"))
 row.names(d)<-paste(d[,1],1:2,sep="")
 obj<-loadIso2(files,d)
+#check plot iso
 obj<-plotIso(obj,type="t5")
+
+#check diff exp
 dds<-deIso(obj,formula=~condition)
 plotTop(dds)
 

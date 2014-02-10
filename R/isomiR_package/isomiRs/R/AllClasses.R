@@ -6,7 +6,7 @@ IsomirDataSeq<-setClass("IsomirDataSeq",
                  sumList="list"
            ))
 
-loadIso2<-function(files,design,cov=10,header=F,skip=1){
+loadIso2<-function(files,design,cov=1,header=F,skip=1){
   IsoObj<-IsomirDataSeq()
   listObj<-vector("list")
   listObjVar<-vector("list")
@@ -27,6 +27,7 @@ loadIso2<-function(files,design,cov=10,header=F,skip=1){
   IsoObj@design<-design
   IsoObj@expList<-listObj
   IsoObj@varList<-listObjVar
+  IsoObj<-do.mir.table(IsoObj)
   #class(listObj)<-"Isomirs"
   return(IsoObj)
 }

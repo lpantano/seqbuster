@@ -31,10 +31,10 @@ isomir.general.type<-function(table,colid){
 
 do.mir.table<-function(x,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
   table.merge<-data.frame()
-  des<-x[["design"]]
+  des<-x@design
   for (sample in row.names(des)){
     print (sample)
-    d<-x[[sample]][["counts"]]
+    d<-x@expList[[sample]]
     d<-collapse.mirs(d,ref=ref,iso5=iso5,iso3=iso3,add=add,mism=mism,seed=seed)
     names(d)[ncol(d)]<-sample
     
@@ -48,7 +48,8 @@ do.mir.table<-function(x,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
   row.names(table.merge)<-table.merge[,1]
   table.merge<-as.matrix(table.merge[,2:ncol(table.merge)])
   table.merge[is.na(table.merge)]<-0
-  return(table.merge)
+  x@counts<-as.matrix(table.merge)
+  return(x)
 }
 
 collapse.mirs<-function(table,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
