@@ -51,7 +51,7 @@ if options.bed and options.gtf:
 
 ########################################################
 dir_out=options.out
-
+samplename="pro"
 
 # set up logging to file - see previous section for more details
 logging.basicConfig(level=logging.DEBUG,
