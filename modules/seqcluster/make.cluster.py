@@ -4,6 +4,7 @@ import re
 import operator
 import pybedtools
 from optparse import OptionParser
+import logging
 
 from libs.tool import *
 
@@ -48,10 +49,34 @@ if options.bed and options.gtf:
     parser.print_help()
     sys.exit(1)
 
+########################################################
+dir_out=options.out
+
+
+# set up logging to file - see previous section for more details
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+                    datefmt='%m-%d %H:%M',
+                    filename=dir_out+'log',
+                    filemode='w')
+# define a Handler which writes INFO messages or higher to the sys.stderr
+console = logging.StreamHandler()
+console.setLevel(logging.INFO)
+# set a format which is simpler for console use
+formatter = logging.Formatter('%(asctime)s %(name)-12s: %(levelname)-8s %(message)s')
+# tell the handler to use this format
+console.setFormatter(formatter)
+# add the handler to the root logger
+logging.getLogger('').addHandler(console)
+
+# Now, define a couple of other loggers which might represent areas in your
+# application:
+
+con = logging.getLogger('console')
+log = logging.getLogger('file')
+
 
 ####################define variables####################    
-dir_out=options.out
-samplename="pronoid"
 
 if options.bed:
     list_files=options.bed
@@ -60,7 +85,9 @@ if options.gtf:
     list_files=options.gtf
     type_ann="gtf"
 
-print"output dir %s" % dir_out 
+con.info("output dir will be: %s" % dir_out) 
+logging.basicConfig(filename=dir_out+'/log', format='%(asctime)s %(levelname)s:%(message)s',level=logging.DEBUG)
+
 MIN_SEQ=10
 db4js={}
 ############################################################
@@ -75,22 +102,22 @@ try:
         f=open(filebed,'r')
         f.close()
 except IOError as e:
-    print "I/O error({0}): {1}".format(e.errno, e.strerror)
+    con.error("I/O error({0}): {1}".format(e.errno, e.strerror))
     sys.exit(1)
     
 
 ############read input files##################################
-print "parsing matrix file"
+con.info("Parsing matrix file")
 seq_l=parse_ma_file(options.ffile)
 ###############################################################
 
 #####################read aligned sequences#####################
 format = what_is(options.afile)
 if not format:
-    print "format of aligned reads not in sam or bed"
+    logging.error("format of aligned reads not in sam or bed")
     sys.exit(1)
 
-print "parsing aligned file"
+con.info("parsing aligned file")
 bed_obj=parse_align_file(options.afile,format)
 
 ###############################################################
@@ -102,29 +129,31 @@ bed_obj=parse_align_file(options.afile,format)
 a = pybedtools.BedTool(bed_obj,from_string=True)
 c = a.merge(nms=True,d=20,s=True,scores="collapse")
 
-print "Creating clusters"
+con.info("Creating clusters")
 clus_obj=parse_merge_file(c,seq_l,MIN_SEQ)
-
+con.info("%s clusters found" % (len(clus_obj.clus.keys())))
 
 #####################reduce loci when possible#############################
-print "Reducing multi-mapping events in the network of clusters"
+con.info("Solving multi-mapping events in the network of clusters")
 setclus=reduceloci(clus_obj,MIN_SEQ,dir_out)
+con.info("Clusters up to %s" % (len(setclus.clus.keys())))
 #sys.exit(1)
 ###########################################################################
 
 
 #####################create sequences overview ############################
+con.info("Creating sequences alignment to precursor")
 setclus=show_seq(setclus,options.index)
 #sys.exit(1)
 ###########################################################################
 
 #####################overlap with features#################################
-print "Creating bed file"
+con.info("Creating bed file")
 bedfile=generate_position_bed(setclus)
 a = pybedtools.BedTool(bedfile,from_string=True)
 beds=[]
 
-print "Annotating clusters"
+con.info("Annotating clusters")
 if list_files:
     beds=list_files.split(",")
     for filebed in beds:
@@ -147,14 +176,14 @@ f.close
 
 #####################creating html####################
 cmd="mkdir %s" % (dir_out+"/html")
-print bcolors.OKBLUE+cmd+bcolors.ENDC 
+#print bcolors.OKBLUE+cmd+bcolors.ENDC 
 os.system(cmd)
 cmd="mkdir %s" % (dir_out+"/html/clusters")
-print bcolors.OKBLUE+cmd+bcolors.ENDC 
+#print bcolors.OKBLUE+cmd+bcolors.ENDC 
 os.system(cmd)
 pathscript=os.path.abspath(__file__).replace("make.cluster.py","")
 cmdcp="rsync -a -u --exclude='- *.' "+pathscript+"js "+pathscript+"css "+pathscript+"images "+dir_out+"/html/."
-print bcolors.OKBLUE+cmdcp+bcolors.ENDC 
+#print bcolors.OKBLUE+cmdcp+bcolors.ENDC 
 os.system(cmdcp)
 
 chtml = open(dir_out+"/html/clus.html", 'w')
@@ -162,7 +191,7 @@ dbhtml = open(dir_out+"/html/annotation.html", 'w')
 ccont=table.make_header("".join(map(table.make_cell_header,["id","DB"]+samples_list)))
 icont=""
 
-print "Creating outputs"
+con.info("Creating outputs")
 #####################creating plain text and html files#####################
 out = open(dir_out+"/clus.parse.txt", 'w')
 outann = open(dir_out+"/ann.tab", 'w')
