@@ -135,12 +135,15 @@ bed_obj=parse_align_file(options.afile,format)
 a = pybedtools.BedTool(bed_obj,from_string=True)
 c = a.merge(nms=True,d=20,s=True,scores="collapse")
 
-con.info("Creating clusters")
-if not dir_out+'/list_obj.pk':
+
+clus_obj = []
+if not os.path.exists(dir_out+'/list_obj.pk'):
+    con.info("Creating clusters")
     clus_obj = parse_merge_file(c,seq_l,MIN_SEQ)
     with open(dir_out+'/list_obj.pk', 'wb') as output:
         pickle.dump(clus_obj, output, pickle.HIGHEST_PROTOCOL)
 else:
+    con.info("Loading previous clusters")
     with open(dir_out+'/list_obj.pk', 'rb') as input:
         clus_obj = pickle.load(input)
 
