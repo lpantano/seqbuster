@@ -5,6 +5,7 @@ import operator
 import pybedtools
 from optparse import OptionParser
 import logging
+import pickle
 
 from libs.tool import *
 
@@ -25,6 +26,8 @@ parser.add_option("-o", "--out",
                    dest="out", help="output dir",metavar="FILE")
 parser.add_option("-i", "--index",
                    dest="index", help="reference fasta",metavar="FILE")
+parser.add_option("-d", "--debug", action="store_true",
+                   dest="debug", help="max verbosity mode",default=False)
 
 if len(sys.argv)==1:
     parser.print_help()
@@ -76,7 +79,11 @@ con = logging.getLogger('console')
 log = logging.getLogger('file')
 
 
+
 ####################define variables####################    
+
+if options.debug:
+    con.info("DEBUG messages will be showed in file.")
 
 if options.bed:
     list_files=options.bed
@@ -85,8 +92,7 @@ if options.gtf:
     list_files=options.gtf
     type_ann="gtf"
 
-con.info("output dir will be: %s" % dir_out) 
-logging.basicConfig(filename=dir_out+'/log', format='%(asctime)s %(levelname)s:%(message)s',level=logging.DEBUG)
+con.info("Output dir will be: %s" % dir_out) 
 
 MIN_SEQ=10
 db4js={}
@@ -114,10 +120,10 @@ seq_l=parse_ma_file(options.ffile)
 #####################read aligned sequences#####################
 format = what_is(options.afile)
 if not format:
-    logging.error("format of aligned reads not in sam or bed")
+    logging.error("Format of aligned reads not in sam or bed")
     sys.exit(1)
 
-con.info("parsing aligned file")
+con.info("Parsing aligned file")
 bed_obj=parse_align_file(options.afile,format)
 
 ###############################################################
@@ -130,12 +136,19 @@ a = pybedtools.BedTool(bed_obj,from_string=True)
 c = a.merge(nms=True,d=20,s=True,scores="collapse")
 
 con.info("Creating clusters")
-clus_obj=parse_merge_file(c,seq_l,MIN_SEQ)
+if not dir_out+'/list_obj.pk':
+    clus_obj = parse_merge_file(c,seq_l,MIN_SEQ)
+    with open(dir_out+'/list_obj.pk', 'wb') as output:
+        pickle.dump(clus_obj, output, pickle.HIGHEST_PROTOCOL)
+else:
+    with open(dir_out+'/list_obj.pk', 'rb') as input:
+        clus_obj = pickle.load(input)
+
 con.info("%s clusters found" % (len(clus_obj.clus.keys())))
 
 #####################reduce loci when possible#############################
 con.info("Solving multi-mapping events in the network of clusters")
-setclus=reduceloci(clus_obj,MIN_SEQ,dir_out)
+setclus=reduceloci(clus_obj,MIN_SEQ,dir_out,log)
 con.info("Clusters up to %s" % (len(setclus.clus.keys())))
 #sys.exit(1)
 ###########################################################################

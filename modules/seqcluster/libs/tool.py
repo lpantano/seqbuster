@@ -6,6 +6,10 @@ from libs.sam2bed import *
 from libs import table,barchart,seqviz,expchart
 import time
 import math
+import logging
+
+
+
 
 class cluster_info_obj:
     def __init__(self,clus_obj,clus_id,loci_obj,seq_obj):
@@ -422,7 +426,7 @@ def parse_merge_file(c,seq_l_in,MIN_SEQ):
             #currentClustersBed=currentClustersBed + "%s\t%s\t%s\t%s\t%s\t%s\n " % (a.chr,a.start,a.end,eindex,lindex,a.strand)
     return cluster_info_obj(currentClus,clus_id,loci_id,seq_l_in)
 
-def reduceloci(clus_obj,min_seq,path):
+def reduceloci(clus_obj,min_seq,path,log):
     ##reduce number of loci a cluster has
     filtered={}
     idcNew=0
@@ -434,8 +438,10 @@ def reduceloci(clus_obj,min_seq,path):
     nodes="";
     nodesInfo="";
     for idc in current.keys():
+        log.debug("Cluster analized: %s " % idc)
         clus1=copy.deepcopy(current[idc])
         nElements=len(clus1.loci2seq)
+        log.debug("Number of elements: %s " % nElements)
         currentElements=nElements+1
         removeSeqs=list()
         seqListTemp=list()
@@ -443,6 +449,8 @@ def reduceloci(clus_obj,min_seq,path):
         seqfound=0
         while (nElements<currentElements and nElements!=0):
             cicle+=1
+            if (cicle % 10) == 0:
+                log.debug("Number of cicle: %s with nElements %s" % (cicle,nElements))
             ##get loci with more number of sequences
             locilen_sorted=sorted(clus1.locilen.iteritems(), key=operator.itemgetter(1),reverse=True)
             first_run=0
