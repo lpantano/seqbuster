@@ -123,21 +123,19 @@ if not format:
     logging.error("Format of aligned reads not in sam or bed")
     sys.exit(1)
 
-con.info("Parsing aligned file")
-bed_obj=parse_align_file(options.afile,format)
 
 ###############################################################
-
-#merge positions to create clusters: everything connected by 
-#positions on the genome. 
-#assumption: minimun number of common loci
-
-a = pybedtools.BedTool(bed_obj,from_string=True)
-c = a.merge(nms=True,d=20,s=True,scores="collapse")
 
 
 clus_obj = []
 if not os.path.exists(dir_out+'/list_obj.pk'):
+    #merge positions to create clusters: everything connected by 
+    #positions on the genome. 
+    #assumption: minimun number of common loci
+    con.info("Parsing aligned file")
+    bed_obj=parse_align_file(options.afile,format)
+    a = pybedtools.BedTool(bed_obj,from_string=True)
+    c = a.merge(nms=True,d=20,s=True,scores="collapse")
     con.info("Creating clusters")
     clus_obj = parse_merge_file(c,seq_l,MIN_SEQ)
     with open(dir_out+'/list_obj.pk', 'wb') as output:
