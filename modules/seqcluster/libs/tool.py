@@ -447,71 +447,80 @@ def reduceloci(clus_obj,min_seq,path,log):
         seqListTemp=list()
         cicle=0
         seqfound=0
-        while (nElements<currentElements and nElements!=0):
-            cicle+=1
-            if (cicle % 10) == 0:
-                log.debug("Number of cicle: %s with nElements %s" % (cicle,nElements))
-            ##get loci with more number of sequences
-            locilen_sorted=sorted(clus1.locilen.iteritems(), key=operator.itemgetter(1),reverse=True)
-            first_run=0
-            ##get gigest loci
-            maxseq=locilen_sorted[0][1]*1.0
-            if maxseq>min_seq:
-                for (idl,lenl) in locilen_sorted:
-                    nodesInfo+="o%s\tblue\n" % (idl)
-                    
-                    tempList=clus1.loci2seq[idl]
-                    ##this should be remove to merge more clusters
-                    #tempList=list(set(sorted(tempList)).difference(sorted(removeSeqs))) 
-                    if (first_run==0):
-                        seqListTemp=tempList
+        if nElements>500:
 
-                    intersect=list(set(seqListTemp).intersection(tempList))
-                    common=0
-
-                    if (intersect):
-                        ##this could be change to min to merge more clusters
-                        common=len(intersect)*1.0/min(len(seqListTemp),len(tempList))
-                    
-                    ##check if number of common sequences is 60% or greater than maxseq                  
-                    if ((first_run==0 and lenl*1.0>0) or (lenl*1.0>=0.6*maxseq and common*1.0>=0.6)):
+            while (nElements<currentElements and nElements!=0):
+                cicle+=1
+                if (cicle % 10) == 0:
+                    log.debug("Number of cicle: %s with nElements %s" % (cicle,nElements))
+                ##get loci with more number of sequences
+                locilen_sorted=sorted(clus1.locilen.iteritems(), key=operator.itemgetter(1),reverse=True)
+                first_run=0
+                ##get gigest loci
+                maxseq=locilen_sorted[0][1]*1.0
+                if maxseq>min_seq:
+                    for (idl,lenl) in locilen_sorted:
+                        nodesInfo+="o%s\tblue\n" % (idl)
+                        
+                        tempList=clus1.loci2seq[idl]
+                        ##this should be remove to merge more clusters
+                        #tempList=list(set(sorted(tempList)).difference(sorted(removeSeqs))) 
                         if (first_run==0):
-                            idcNew+=1 ##creating new cluster id
-                            nodesInfo+="n%s\tyellow\n" % (idcNew)
-                        if (not filtered.has_key(idcNew)):
-                            filtered[idcNew]=cluster(idcNew)
-                        ##remove sequences from cluster
-                        removeSeqs=list(set(tempList).union(removeSeqs))
-                        ##adding sequences to new cluster
-                        filtered[idcNew].addidmember(list(tempList),idl)
-                        nodes+="o%s\tn%s\t-1\t%s\n" % (idl,idcNew,len(removeSeqs))
-                        ##remove loccus from cluster
-                        clus1.loci2seq.pop(idl,"None")
-                        clus1.locilen.pop(idl,"None")
-                    else:
-                        ##remove all sequences in the other cluster
-                        newList=list(set(sorted(tempList)).difference(sorted(removeSeqs)))                   
-                        ##update sequences in this locus
-                        seqsGiven=lenl-len(newList)
-                        if len(newList)!=lenl and len(newList)>0:
-                            nodes+="o%s\tn%s\t%s\t%s\n" % (idl,idcNew,seqsGiven,len(removeSeqs))
+                            seqListTemp=tempList
 
-                        clus1.locilen[idl]=len(newList)
-                        clus1.loci2seq[idl]=newList
-                        #if no more sequence in cluster, remove it
-                        if (clus1.locilen[idl]==0):
-                            nodes+="o%s\tn%s\t%s\t%s\n" % (idl,idcNew,lenl,len(removeSeqs))
+                        intersect=list(set(seqListTemp).intersection(tempList))
+                        common=0
+
+                        if (intersect):
+                            ##this could be change to min to merge more clusters
+                            common=len(intersect)*1.0/min(len(seqListTemp),len(tempList))
+                        
+                        ##check if number of common sequences is 60% or greater than maxseq                  
+                        if ((first_run==0 and lenl*1.0>0) or (lenl*1.0>=0.6*maxseq and common*1.0>=0.6)):
+                            if (first_run==0):
+                                idcNew+=1 ##creating new cluster id
+                                nodesInfo+="n%s\tyellow\n" % (idcNew)
+                            if (not filtered.has_key(idcNew)):
+                                filtered[idcNew]=cluster(idcNew)
+                            ##remove sequences from cluster
+                            removeSeqs=list(set(tempList).union(removeSeqs))
+                            ##adding sequences to new cluster
+                            filtered[idcNew].addidmember(list(tempList),idl)
+                            nodes+="o%s\tn%s\t-1\t%s\n" % (idl,idcNew,len(removeSeqs))
+                            ##remove loccus from cluster
                             clus1.loci2seq.pop(idl,"None")
                             clus1.locilen.pop(idl,"None")
-                            
-                    first_run=1
-            else:
-                ##if number of sequences < 10, just remove it
-                for (idl,lenl) in locilen_sorted:
-                    clus1.loci2seq.pop(idl,"None")
-                    clus1.locilen.pop(idl,"None")
+                        else:
+                            ##remove all sequences in the other cluster
+                            newList=list(set(sorted(tempList)).difference(sorted(removeSeqs)))                   
+                            ##update sequences in this locus
+                            seqsGiven=lenl-len(newList)
+                            if len(newList)!=lenl and len(newList)>0:
+                                nodes+="o%s\tn%s\t%s\t%s\n" % (idl,idcNew,seqsGiven,len(removeSeqs))
 
-            nElements=len(clus1.loci2seq)
+                            clus1.locilen[idl]=len(newList)
+                            clus1.loci2seq[idl]=newList
+                            #if no more sequence in cluster, remove it
+                            if (clus1.locilen[idl]==0):
+                                nodes+="o%s\tn%s\t%s\t%s\n" % (idl,idcNew,lenl,len(removeSeqs))
+                                clus1.loci2seq.pop(idl,"None")
+                                clus1.locilen.pop(idl,"None")
+                                
+                        first_run=1
+                else:
+                    ##if number of sequences < 10, just remove it
+                    for (idl,lenl) in locilen_sorted:
+                        clus1.loci2seq.pop(idl,"None")
+                        clus1.locilen.pop(idl,"None")
+
+                nElements=len(clus1.loci2seq)
+        else:
+            log.debug("Not resolving cluster %s, too many loci" % idc)
+            idcNew+=1 ##creating new cluster id
+            filtered[idcNew]=copy.deepcopy(clus1)
+            filtered[idcNew].id=idcNew
+
+
 
     clus_obj.clus=filtered
     nodesFiles=open(path+"/nodes.txt",'w')
