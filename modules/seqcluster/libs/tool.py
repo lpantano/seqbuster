@@ -447,7 +447,7 @@ def reduceloci(clus_obj,min_seq,path,log):
         seqListTemp=list()
         cicle=0
         seqfound=0
-        if nElements>500:
+        if nElements<500:
 
             while (nElements<currentElements and nElements!=0):
                 cicle+=1
