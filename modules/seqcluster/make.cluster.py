@@ -28,6 +28,8 @@ parser.add_option("-i", "--index",
                    dest="index", help="reference fasta",metavar="FILE")
 parser.add_option("-d", "--debug", action="store_true",
                    dest="debug", help="max verbosity mode",default=False)
+parser.add_option("-s", "--show", action="store_false",
+                   dest="show", help="no show sequences",default=False)
 
 if len(sys.argv)==1:
     parser.print_help()
@@ -156,8 +158,9 @@ con.info("Clusters up to %s" % (len(setclus.clus.keys())))
 
 
 #####################create sequences overview ############################
-con.info("Creating sequences alignment to precursor")
-setclus=show_seq(setclus,options.index)
+if options.show:
+    con.info("Creating sequences alignment to precursor")
+    setclus=show_seq(setclus,options.index)
 #sys.exit(1)
 ###########################################################################
 

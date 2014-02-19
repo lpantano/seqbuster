@@ -447,7 +447,7 @@ def reduceloci(clus_obj,min_seq,path,log):
         seqListTemp=list()
         cicle=0
         seqfound=0
-        if nElements<500:
+        if nElements<1000:
 
             while (nElements<currentElements and nElements!=0):
                 cicle+=1
@@ -515,8 +515,9 @@ def reduceloci(clus_obj,min_seq,path,log):
 
                 nElements=len(clus1.loci2seq)
         else:
-            log.debug("Not resolving cluster %s, too many loci" % idc)
+            
             idcNew+=1 ##creating new cluster id
+            log.debug("Not resolving cluster %s, too many loci. New id %s" % (idc,idcNew))
             filtered[idcNew]=copy.deepcopy(clus1)
             filtered[idcNew].id=idcNew
 
