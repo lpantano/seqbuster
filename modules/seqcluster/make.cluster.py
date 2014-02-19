@@ -29,7 +29,7 @@ parser.add_option("-i", "--index",
 parser.add_option("-d", "--debug", action="store_true",
                    dest="debug", help="max verbosity mode",default=False)
 parser.add_option("-s", "--show", action="store_false",
-                   dest="show", help="no show sequences",default=False)
+                   dest="show", help="no show sequences",default=True)
 
 if len(sys.argv)==1:
     parser.print_help()
