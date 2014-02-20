@@ -74,6 +74,7 @@ class cluster:
         self.score=0
         self.showseq=""
         self.showseq_plain=""
+        self.toomany=0
     def set_ref(self,r):
         self.ref=r
 
@@ -518,8 +519,13 @@ def reduceloci(clus_obj,min_seq,path,log):
             
             idcNew+=1 ##creating new cluster id
             log.debug("Not resolving cluster %s, too many loci. New id %s" % (idc,idcNew))
-            filtered[idcNew]=copy.deepcopy(clus1)
+            locilen_sorted=sorted(clus1.locilen.iteritems(), key=operator.itemgetter(1),reverse=True)
+            maxidl=locilen_sorted[0][0]
+            #filtered[idcNew]=copy.deepcopy(clus1)
+            filtered[idcNew]=cluster(idcNew)
+            filtered[idcNew].addidmember(clus1.loci2seq[maxidl],maxidl)
             filtered[idcNew].id=idcNew
+            filtered[idcNew].toomany=nElements
 
 
 

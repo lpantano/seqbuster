@@ -212,6 +212,8 @@ con.info("Creating outputs")
 #####################creating plain text and html files#####################
 out = open(dir_out+"/clus.parse.txt", 'w')
 outann = open(dir_out+"/ann.tab", 'w')
+outann.write("\t".join(["id","ann","manyloci"]+samples_list))
+outann.write("\n")
 outbed=dir_out+"/clus.bed"
 
 db4js["None"]=[0,0,0]
@@ -330,7 +332,7 @@ for id in filtered.keys():
 
         ccell+=table.make_cell(dbsummary)
         colseqs=[]
-        outann.write("\t")
+        outann.write("\t%s\t" % clus.toomany)
         for sample in samples_list:
             colseqs.append(freq[sample])
             outann.write("%s\t" % freq[sample])
@@ -357,20 +359,7 @@ chtml.write(ccont)
 chtml.close()
 out.close()
 outann.close()
-
-############################################################
-
-####################data for genome browser####################
-#cmd2intersect="mergeBed -s -nms -i %s > %s" % (temporalfile,temporalbedfile)
-#print bcolors.OKBLUE+cmd2intersect+bcolors.ENDC
-#os.system(cmd2intersect)
-
-#header="track name=%(name)s description='%(name)s' " % {'name':samplename}
-#cmd2intersect="echo '%s';awk '{print $1,$2,$3,$4,$5,$5 }'  %s | sed 's/ /\t/g'> %s " % (header,temporalbedfile,outbed)
-#print bcolors.OKBLUE+cmd2intersect+bcolors.ENDC
-#os.system(cmd2intersect)
-
-############################################################
+con.info("Finished")
 
 
 
