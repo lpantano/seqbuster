@@ -448,6 +448,7 @@ def reduceloci(clus_obj,min_seq,path,log):
         seqListTemp=list()
         cicle=0
         seqfound=0
+<<<<<<< HEAD:modules/seqcluster/libs/tool.py
         if nElements<1000:
 
             while (nElements<currentElements and nElements!=0):
@@ -466,6 +467,43 @@ def reduceloci(clus_obj,min_seq,path,log):
                         tempList=clus1.loci2seq[idl]
                         ##this should be remove to merge more clusters
                         #tempList=list(set(sorted(tempList)).difference(sorted(removeSeqs))) 
+=======
+        while (nElements<currentElements and nElements!=0):
+            cicle+=1
+
+            #print "cicle %s" % cicle
+            #print "nC %s nE %s" % (currentElements,nElements)
+            ##get loci with more number of sequences
+            locilen_sorted=sorted(clus1.locilen.iteritems(), key=operator.itemgetter(1),reverse=True)
+            #print "locilen %s" % locilen_sorted
+            first_run=0
+            ##get gigest loci
+            maxseq=locilen_sorted[0][1]*1.0
+            #print "max %s" % maxseq
+            if maxseq>min_seq:
+                for (idl,lenl) in locilen_sorted:
+                    nodesInfo+="o%s\tblue\n" % (idl)
+                    #print "starting %s %s" % (idl,lenl)
+                    
+                    tempList=clus1.loci2seq[idl]
+                    ##this should be remove to merge more clusters
+                    tempList=list(set(sorted(tempList)).difference(sorted(removeSeqs))) 
+                    if (first_run==0):
+                        seqListTemp=tempList
+                    intersect=list(set(seqListTemp).intersection(tempList))
+                    common=0
+
+                    if (intersect):
+                        ##this could be change to min to merge more clusters
+                        common=len(intersect)*1.0/max(len(seqListTemp),len(tempList))
+                    
+                    #print intersect
+                    #print "l:%s m:%s c:%s " % (lenl,maxseq,common)
+                        #len(intersect),common)
+                    ##check if number of common sequences is 60% or greater than maxseq
+                    
+                    if ((first_run==0 and lenl*1.0>0) or (lenl*1.0>=0.6*maxseq and common*1.0>=0.6)):
+>>>>>>> misc:dev/seqcluster/libs/tool.py
                         if (first_run==0):
                             seqListTemp=tempList
 

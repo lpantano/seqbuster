@@ -150,9 +150,14 @@ else:
 con.info("%s clusters found" % (len(clus_obj.clus.keys())))
 
 #####################reduce loci when possible#############################
+<<<<<<< HEAD:modules/seqcluster/make.cluster.py
 con.info("Solving multi-mapping events in the network of clusters")
 setclus=reduceloci(clus_obj,MIN_SEQ,dir_out,log)
 con.info("Clusters up to %s" % (len(setclus.clus.keys())))
+=======
+print "Reducing multi-mapping events in the network of clusters"
+setclus=reduceloci(clus_obj,MIN_SEQ,dir_out)
+>>>>>>> misc:dev/seqcluster/make.cluster.py
 #sys.exit(1)
 ###########################################################################
 
@@ -212,8 +217,11 @@ con.info("Creating outputs")
 #####################creating plain text and html files#####################
 out = open(dir_out+"/clus.parse.txt", 'w')
 outann = open(dir_out+"/ann.tab", 'w')
+<<<<<<< HEAD:modules/seqcluster/make.cluster.py
 outann.write("\t".join(["id","ann","manyloci"]+samples_list))
 outann.write("\n")
+=======
+>>>>>>> misc:dev/seqcluster/make.cluster.py
 outbed=dir_out+"/clus.bed"
 
 db4js["None"]=[0,0,0]
@@ -256,7 +264,11 @@ for id in filtered.keys():
                     contentA+="%s(%s %s)-(%s,%s);" % (ann.db,ann.name,ann.strand,ann.to5,ann.to3);
                     out.write("A %s %s %s %s %s\n" % (ann.db,ann.name,ann.strand,ann.to5,ann.to3))
                     hits[db]+=ann.name+","
+<<<<<<< HEAD:modules/seqcluster/make.cluster.py
                     # "%s %s => %s" % (db,ann.name,hits[db])
+=======
+                    #print "%s %s => %s" % (db,ann.name,hits[db])
+>>>>>>> misc:dev/seqcluster/make.cluster.py
                     #print result for consistent DB
             pos="%s:%s-%s %s" % (tpos.chr,tpos.start,tpos.end,tpos.strand)
             contentDivL+=table.make_line("".join(map(table.make_cell,[pos,contentA])))
@@ -287,7 +299,13 @@ for id in filtered.keys():
                 if (not freq.has_key(sample)):
                     freq[sample]=0
                 freq[sample]+=int(setclus.seq[s].freq[sample])
+<<<<<<< HEAD:modules/seqcluster/make.cluster.py
  
+=======
+        
+
+
+>>>>>>> misc:dev/seqcluster/make.cluster.py
             allData=allData[:-1]+"],"
             contentDivS+=table.make_line("".join(map(table.make_cell,colseqs)))
         
@@ -311,6 +329,10 @@ for id in filtered.keys():
                     out.write("DB %s %s %s consistent\n" % (db,numloci,numlocidb[db]))
                     dbsummary+="DB(%s) %s/%s consistent;" % (db,numlocidb[db],numloci)
                     cons+=1
+<<<<<<< HEAD:modules/seqcluster/make.cluster.py
+=======
+                    #print db
+>>>>>>> misc:dev/seqcluster/make.cluster.py
                     outann.write("%s:%s;" % (db,hits[db]))
                     
                 elif (ratio<0.33):
@@ -332,7 +354,11 @@ for id in filtered.keys():
 
         ccell+=table.make_cell(dbsummary)
         colseqs=[]
+<<<<<<< HEAD:modules/seqcluster/make.cluster.py
         outann.write("\t%s\t" % clus.toomany)
+=======
+        outann.write("\t")
+>>>>>>> misc:dev/seqcluster/make.cluster.py
         for sample in samples_list:
             colseqs.append(freq[sample])
             outann.write("%s\t" % freq[sample])
@@ -359,7 +385,24 @@ chtml.write(ccont)
 chtml.close()
 out.close()
 outann.close()
+<<<<<<< HEAD:modules/seqcluster/make.cluster.py
 con.info("Finished")
+=======
+
+############################################################
+
+####################data for genome browser####################
+#cmd2intersect="mergeBed -s -nms -i %s > %s" % (temporalfile,temporalbedfile)
+#print bcolors.OKBLUE+cmd2intersect+bcolors.ENDC
+#os.system(cmd2intersect)
+
+#header="track name=%(name)s description='%(name)s' " % {'name':samplename}
+#cmd2intersect="echo '%s';awk '{print $1,$2,$3,$4,$5,$5 }'  %s | sed 's/ /\t/g'> %s " % (header,temporalbedfile,outbed)
+#print bcolors.OKBLUE+cmd2intersect+bcolors.ENDC
+#os.system(cmd2intersect)
+
+############################################################
+>>>>>>> misc:dev/seqcluster/make.cluster.py
 
 
 
