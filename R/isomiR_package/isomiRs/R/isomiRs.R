@@ -21,9 +21,25 @@ summary.Isomirs<-function(x){
   #whatever to do with my object (generic information)
 }
 
-
-deIso<-function(x,formula){
+#' Do DE analysis with DESeq
+#'
+#' @param x object isomiDataSeq
+#' @param formula used for DE analysis
+#' @param ref differenciate reference miRNA from rest
+#' @param iso5 differenciate trimming at 5 miRNA from rest
+#' @param iso3 differenciate trimming at 3 miRNA from rest
+#' @param add differenciate additions miRNA from rest
+#' @param mism differenciate nt substitution miRNA from rest
+#' @param seed differenciate changes in 2-7 nt from rest
+#' @return DESeq object
+#' @export
+#' @examples
+#' deIso(x,formula)
+deIso<-function(x,formula,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
   print("doing")
+  if (ref | iso5 | iso3 | add | mism | seed){
+    x<-do.mir.table(x,ref,iso5,iso3,add,mism,seed)
+  }
   countData<-x@counts
   dds<-DESeqDataSetFromMatrix(countData = countData,
                          colData = x@design,
@@ -33,7 +49,13 @@ deIso<-function(x,formula){
   return(dds)
 }
 
-
+#' Plot the amount of isomiRs in different samples divided by group
+#'
+#' @param x object isomiDataSeq
+#' @param top number of isomiRs used
+#' @export
+#' @examples
+#' plotIso(x,type=20)
 plotTop.Isomirs<-function(x,top=20){
   dds<-x[["dds"]]
   rld <- rlogTransformation(dds)
@@ -47,15 +69,22 @@ plotTop.Isomirs<-function(x,top=20){
   return(1)
 }
 
+#' Plot the amount of isomiRs in different samples divided by group
+#'
+#' @param x object isomiDataSeq
+#' @param type string (t5,t3,add,sub) to indicate what change to see
+#' @export
+#' @examples
+#' plotIso(x,type="t3")
 plotIso<-function(x,type="t5"){
   #whatever to do with my object (generic information)
-  codev<-c(4,5,6,7)
-  names(codev)<-c("t5","t3","sub","add")
+  #codev<-c(4,5,6,7)
+  #names(codev)<-c("t5","t3","sub","add")
   codevn<-c(2,3,4,5)
   names(codevn)<-c("t5","t3","sub","add")
   ratiov<-c(1/6,1/6,1/23,1/3)
-  names(ratiov)<-names(codev)
-  code<-codev[type]
+  names(ratiov)<-names(codevn)
+  #code<-codev[type]
   coden<-codevn[type]
   ratio<-ratiov[type]
   des<-x@design
@@ -87,30 +116,10 @@ plotIso<-function(x,type="t5"){
     scale_colour_brewer(palette="Set1",guide="none")+
     theme_bw(base_size = 14, base_family = "") +
     theme(strip.background=element_rect(fill="slategray3"))+
-    labs(list(title=paste(type,"distribution"),y="$ of unique sequences",
+    labs(list(title=paste(type,"distribution"),y="# of unique sequences",
               x="position respect to the reference"))
     print(p)  
     return(x)
 }
 
 
-# loadIso<-function(files,design,cov=10,header=F,skip=1){
-#   listObj<-vector("list")
-#   idx<-0
-#   for (f in files){
-#     idx<-idx+1
-#     print(idx)
-#     d<-read.table(f,header=header,skip=skip)
-#     d[,2]<-as.numeric(d[,2])
-#     d<-put.header(d)
-#     d<-filter.by.cov(d,cov)
-#     #Run function to describe isomirs
-#     out<-list(counts=d,design=design[idx,],summary=0,te5sum=isomir.position(d,8),t3sum=isomir.position(d,9),subsum=subs.position(d,6),addsum=isomir.position(d,7))
-#     #class(out)<-"Isomirs"
-#     listObj[[row.names(design)[idx]]]<-out
-#   }
-#   listObj[["design"]]<-design
-#   class(listObj)<-"Isomirs"
-#   return(listObj)
-# }
-  

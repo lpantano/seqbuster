@@ -5,12 +5,13 @@ files<-c("/home/lpantano/crickhome/isomirs/mirbase20/y0d204.hsa.fa.ad.mirna.out.
 library(isomiRs)
 d<-data.frame(condition=c("p","p","c","c"))
 row.names(d)<-paste(d[,1],1:2,sep="")
+
 obj<-loadIso2(files,d)
 #check plot iso
-obj<-plotIso(obj,type="t5")
+obj<-plotIso(obj,type="sub")
 
 #check diff exp
-dds<-deIso(obj,formula=~condition)
+dds<-deIso(obj,formula=~condition,ref=T)
 plotTop(dds)
 
 f<-read.table(files[1],skip=1,header=F)

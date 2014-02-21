@@ -1,4 +1,6 @@
-
+#' put header to input files
+#'
+#' @param x object isomiDataSeq
 put.header<-function(table){
   
   if (names(table)[3]!="mir"){
@@ -7,6 +9,9 @@ put.header<-function(table){
   return(table)
 }
 
+#' filter by relative abundance to reference
+#'
+#' @param table object miraligner table
 filter.by.cov<-function(tab.fil,limit=10){
   
   tab.fil<-tab.fil[tab.fil$DB=="miRNA",]
@@ -19,6 +24,22 @@ filter.by.cov<-function(tab.fil,limit=10){
   
 }
 
+#' Filter table by relative abundance to reference
+#'
+#' @param table object miraligner table
+filter.table<-function(table,cov=10){
+  
+  table[,2]<-as.numeric(table[,2])
+  table<-put.header(table)
+  table<-filter.by.cov(table,cov)
+  return(table)
+  
+}
+
+
+#' 
+#'
+#' @param table object miraligner table
 isomir.general.type<-function(table,colid){
   temp<-table
   temp$idfeat<-paste(table[,colid],table$mir)
@@ -29,6 +50,9 @@ isomir.general.type<-function(table,colid){
   return (as.data.frame(summary(feat.dist)))  
 }
 
+#' do counts table considering what isomiRs take into account
+#'
+#' @param x object isomiDataSeq
 do.mir.table<-function(x,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
   table.merge<-data.frame()
   des<-x@design
@@ -52,30 +76,33 @@ do.mir.table<-function(x,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
   return(x)
 }
 
+#' Collapse isomiRs in miRNAs 
+#'
+#' @param table object miraligner table
 collapse.mirs<-function(table,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
   label<-table$mir
   if (ref==T){
-    ref.val<-do.call(paste,table[,6:9])
+    ref.val<-do.call(paste,table[,4:7])
     ref.val[grep("[ATGC]",ref.val,invert=T)]<-"ref"
     ref.val[grep("[ATGC]",ref.val)]<-"iso"
     label<-paste(label,ref.val,sep=".")
   }
   if (iso5==T){
-    label<-paste(label,table[,8],sep=".")
+    label<-paste(label,table[,6],sep=".")
   }
   if (seed==T){
-    seed.val<-as.character(table[,6])
+    seed.val<-as.character(table[,4])
     seed.val[grep("^[2-8][ATGC]",seed.val,invert=T)]<-"no"
     label<-paste(label,seed.val,sep=".")
   }
   if (iso3==T){
-    label<-paste(label,table[,9],sep=".")
-  }
-  if (add==T){
     label<-paste(label,table[,7],sep=".")
   }
+  if (add==T){
+    label<-paste(label,table[,5],sep=".")
+  }
   if (mism==T){
-    label<-paste(label,table[,6],sep=".")
+    label<-paste(label,table[,4],sep=".")
   }
   
   table$id<-label
@@ -86,6 +113,9 @@ collapse.mirs<-function(table,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
   return(table.out)
 }
 
+#' Do summary of different isomiRs events
+#'
+#' @param table object miraligner table
 isomir.position<-function(table,colid){
   temp<-table
   temp[,colid]<-as.character(temp[,colid])
@@ -108,12 +138,15 @@ isomir.position<-function(table,colid){
   return (pos[,c(3,4,5)])  
 }
 
+#' Do summary of nt substitution events
+#'
+#' @param table object miraligner table
 subs.position<-function(table,colid){
   temp<-table
   temp[,colid]<-as.character(temp[,colid])
   nt<-sub("[0-9]+","",temp[,colid])  
   pos<-sub("[ATGC]{2}","",temp[,colid])
-  pos<-data.frame(nt=as.character(nt),pos=pos,mir=temp$mir,freq=temp$freq)
+  pos<-data.frame(nt=as.character(nt),size=pos,mir=temp$mir,freq=temp$freq)
   pos$nt<-as.character(pos$nt)
   pos<-pos[pos[,1]!="",]
   nt.2<-as.data.frame(t(as.data.frame((strsplit(pos$nt,"",fixed=2)))))
@@ -121,15 +154,7 @@ subs.position<-function(table,colid){
   names(nt.2$current)<-""
   names(nt.2$reference)<-""
   pos<-cbind(pos,nt.2)
-  return (pos[,c(3,4,2,5,6)])  
-  
+  return (pos[,c(3,4,2,5,6)]) 
 }
 
-filter.table<-function(table,cov=10){
-  
-  table[,2]<-as.numeric(table[,2])
-  table<-put.header(table)
-  table<-filter.by.cov(table,cov)
-  return(table)
-  
-}
+

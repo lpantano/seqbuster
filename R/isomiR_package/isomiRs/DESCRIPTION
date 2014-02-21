@@ -1,10 +1,10 @@
 Package: isomiRs
 Type: Package
-Title: What the package does (short line)
+Title: Analize isomiRs coming from seqbuster tool
 Version: 0.1.10
 Imports: ggplot2,data.table,DESeq2,gplots,RColorBrewer
 Date: 2013-05-07
 Author: Lorena Pantano
-Maintainer: Who to complain to <lorena@vpantano.name>
+Maintainer: Who to complain to <lorena@iscb.org>
 Description: More about what it does (maybe more than one line)
 License: GPL-2

@@ -1,4 +1,7 @@
-exportPattern("^[[:alpha:]]+")
+export(IsomirDataSeq)
+export(loadIso2)
+export(plotIso)
+export(deIso)
 import(ggplot2)
 import(data.table)
 import(DESeq2)
