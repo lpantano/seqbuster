@@ -55,7 +55,7 @@ for line in pos:
 		#print name
 pos.close()
 
-print "second stage"
+#print "second stage"
 
 fas=open(options.fasta,'r')
 name=""
@@ -66,7 +66,7 @@ for line in fas:
 	if (line.find(">")>=0): 
 		if (len(name)!=0):
 			#print name
-			#print len(seq)
+			#print seq
 			mir=listmirna[name].p5
 			if mir!=0 and name.find(species)>=0:
 				#print mir.s
@@ -114,4 +114,3 @@ for line in fas:
 		seq=""
 	else:
 		seq+=line.replace("U","T")
-
