@@ -449,7 +449,6 @@ def reduceloci(clus_obj,min_seq,path,log):
         cicle=0
         seqfound=0
         if nElements<1000:
-
             while (nElements<currentElements and nElements!=0):
                 cicle+=1
                 if (cicle % 10) == 0:
@@ -466,9 +465,8 @@ def reduceloci(clus_obj,min_seq,path,log):
                         tempList=clus1.loci2seq[idl]
                         ##this should be remove to merge more clusters
                         #tempList=list(set(sorted(tempList)).difference(sorted(removeSeqs))) 
-                      if (first_run==0):
+                        if (first_run==0):
                             seqListTemp=tempList
-
                         intersect=list(set(seqListTemp).intersection(tempList))
                         common=0
 
