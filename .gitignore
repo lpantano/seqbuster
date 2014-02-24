@@ -1,2 +1,4 @@
 R/isomiR_package/isomiRs.Rcheck/*
 modules/seqcluster/libs/*pyc
+misc/libs/*pyc
+misc/__init__*
