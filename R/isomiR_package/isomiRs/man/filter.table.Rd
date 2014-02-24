@@ -1,6 +1,6 @@
 \name{filter.table}
 \alias{filter.table}
-\title{Filter table by relative abundance to reference}
+\title{Filter tablo reference}
 \usage{
 filter.table(table, cov = 10)
 }
@@ -11,6 +11,6 @@ filter.table(table, cov = 10)
   lower than this number}
 }
 \description{
-Filter table by relative abundance to reference
+Filter tablo reference
 }
 

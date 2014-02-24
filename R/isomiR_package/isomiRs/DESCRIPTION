@@ -2,7 +2,13 @@ Package: isomiRs
 Type: Package
 Title: Analize isomiRs coming from seqbuster tool
 Version: 0.1.10
-Imports: ggplot2,data.table,DESeq2,gplots,RColorBrewer
+Imports:
+    ggplot2,
+    DESeq2,
+    RColorBrewer,
+    data.table,
+    gplots,
+    methods
 Date: 2013-05-07
 Author: Lorena Pantano
 Maintainer: Who to complain to <lorena@iscb.org>

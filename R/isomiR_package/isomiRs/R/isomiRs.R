@@ -1,23 +1,5 @@
 
-
-summary<-function(x){
-  UseMethod("summary")
-}
-
-
-plotTop<-function(x,top=20){
-  UseMethod("plotTop")
-}
-lmsIso<-function(x,formula,merge="all"){
-  UseMethod("summary")
-}
-
-coexpIso<-function(x,merge="all"){
-  UseMethod("summary")
-}
-
-
-summary.Isomirs<-function(x){
+sumIso<-function(x){
   #whatever to do with my object (generic information)
 }
 
@@ -33,8 +15,7 @@ summary.Isomirs<-function(x){
 #' @param seed differenciate changes in 2-7 nt from rest
 #' @return DESeq object
 #' @export
-#' @examples
-#' deIso(x,formula)
+#' @import DESeq2
 deIso<-function(x,formula,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
   print("doing")
   if (ref | iso5 | iso3 | add | mism | seed){
@@ -54,9 +35,10 @@ deIso<-function(x,formula,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
 #' @param x object isomiDataSeq
 #' @param top number of isomiRs used
 #' @export
-#' @examples
-#' plotIso(x,type=20)
-plotTop.Isomirs<-function(x,top=20){
+#' @import ggplot2
+#' @import gplots
+#' @import RColorBrewer
+plotTop<-function(x,top=20){
   dds<-x[["dds"]]
   rld <- rlogTransformation(dds)
   #vsd <- varianceStabilizingTransformation(dds)
@@ -74,9 +56,9 @@ plotTop.Isomirs<-function(x,top=20){
 #' @param x object isomiDataSeq
 #' @param type string (t5,t3,add,sub) to indicate what change to see
 #' @export
-#' @examples
-#' plotIso(x,type="t3")
+#' @import ggplot2
 plotIso<-function(x,type="t5"){
+  freq=size=group=abundance=NULL
   #whatever to do with my object (generic information)
   #codev<-c(4,5,6,7)
   #names(codev)<-c("t5","t3","sub","add")

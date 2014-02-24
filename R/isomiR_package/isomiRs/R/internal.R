@@ -1,20 +1,22 @@
 #' put header to input files
 #'
-#' @param x object isomiDataSeq
+#' @param table table from IsomirDataSeq
 put.header<-function(table){
-  
-  if (names(table)[3]!="mir"){
-    names(table)[c(2,3,6,7,8,9,12,13)]<-c("freq","mir","mism","add","t3","t5","DB","ambiguity")
-  }
+  #if (names(table)[3]!="mir"){
+  names(table)[c(1,3,4,7,8,9,10,13,14)]<-c("seq","freq","mir","mism","add","t3","t5","DB","ambiguity")
+  table<-table[,c(1,3,4,7,8,9,10,13,14)]
+  table[,2]<-as.numeric(table[,2])
+  #}
   return(table)
 }
 
 #' filter by relative abundance to reference
-#'
+#' @import data.table
 #' @param table object miraligner table
-filter.by.cov<-function(tab.fil,limit=10){
-  
-  tab.fil<-tab.fil[tab.fil$DB=="miRNA",]
+#' @param limit remove sequences lower than this number
+filter.by.cov<-function(table,limit=10){
+  freq=NULL
+  tab.fil<-table[table$DB=="miRNA",]
   tab.fil.out<-data.table(tab.fil)
   tab.fil.out<-as.data.frame(tab.fil.out[,list(total=sum(freq)),by=c('mir')])
   tab.fil<-merge(tab.fil[,c(3,1:2,4:ncol(tab.fil))],tab.fil.out,by=1)
@@ -24,12 +26,13 @@ filter.by.cov<-function(tab.fil,limit=10){
   
 }
 
-#' Filter table by relative abundance to reference
+#' Filter tablo reference
 #'
 #' @param table object miraligner table
+#' @param cov remove sequences that have relative abundance lower than this number
 filter.table<-function(table,cov=10){
   
-  table[,2]<-as.numeric(table[,2])
+  
   table<-put.header(table)
   table<-filter.by.cov(table,cov)
   return(table)
@@ -37,9 +40,10 @@ filter.table<-function(table,cov=10){
 }
 
 
-#' 
+#' plot general information
 #'
 #' @param table object miraligner table
+#' @param colid column to be analize
 isomir.general.type<-function(table,colid){
   temp<-table
   temp$idfeat<-paste(table[,colid],table$mir)
@@ -53,6 +57,12 @@ isomir.general.type<-function(table,colid){
 #' do counts table considering what isomiRs take into account
 #'
 #' @param x object isomiDataSeq
+#' @param ref differenciate reference miRNA from rest
+#' @param iso5 differenciate trimming at 5 miRNA from rest
+#' @param iso3 differenciate trimming at 3 miRNA from rest
+#' @param add differenciate additions miRNA from rest
+#' @param mism differenciate nt substitution miRNA from rest
+#' @param seed differenciate changes in 2-7 nt from rest
 do.mir.table<-function(x,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
   table.merge<-data.frame()
   des<-x@design
@@ -77,10 +87,18 @@ do.mir.table<-function(x,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
 }
 
 #' Collapse isomiRs in miRNAs 
-#'
+#' @import data.table
 #' @param table object miraligner table
+#' @param ref differenciate reference miRNA from rest
+#' @param iso5 differenciate trimming at 5 miRNA from rest
+#' @param iso3 differenciate trimming at 3 miRNA from rest
+#' @param add differenciate additions miRNA from rest
+#' @param mism differenciate nt substitution miRNA from rest
+#' @param seed differenciate changes in 2-7 nt from rest
+
 collapse.mirs<-function(table,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
   label<-table$mir
+  freq=NULL
   if (ref==T){
     ref.val<-do.call(paste,table[,4:7])
     ref.val[grep("[ATGC]",ref.val,invert=T)]<-"ref"
@@ -116,6 +134,7 @@ collapse.mirs<-function(table,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
 #' Do summary of different isomiRs events
 #'
 #' @param table object miraligner table
+#' @param colid column to be considered
 isomir.position<-function(table,colid){
   temp<-table
   temp[,colid]<-as.character(temp[,colid])
@@ -141,6 +160,7 @@ isomir.position<-function(table,colid){
 #' Do summary of nt substitution events
 #'
 #' @param table object miraligner table
+#' @param colid column to be considered
 subs.position<-function(table,colid){
   temp<-table
   temp[,colid]<-as.character(temp[,colid])
