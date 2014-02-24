@@ -1,27 +1,15 @@
 \name{isomir.position}
 \alias{isomir.position}
-\title{
-calculate the isomiR distribution}
+\title{Do summary of different isomiRs events}
+\usage{
+isomir.position(table, colid)
+}
+\arguments{
+  \item{table}{object miraligner table}
+
+  \item{colid}{column to be considered}
+}
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
-}
-\details{
-~~ An overview of how to use the package, including the most ~~
-~~ important functions ~~
+Do summary of different isomiRs events
 }
 
-\keyword{ package }
-
-\seealso{
-~~ Optionally other standard keywords, one per line, from file ~~
-~~ KEYWORDS in the R documentation directory ~~
-
-~~ Optional links to other man pages, e.g. ~~
-
-}
-\examples{
-
-library(isomiRs)
-
-}

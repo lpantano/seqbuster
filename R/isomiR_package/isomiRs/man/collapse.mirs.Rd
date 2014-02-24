@@ -1,27 +1,27 @@
 \name{collapse.mirs}
 \alias{collapse.mirs}
-\title{
-collapse isomiRs to one type}
+\title{Collapse isomiRs in miRNAs}
+\usage{
+collapse.mirs(table, ref = F, iso5 = F, iso3 = F, add = F, mism = F,
+  seed = F)
+}
+\arguments{
+  \item{table}{object miraligner table}
+
+  \item{ref}{differenciate reference miRNA from rest}
+
+  \item{iso5}{differenciate trimming at 5 miRNA from rest}
+
+  \item{iso3}{differenciate trimming at 3 miRNA from rest}
+
+  \item{add}{differenciate additions miRNA from rest}
+
+  \item{mism}{differenciate nt substitution miRNA from
+  rest}
+
+  \item{seed}{differenciate changes in 2-7 nt from rest}
+}
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
-}
-\details{
-~~ An overview of how to use the package, including the most ~~
-~~ important functions ~~
+Collapse isomiRs in miRNAs
 }
 
-\keyword{ package }
-
-\seealso{
-~~ Optionally other standard keywords, one per line, from file ~~
-~~ KEYWORDS in the R documentation directory ~~
-
-~~ Optional links to other man pages, e.g. ~~
-
-}
-\examples{
-
-library(isomiRs)
-
-}

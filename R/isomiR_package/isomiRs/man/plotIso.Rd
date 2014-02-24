@@ -1,27 +1,17 @@
 \name{plotIso}
 \alias{plotIso}
-\title{
-plot isomiRs distribution}
+\title{Plot the amount of isomiRs in different samples divided by group}
+\usage{
+plotIso(x, type = "t5")
+}
+\arguments{
+  \item{x}{object isomiDataSeq}
+
+  \item{type}{string (t5,t3,add,sub) to indicate what
+  change to see}
+}
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
-}
-\details{
-~~ An overview of how to use the package, including the most ~~
-~~ important functions ~~
+Plot the amount of isomiRs in different samples divided by
+group
 }
 
-\keyword{ package }
-
-\seealso{
-~~ Optionally other standard keywords, one per line, from file ~~
-~~ KEYWORDS in the R documentation directory ~~
-
-~~ Optional links to other man pages, e.g. ~~
-
-}
-\examples{
-
-library(isomiRs)
-
-}

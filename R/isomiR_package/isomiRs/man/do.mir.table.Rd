@@ -1,27 +1,27 @@
 \name{do.mir.table}
 \alias{do.mir.table}
-\title{
-use collapse.mirs to each sample in the object}
+\title{do counts table considering what isomiRs take into account}
+\usage{
+do.mir.table(x, ref = F, iso5 = F, iso3 = F, add = F, mism = F,
+  seed = F)
+}
+\arguments{
+  \item{x}{object isomiDataSeq}
+
+  \item{ref}{differenciate reference miRNA from rest}
+
+  \item{iso5}{differenciate trimming at 5 miRNA from rest}
+
+  \item{iso3}{differenciate trimming at 3 miRNA from rest}
+
+  \item{add}{differenciate additions miRNA from rest}
+
+  \item{mism}{differenciate nt substitution miRNA from
+  rest}
+
+  \item{seed}{differenciate changes in 2-7 nt from rest}
+}
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
-}
-\details{
-~~ An overview of how to use the package, including the most ~~
-~~ important functions ~~
+do counts table considering what isomiRs take into account
 }
 
-\keyword{ package }
-
-\seealso{
-~~ Optionally other standard keywords, one per line, from file ~~
-~~ KEYWORDS in the R documentation directory ~~
-
-~~ Optional links to other man pages, e.g. ~~
-
-}
-\examples{
-
-library(isomiRs)
-
-}

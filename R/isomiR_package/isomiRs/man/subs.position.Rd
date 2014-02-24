@@ -1,27 +1,15 @@
 \name{subs.position}
 \alias{subs.position}
-\title{
-retrieve the position where there is one mismatch}
+\title{Do summary of nt substitution events}
+\usage{
+subs.position(table, colid)
+}
+\arguments{
+  \item{table}{object miraligner table}
+
+  \item{colid}{column to be considered}
+}
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
-}
-\details{
-~~ An overview of how to use the package, including the most ~~
-~~ important functions ~~
+Do summary of nt substitution events
 }
 
-\keyword{ package }
-
-\seealso{
-~~ Optionally other standard keywords, one per line, from file ~~
-~~ KEYWORDS in the R documentation directory ~~
-
-~~ Optional links to other man pages, e.g. ~~
-
-}
-\examples{
-
-library(isomiRs)
-
-}
