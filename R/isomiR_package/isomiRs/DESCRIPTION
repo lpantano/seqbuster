@@ -1,7 +1,13 @@
 Package: isomiRs
+Version: 0.2.1
+Date: 2014-02-24
 Type: Package
 Title: Analize isomiRs coming from seqbuster tool
-Version: 0.1.10
+Description: Characterization of miRNAs and isomiRs, clustering and differential expression.
+biocViews: Bioinformatics, smallRNA, miRNAs, 
+          isomiRs, DifferentailExpression
+Suggests: knitr
+Depends: R (>= 3.0.0)
 Imports:
     ggplot2,
     DESeq2,
@@ -9,8 +15,7 @@ Imports:
     data.table,
     gplots,
     methods
-Date: 2013-05-07
 Author: Lorena Pantano
-Maintainer: Who to complain to <lorena@iscb.org>
-Description: More about what it does (maybe more than one line)
-License: GPL-2
+Maintainer: Lorena Pantano <lorena@iscb.org>
+License: GPL (>=2)
+VignetteBuilder: knitr

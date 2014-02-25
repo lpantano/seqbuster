@@ -1,3 +1,7 @@
+library(isomiRs)
+
+setwd(paste(system.file(package="isomiRs"),"/test",sep=""))
+
 #seq path to source code
 files<-c("y0d2.hsa.fa.ad.new.mirna",
           "y0d34.hsa.fa.ad.new.mirna",
@@ -5,7 +9,7 @@ files<-c("y0d2.hsa.fa.ad.new.mirna",
          "y80d0.hsa.fa.ad.new.mirna"
          )
 
-library(isomiRs)
+
 d<-data.frame(condition=c("p","p","c","c"))
 row.names(d)<-paste(d[,1],1:2,sep="")
 
