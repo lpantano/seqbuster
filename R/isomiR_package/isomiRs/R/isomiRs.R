@@ -4,7 +4,14 @@ sumIso<-function(x){
 }
 
 #' Do DE analysis with DESeq
-#'
+#' 
+#' This function does differential expression analysis with DESeq2.
+#' It will return a DESeq2 object.
+#' You can merge all isomiRs into miRNA by calling the function only with the frist two parameters.
+#' You can get a table with isomiRs and the reference miRBase sequence by calling the function with ref=T
+#' You can get a table with 5' trimming isomiRS, miRBase reference and the rest by calling with ref=T,iso5=T
+#' If you set up all parameters to TRUE, you will get a table for each differnt sequence mapping to a miRNA
+#' 
 #' @param x object isomiDataSeq
 #' @param formula used for DE analysis
 #' @param ref differenciate reference miRNA from rest
@@ -54,7 +61,7 @@ plotTop<-function(x,top=20){
 #' Plot the amount of isomiRs in different samples divided by group
 #'
 #' @param x object isomiDataSeq
-#' @param type string (t5,t3,add,sub) to indicate what change to see
+#' @param type string (t5,t3,add,sub) to indicate what ismoR changes use for the plot
 #' @export
 #' @import ggplot2
 plotIso<-function(x,type="t5"){

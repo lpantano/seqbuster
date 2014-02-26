@@ -106,7 +106,7 @@ collapse.mirs<-function(table,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
     label<-paste(label,ref.val,sep=".")
   }
   if (iso5==T){
-    label<-paste(label,table[,6],sep=".")
+    label<-paste(label,table[,7],sep=".")
   }
   if (seed==T){
     seed.val<-as.character(table[,4])
@@ -114,7 +114,7 @@ collapse.mirs<-function(table,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
     label<-paste(label,seed.val,sep=".")
   }
   if (iso3==T){
-    label<-paste(label,table[,7],sep=".")
+    label<-paste(label,table[,6],sep=".")
   }
   if (add==T){
     label<-paste(label,table[,5],sep=".")

@@ -31,7 +31,7 @@ loadIso2<-function(files,design,cov=1,header=F,skip=1){
     #Run function to describe isomirs
     out<-list(summary=0,t5sum=isomir.position(d,6),t3sum=isomir.position(d,7),subsum=subs.position(d,4),addsum=isomir.position(d,5))
     #class(out)<-"Isomirs"
-    listObj[[row.names(design)[idx]]]<-d[,c(1:3,6:9)]
+    listObj[[row.names(design)[idx]]]<-d
     listObjVar[[row.names(design)[idx]]]<-out
   }
   IsoObj@design<-design
