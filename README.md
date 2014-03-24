@@ -13,3 +13,5 @@ small RNA analysis of deep sequencing data. SeqBuster offers four tools to analy
 * SeqBuster team updates periodically the tools with more information about how to be used and new applications. If you have any comment please use: [mailing-list](http://groups.google.com/group/seqbuster). Also visit our [blog](http://seqbuster.blogspot.com/) or [facebook](http://www.facebook.com/pages/SeqBuster/111689848901007) or [twitter](http://twitter.com/seqbuster) to be up-to-day of the new information added in the wiki.
 
 The development of Seqbuster was partly funded by the EU Seventh Framework Programme [FP7/2007-2013, grant number 262055, ESGI]. http://www.esgi-infrastructure.eu/#
+
+SeqBuster is a bioinformatic tool for the processing and analysis of small RNAs datasets, reveals ubiquitous miRNA modifications in human embryonic cells. Pantano L, Estivill X, Martí E. Nucleic Acids Res. 2010 Mar;38(5):e34. Epub 2009 Dec 11.
