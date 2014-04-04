@@ -17,6 +17,8 @@ Imports:
     RColorBrewer,
     data.table,
     gplots,
+    DiscriMiner,
+    lattice,
     methods
 Author: Lorena Pantano
 Maintainer: Lorena Pantano <lorena@iscb.org>
