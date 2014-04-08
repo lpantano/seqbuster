@@ -113,7 +113,7 @@ plotIso<-function(x,type="t5"){
     #geom_jitter(position=position_jitter(width=0.1),
     #            aes(factor(size),score,colour=sample)) +
     #scale_fill_brewer(palette="Set1",guide="none")+
-    scale_colour_brewer(palette="Set1",guide="none")+
+    scale_colour_brewer("Groups",palette="Set1")+
     theme_bw(base_size = 14, base_family = "") +
     theme(strip.background=element_rect(fill="slategray3"))+
     labs(list(title=paste(type,"distribution"),y="# of unique sequences",
