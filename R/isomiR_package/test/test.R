@@ -1,4 +1,3 @@
-
 library(isomiRs)
 
 
@@ -15,9 +14,9 @@ files<-c("y0d2.hsa.fa.ad.new.mirna",
 d<-data.frame(condition=c("p","p","c","c"))
 row.names(d)<-paste(d[,1],1:2,sep="")
 
-obj<-loadIso2(files,d,skip=0,header=T)
+obj<-loadIso(files,d,skip=0,header=T)
 #check plot iso
-obj<-plotIso(obj,type="t5")
+obj<-plotIso(obj,type="sub")
 
 #check diff exp: this will become a DESeq2 obj,
 #so any function can be apply to this
@@ -26,3 +25,9 @@ dds<-deIso(obj,formula=~condition,ref=T,iso5=T)
 library(DESeq2)
 plotMA(dds)
 head(counts(dds))
+
+
+#get counts
+counts<-makeCounts(obj)
+plsDAres(t(counts),as.character(d$condition))
+

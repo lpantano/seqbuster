@@ -21,6 +21,11 @@ sumIso<-function(x){
 #' @param mism differenciate nt substitution miRNA from rest
 #' @param seed differenciate changes in 2-7 nt from rest
 #' @return DESeq object
+#' @examples
+#' library(isomiRs)
+#' library(DESeq2)
+#' data(isomiRex)
+#' dds<-deIso(isomiRex,formula=~condition)
 #' @export
 #' @import DESeq2
 deIso<-function(x,formula,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
@@ -60,8 +65,14 @@ plotTop<-function(x,top=20){
 
 #' Plot the amount of isomiRs in different samples divided by group
 #'
-#' @param x object isomiDataSeq
-#' @param type string (t5,t3,add,sub) to indicate what ismoR changes use for the plot
+#' @param x object isomirDataSeq
+#' @param type string (t5,t3,add,sub) to indicate what isomiR change to use for the plot
+#' 
+#' @return ggplot2 figure showing the selected isomiR changes among samples 
+#' @examples
+#' library(isomiRs)
+#' data(isomiRex)
+#' isomiRex<-plotIso(isomiRex,"t5")
 #' @export
 #' @import ggplot2
 plotIso<-function(x,type="t5"){

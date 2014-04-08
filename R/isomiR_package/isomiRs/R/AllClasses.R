@@ -17,7 +17,7 @@ IsomirDataSeq<-setClass("IsomirDataSeq",
 #' @param skip skip first line when reading files
 #' 
 #' @export
-loadIso2<-function(files,design,cov=1,header=F,skip=1){
+loadIso<-function(files,design,cov=1,header=F,skip=1){
   IsoObj<-IsomirDataSeq()
   listObj<-vector("list")
   listObjVar<-vector("list")
