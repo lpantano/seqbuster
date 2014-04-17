@@ -56,7 +56,7 @@ loadIso<-function(files,design,cov=1,header=F,skip=1){
 #' @export
 makeCounts<-function(x,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
   x<-do.mir.table(x,ref,iso5,iso3,add,mism,seed)
-  return(x@counts)
+  return(TRUE)
 }
 
 

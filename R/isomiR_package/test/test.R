@@ -29,5 +29,5 @@ head(counts(dds))
 
 #get counts
 counts<-makeCounts(obj)
-plsDAres(t(counts),as.character(d$condition))
+isoPLSDA(obj)
 
