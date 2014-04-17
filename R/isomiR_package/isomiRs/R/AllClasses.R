@@ -8,16 +8,21 @@ IsomirDataSeq<-setClass("IsomirDataSeq",
                  expList="list",
                  sumList="list"
            ))
-#' load data
-#'
+#' load data into IsomirDataSeq object
+#' See Vignete to learn how to use this function
+#' @usage
+#' \code{iso<-loadIso(files,design)}
+#' @name loadIso
+#' @rdname loadIso
 #' @param files all samples
 #' @param cov remove sequences that have relative abundance lower than this number
 #' @param design data frame containing groups for each sample
 #' @param header files contain headers
 #' @param skip skip first line when reading files
-#' 
+#' @return
+#' \code{IsomirDataSeq} object
 #' @export
-loadIso2<-function(files,design,cov=1,header=F,skip=1){
+loadIso<-function(files,design,cov=1,header=F,skip=1){
   IsoObj<-IsomirDataSeq()
   listObj<-vector("list")
   listObjVar<-vector("list")
@@ -43,7 +48,8 @@ loadIso2<-function(files,design,cov=1,header=F,skip=1){
 }
 
 #' create count tables from isomirs
-#'
+#'@usage
+#' \code{counts<-makeCounts(iso)}
 #' @param IsomirDataSeq class
 #' @param ref differenciate reference miRNA from rest
 #' @param iso5 differenciate trimming at 5 miRNA from rest
