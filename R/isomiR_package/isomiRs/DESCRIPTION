@@ -11,7 +11,8 @@ Suggests:
     knitr
 Depends:
     R (>= 3.0.0),
-    DiscriMiner
+    DiscriMiner,
+    lattice
 Imports:
     ggplot2,
     DESeq2,
