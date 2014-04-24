@@ -11,12 +11,27 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 When you click the **Knit HTML** button a web page will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
 ```{r}
-summary(cars)
+library(isomiRs)
+data(isomiRex)
 ```
 
 You can also embed plots, for example:
 
 ```{r fig.width=7, fig.height=6}
-plot(cars)
+#check plot iso
+obj<-plotIso(obj,type="t5")
 ```
 
+```{r}
+#check diff exp: this will become a DESeq2 obj,
+#so any function can be apply to this
+dds<-deIso(obj,formula=~condition,ref=T,iso5=T)
+#plotMA
+library(DESeq2)
+plotMA(dds)
+head(counts(dds))
+```
+
+```{r}
+
+```
