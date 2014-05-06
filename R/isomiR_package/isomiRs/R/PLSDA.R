@@ -7,8 +7,8 @@
 #' @aliases isoPLSDA
 #' @usage isoPLSDA(variables, group, validation = NULL, learn = NULL, test = NULL,
 #'  tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2)
-#' @param variables matrix or data frame with explanatory variables
-#' @param group vector or factor with group memberships
+#' @param obj IsomirDataSeq
+#' @param var column name in design data.frame
 #' @param validation type of validation, either NULL or "learntest". Default NULL
 #' @param learn	optional vector of indices for a learn-set. Only used when validation="learntest". Default NULL
 #' @param test	optional vector of indices for a test-set. Only used when validation="learntest". Default NULL
@@ -20,7 +20,12 @@
 #' 
 #' @export
 isoPLSDA <- function(obj,var ,validation = NULL, learn = NULL, test = NULL, tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2){
-  variables <- t(obj@counts)
+  tryCatch ({
+    class(obj@normcounts)
+  },error = function(e){
+    return("please, run first normIso.")
+  })
+  variables <- t(obj@normcounts)
   group <- obj@design[,var]
   if (length(group)<6){
     return("this analysis only runs with group larger than 6.")
@@ -76,14 +81,17 @@ isoPLSDA <- function(obj,var ,validation = NULL, learn = NULL, test = NULL, tol 
     
     
     res <- list(R2.mat, model.plsDA$components[,1:dim(R2.mat)[1]], p.val, R2.perm, R2.mat.ref, model.plsDA.ref$components[,1:dim(R2.mat.ref)[2]], p.val.ref2, R2.perm.ref2, p.val.ref1, R2.perm.ref1)
-    names(res) <- c("R2Matrix", "components", "p-val", "R2PermutationVector", "R2RefinedMatrix", "componentsRefinedModel", "p-valRefined", "R2RefinedPermutationVector", "p-valRefinedFixed", "R2RefinedFixedPermutationVector")
+    names(res) <- c("R2Matrix", "components", "p.val", "R2PermutationVector", "R2RefinedMatrix", "componentsRefinedModel", "p.valRefined", "R2RefinedPermutationVector", "p.valRefinedFixed", "R2RefinedFixedPermutationVector")
+    print(paste0("pval:",res$p.val))
     return(res)
+    
     
   }
   
   if(refinment == FALSE){
     res <- list(R2.mat, model.plsDA$components[,1:dim(R2.mat)[1]], p.val, R2.perm)
-    names(res) <- c("R2Matrix", "components", "p-val", "R2PermutationVector")
+    names(res) <- c("R2Matrix", "components", "p.val", "R2PermutationVector")
+    print(paste0("pval:",res$p.val))
     return(res)
   }
 }

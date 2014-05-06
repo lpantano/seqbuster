@@ -182,5 +182,3 @@ subs.position<-function(table,colid){
   pos$size<-factor(pos$size,levels=1:25)
   return (pos[,c(3,4,2,5,6)]) 
 }
-
-

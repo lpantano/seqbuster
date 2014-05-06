@@ -3,28 +3,28 @@
 %\VignetteIndexEntry{An Introduction to the IsomiR package}
 -->
 
-Title
+Example of isomiRs function 
+
 ========================================================
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring web pages (click the **Help** toolbar button for more details on using R Markdown).
+We are going to use a small RNAseq data coming from human frontal cortex samples. There are two groups: b) individuals with less than a year, o) individuals in the eldery.
 
-When you click the **Knit HTML** button a web page will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
 ```{r}
 library(isomiRs)
 data(isomiRex)
 ```
 
-You can also embed plots, for example:
+You can plot isomiRs tendencies with `plotIso`
 
 ```{r fig.width=7, fig.height=6}
 #check plot iso
 obj<-plotIso(obj,type="t5")
 ```
 
+Do differential expression analysis using DESeq
+
 ```{r}
-#check diff exp: this will become a DESeq2 obj,
-#so any function can be apply to this
 dds<-deIso(obj,formula=~condition,ref=T,iso5=T)
 #plotMA
 library(DESeq2)
@@ -32,6 +32,17 @@ plotMA(dds)
 head(counts(dds))
 ```
 
-```{r}
+Let's do a PLS model having in the count matrix the reference miRNA, and all isomiRs for each miRNA.
 
+```{r}
+obj<-makeCounts(obj,ref=T)
+obj<-normIso(obj)
+pls.obj<-isoPLSDA(obj,"condition")
+isoPLSDAplot(pls.obj$component,obj@design[,"condition"])
+```
+
+You can do the analysis just with features that are important for the model
+
+```{r}
+pls.obj<-isoPLSDA(obj,"condition",refinment=TRUE)
 ```

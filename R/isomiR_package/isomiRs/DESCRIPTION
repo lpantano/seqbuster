@@ -12,7 +12,8 @@ Suggests:
 Depends:
     R (>= 3.0.0),
     DiscriMiner,
-    lattice
+    lattice,
+    DESeq2
 Imports:
     ggplot2,
     DESeq2,

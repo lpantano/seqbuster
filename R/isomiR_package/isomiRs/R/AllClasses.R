@@ -3,6 +3,7 @@
 #' @export
 IsomirDataSeq<-setClass("IsomirDataSeq",
          slots=c(counts="matrix",
+                 normcounts="matrix",
                  design="data.frame",
                  varList="list",
                  expList="list",
@@ -46,24 +47,5 @@ loadIso<-function(files,design,cov=1,header=F,skip=1){
   #class(listObj)<-"Isomirs"
   return(IsoObj)
 }
-
-#' create count tables from isomirs
-#'@usage
-#' \code{counts<-makeCounts(iso)}
-#' @param IsomirDataSeq class
-#' @param ref differenciate reference miRNA from rest
-#' @param iso5 differenciate trimming at 5 miRNA from rest
-#' @param iso3 differenciate trimming at 3 miRNA from rest
-#' @param add differenciate additions miRNA from rest
-#' @param mism differenciate nt substitution miRNA from rest
-#' @param seed differenciate changes in 2-7 nt from rest
-#' @return count table
-#' 
-#' @export
-makeCounts<-function(x,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F){
-  x<-do.mir.table(x,ref,iso5,iso3,add,mism,seed)
-  return(TRUE)
-}
-
 
 
