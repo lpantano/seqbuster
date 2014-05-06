@@ -22,7 +22,6 @@ sumIso<-function(x){
 #' @param seed differenciate changes in 2-7 nt from rest
 #' @return DESeq object
 #' @examples
-#' library(isomiRs)
 #' library(DESeq2)
 #' data(isomiRex)
 #' dds<-deIso(isomiRex,formula=~condition)
@@ -75,6 +74,9 @@ plotTop<-function(x,top=20){
 #' isomiRex<-plotIso(isomiRex,"t5")
 #' @export
 #' @import ggplot2
+#' @examples
+#' data(isomiRex)
+#' plotIso(isomiRex)
 plotIso<-function(x,type="t5"){
   freq=size=group=abundance=NULL
   #whatever to do with my object (generic information)
@@ -123,9 +125,7 @@ plotIso<-function(x,type="t5"){
 }
 
 #' create count tables from isomirs
-#'@usage
-#' \code{counts<-makeCounts(iso)}
-#' @param IsomirDataSeq class
+#' @param x IsomirDataSeq class
 #' @param ref differenciate reference miRNA from rest
 #' @param iso5 differenciate trimming at 5 miRNA from rest
 #' @param iso3 differenciate trimming at 3 miRNA from rest

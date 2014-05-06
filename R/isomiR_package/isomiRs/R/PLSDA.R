@@ -5,7 +5,7 @@
 
 #' Arguments (included in plsDA function within DiscriMiner package)
 #' @aliases isoPLSDA
-#' @usage isoPLSDA(variables, group, validation = NULL, learn = NULL, test = NULL,
+#' @usage isoPLSDA(obj, var, validation = NULL, learn = NULL, test = NULL,
 #'  tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2)
 #' @param obj IsomirDataSeq
 #' @param var column name in design data.frame
@@ -218,7 +218,7 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn, test
 #' @aliases isoPLSDAplot
 #' @usage isoPLSDAplot(components, groups)
 #' @param components PLS-DA components as it comes from isoPLSDA main function
-#' @param group	vector or factor with group memberships
+#' @param groups	vector or factor with group memberships
 #' @return plot
 #' 
 #' @export

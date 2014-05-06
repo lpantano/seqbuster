@@ -7,7 +7,7 @@ Example of isomiRs function
 
 ========================================================
 
-We are going to use a small RNAseq data coming from human frontal cortex samples. There are two groups: b) individuals with less than a year, o) individuals in the eldery.
+We are going to use a small RNAseq data coming from human frontal cortex samples to give some basic examples of isomiRs analyses. There are two groups: b) individuals with less than a year, o) individuals in the eldery.
 
 
 ```{r}
@@ -19,22 +19,21 @@ You can plot isomiRs tendencies with `plotIso`
 
 ```{r fig.width=7, fig.height=6}
 #check plot iso
-obj<-plotIso(obj,type="t5")
+obj<-plotIso(isomiRex,type="t5")
 ```
 
-Do differential expression analysis using DESeq
+Do differential expression analysis using DESeq2
 
-```{r}
-dds<-deIso(obj,formula=~condition,ref=T,iso5=T)
+```{r dev='jpeg'}
+dds<-deIso(obj,formula=~condition,ref=TRUE,iso5=T)
 #plotMA
 library(DESeq2)
 plotMA(dds)
-head(counts(dds))
 ```
 
 Let's do a PLS model having in the count matrix the reference miRNA, and all isomiRs for each miRNA.
 
-```{r}
+```{r eval=FALSE}
 obj<-makeCounts(obj,ref=T)
 obj<-normIso(obj)
 pls.obj<-isoPLSDA(obj,"condition")
@@ -43,6 +42,6 @@ isoPLSDAplot(pls.obj$component,obj@design[,"condition"])
 
 You can do the analysis just with features that are important for the model
 
-```{r}
+```{r eval=FALSE}
 pls.obj<-isoPLSDA(obj,"condition",refinment=TRUE)
 ```

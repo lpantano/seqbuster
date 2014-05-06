@@ -11,8 +11,6 @@ IsomirDataSeq<-setClass("IsomirDataSeq",
            ))
 #' load data into IsomirDataSeq object
 #' See Vignete to learn how to use this function
-#' @usage
-#' \code{iso<-loadIso(files,design)}
 #' @name loadIso
 #' @rdname loadIso
 #' @param files all samples
