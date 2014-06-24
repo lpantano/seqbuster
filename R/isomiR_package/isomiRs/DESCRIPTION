@@ -5,10 +5,13 @@ Type: Package
 Title: Analize isomiRs coming from seqbuster tool
 Description: Characterization of miRNAs and isomiRs, clustering and
     differential expression.
-biocViews: Bioinformatics, smallRNA, miRNAs,
+biocViews: smallRNA, miRNAs,
     isomiRs, DifferentailExpression
 Suggests:
-    knitr
+    knitr,
+    RUnit, 
+    BiocStyle, 
+    BiocGenerics
 Depends:
     R (>= 3.0.0),
     DiscriMiner,
@@ -20,7 +23,8 @@ Imports:
     data.table,
     gplots,
     methods
-Author: Lorena Pantano
+Author: Lorena Pantano, Georgia Escaramis
 Maintainer: Lorena Pantano <lorena@iscb.org>
 License: GPL (>=2)
 VignetteBuilder: knitr
+Roxygen: list(wrap = TRUE)

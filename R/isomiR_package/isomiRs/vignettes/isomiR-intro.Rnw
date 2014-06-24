@@ -1,0 +1,25 @@
+%\VignetteIndexEntry{isomiRs}
+%\VignetteDepends{DicriMiner,lattice,DeSeq2}
+%\VignetteKeywords{smallRNA, miRNAs,isomiRs, DifferentailExpression}
+%\VignetteEngine{knitr::knitr}
+\documentclass{article}
+
+<<style, eval=TRUE, echo=FALSE, results="asis">>=
+BiocStyle::latex()
+@
+
+\title{isomiRs }
+\author{Lorena Pantano}
+\date{Modified: 23 May, 2014. Compiled: \today}
+
+\begin{document}
+
+\maketitle
+
+
+
+<<package-load,message=FALSE>>=
+library(DEGreport)
+data(humanSexDEedgeR)
+library(edgeR)
+@

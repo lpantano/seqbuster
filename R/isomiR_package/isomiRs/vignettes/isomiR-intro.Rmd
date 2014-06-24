@@ -7,7 +7,11 @@ Example of isomiRs function
 
 ========================================================
 
-We are going to use a small RNAseq data coming from human frontal cortex samples to give some basic examples of isomiRs analyses. There are two groups: b) individuals with less than a year, o) individuals in the eldery.
+We are going to use a small RNAseq data coming from human 
+frontal cortex samples to give some basic examples of isomiRs analyses. 
+There are two groups: 
+* b: individuals with less than a year
+* o: individuals in the eldery.
 
 
 ```{r}
@@ -31,7 +35,8 @@ library(DESeq2)
 plotMA(dds)
 ```
 
-Let's do a PLS model having in the count matrix the reference miRNA, and all isomiRs for each miRNA.
+Let's do a PLS model having in the count matrix the reference miRNA, 
+and all isomiRs for each miRNA.
 
 ```{r eval=FALSE}
 obj<-makeCounts(obj,ref=T)

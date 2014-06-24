@@ -16,9 +16,46 @@ library(isomiRs)
 ```
 
 ```
-## Loading required package: DiscriMiner
-## Loading required package: lattice
-## Loading required package: DESeq2
+## Error: there is no package called 'isomiRs'
+```
+
+```r
+data(isomiRex)
+```
+
+```
+## Warning: data set 'isomiRex' not found
+```
+
+You can plot isomiRs tendencies with `plotIso`
+
+
+```r
+#check plot iso
+obj<-plotIso(isomiRex,type="t5")
+```
+
+```
+## Error: could not find function "plotIso"
+```
+
+Do differential expression analysis using DESeq2
+
+
+```r
+dds<-deIso(obj,formula=~condition,ref=TRUE,iso5=T)
+```
+
+```
+## Error: could not find function "deIso"
+```
+
+```r
+#plotMA
+library(DESeq2)
+```
+
+```
 ## Loading required package: GenomicRanges
 ## Loading required package: BiocGenerics
 ## Loading required package: parallel
@@ -48,85 +85,25 @@ library(isomiRs)
 ## Loading required package: XVector
 ## Loading required package: Rcpp
 ## Loading required package: RcppArmadillo
-## KernSmooth 2.23 loaded
-## Copyright M. P. Wand 1997-2009
 ```
 
 ```r
-data(isomiRex)
-```
-
-
-You can plot isomiRs tendencies with `plotIso`
-
-
-```r
-#check plot iso
-obj<-plotIso(obj,type="t5")
-```
-
-```
-## [1] "nb1"
-## [1] "nb2"
-## [1] "nb3"
-## [1] "o1"
-## [1] "o2"
-## [1] "o3"
-```
-
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
-
-
-Do differential expression analysis using DESeq2
-
-
-```r
-dds<-deIso(obj,formula=~condition,ref=TRUE,iso5=T)
-```
-
-```
-## [1] "doing"
-## [1] "nb1"
-## [1] "nb2"
-## [1] "nb3"
-## [1] "o1"
-## [1] "o2"
-## [1] "o3"
-```
-
-```r
-#plotMA
-library(DESeq2)
 plotMA(dds)
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.jpeg) 
-
+```
+## Error: error in evaluating the argument 'object' in selecting a method for function 'plotMA': Error: object 'dds' not found
+```
 
 Let's do a PLS model having in the count matrix the reference miRNA, and all isomiRs for each miRNA.
 
 
 ```r
 obj<-makeCounts(obj,ref=T)
-```
-
-```
-## [1] "nb1"
-## [1] "nb2"
-## [1] "nb3"
-## [1] "o1"
-## [1] "o2"
-## [1] "o3"
-```
-
-```r
 obj<-normIso(obj)
 pls.obj<-isoPLSDA(obj,"condition")
 isoPLSDAplot(pls.obj$component,obj@design[,"condition"])
 ```
-
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
-
 
 You can do the analysis just with features that are important for the model
 
@@ -134,4 +111,3 @@ You can do the analysis just with features that are important for the model
 ```r
 pls.obj<-isoPLSDA(obj,"condition",refinment=TRUE)
 ```
-
