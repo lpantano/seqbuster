@@ -1,0 +1,3 @@
+[submodule "R/isomiR_package/isomiRs"]
+	path = R/isomiR_package/isomiRs
+	url = git://github.com/lpantano/isomiRs.git
