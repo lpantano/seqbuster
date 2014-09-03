@@ -17,14 +17,12 @@ def createMirna(string):
 		p=p[1].split("-")
 		start=int(p[0])
 		end=int(p[1])
-		
 		if idx == 1:
 			obj.addp5(chrom,start,end)
 		else:
 			obj.addp3(chrom,start,end)
-
 	return obj
-		
+
 
 usagetxt = "usage: %prog  -f precurso.fa -m miRNA.str -n 10 -s hsa"
 parser = OptionParser(usage=usagetxt, version="%prog 1.0")
@@ -46,24 +44,22 @@ species=options.species
 
 pos=open(options.strfile,'r')
 listmirna={}
-for line in pos:	
+for line in pos:
 	if line.find("[")>0:
 		line = line.strip()
 		name = line.split(" ")
 		name = name[0].replace(">","")
 		listmirna[name]=createMirna(line)
-		#print name
 pos.close()
 
-#print "second stage"
-
+data={}
 fas=open(options.fasta,'r')
 name=""
 seq=""
 nt=['A','T','G','C']
-for line in fas:	
+for line in fas:
 	line = line.strip()
-	if (line.find(">")>=0): 
+	if (line.find(">")>=0):
 		if (len(name)!=0):
 			#print name
 			#print seq
@@ -72,16 +68,16 @@ for line in fas:
 				#print mir.s
 				#print mir.e
 				for rand in range(int(options.numsim)):
-					randS=random.randint(mir.s-3,mir.s+3)
-					randE=random.randint(mir.e-3,mir.e+3)
-					if randS<0:
-						randS=0
+					randS=random.randint(mir.s-3,mir.s+3)+1
+					randE=random.randint(mir.e-3,mir.e+3)+1
+					if randS<1:
+						randS=1
 					if randE>mir.e:
-						randE=mir.e-1					
+						randE=mir.e-1
 					#print "%s %s" % (randS, randE)
-					randSeq=seq[randS:randE]
-					randName=name+"_"+str(randS)+":"+str(randE)
-					#mutation
+					randSeq=seq[randS-1:randE]
+					randName=name+"_"+mir.id+"_"+str(randS)+":"+str(randE)
+					randName=randName+"_"+str(randS-mir.s)+":"+str(randE-mir.e)
 					isMut=random.randint(0,3)
 					#print randSeq
 					#print len(randSeq)
@@ -93,11 +89,9 @@ for line in fas:
 						#print tempList
 						tempList[posMut]=nt[ntMut]
 						randSeq=''.join(tempList)
-						randName+="_mut_"+str(posMut)+":"+nt[ntMut]
-
-					#addition
+						randName+="_mut_"+str(posMut+1)+":"+nt[ntMut]
 					isAdd=random.randint(0,2)
-					if isAdd==2:						
+					if isAdd==2:
 						posAdd=random.randint(1,3)
 						randAdd=""
 						randName+="_add_"
@@ -105,10 +99,10 @@ for line in fas:
 							ntAdd=random.randint(0,1)
 							randSeq+=nt[ntAdd]
 							randName+=nt[ntAdd]
-
-					print ">"+randName
-					print randSeq
-		#do random sequences
+					if not data.has_key(randSeq):
+						print ">"+randName
+						print randSeq
+						data[randSeq]=1
 		name = line.split(" ")
 		name = name[0].replace(">","")
 		seq=""
