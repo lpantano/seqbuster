@@ -81,24 +81,32 @@ for line in fas:
 					isMut=random.randint(0,3)
 					#print randSeq
 					#print len(randSeq)
+                                        mut_tag = "_mut:null"
 					if isMut==3:
 						ntMut=random.randint(0,3)
 						posMut=random.randint(0,len(randSeq)-1)
 						#print posMut
 						tempList=list(randSeq)
 						#print tempList
+                                                if tempList[posMut] == nt[ntMut]:
+                                                    ntMut -= 1
+                                                    if ntMut < 0 :
+                                                        ntMut +=2
 						tempList[posMut]=nt[ntMut]
 						randSeq=''.join(tempList)
-						randName+="_mut_"+str(posMut+1)+":"+nt[ntMut]
+						mut_tag="_mut:"+str(posMut+1)+nt[ntMut]
+					randName+=mut_tag
 					isAdd=random.randint(0,2)
+                                        add_tag = "_add:null"
 					if isAdd==2:
 						posAdd=random.randint(1,3)
 						randAdd=""
-						randName+="_add_"
+                                                add_tag="_add:"
 						for numadd in range(posAdd):
 							ntAdd=random.randint(0,1)
 							randSeq+=nt[ntAdd]
-							randName+=nt[ntAdd]
+							add_tag+=nt[ntAdd]
+					randName+=add_tag
 					if not data.has_key(randSeq):
 						print ">"+randName
 						print randSeq
