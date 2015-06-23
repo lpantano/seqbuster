@@ -1,6 +1,8 @@
 seqbuster
 =========
 
+**Please, be aware that the user firendly interface is depecrated. SeqBsuter only keeps updated `miraligner` as an independet file. Read how to annotate your reads here:** http://seqcluster.readthedocs.org/mirna_annotation.html
+
 [See our documentation page](https://github.com/lpantano/seqbuster/wiki/Home)
 
 small RNA analysis of deep sequencing data. SeqBuster offers four tools to analyze all your small RNA data coming from Illumina sequencing.
