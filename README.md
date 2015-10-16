@@ -1,7 +1,9 @@
 seqbuster
 =========
 
-**Please, be aware that the user firendly interface is depecrated. SeqBsuter only keeps updated `miraligner` as an independet file. Read how to annotate your reads here:** http://seqcluster.readthedocs.org/mirna_annotation.html
+**Please, be aware that the user firendly interface is depecrated. SeqBsuter only keeps updated `miraligner` as an independet file. Read how to annotate miRNAs/isomiRs from fastq files here:** http://seqcluster.readthedocs.org/mirna_annotation.html
+
+----
 
 [See our documentation page](https://github.com/lpantano/seqbuster/wiki/Home)
 
