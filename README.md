@@ -1,3 +1,5 @@
+Repo related to this paper (Specific small-RNA signatures in the amygdala at premotor and motor stages of Parkinson's disease revealed by deep sequencing analysis) is here: https://github.com/lpantano/small-RNA-analysis
+
 seqbuster
 =========
 
