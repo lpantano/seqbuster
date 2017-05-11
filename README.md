@@ -9,6 +9,12 @@ Some comparison between many tools [here](https://github.com/lpantano/mypubs/blo
 
 ----
 
+Seqbuster as published in 2010
+=========
+
+[![Project Status: Inactive - The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](http://www.repostatus.org/badges/latest/inactive.svg)](http://www.repostatus.org/#inactive)
+
+
 [See our documentation page](https://github.com/lpantano/seqbuster/wiki/Home)
 
 small RNA analysis of deep sequencing data. SeqBuster offers four tools to analyze all your small RNA data coming from Illumina sequencing.
