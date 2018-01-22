@@ -10,6 +10,9 @@ Some comparison between many tools [here](https://github.com/lpantano/mypubs/blo
 ----
 [![Project Status: Inactive - The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](http://www.repostatus.org/badges/latest/inactive.svg)](http://www.repostatus.org/#inactive)
 
+Download
+========
+Click [here](https://github.com/lpantano/seqbuster/blob/miraligner/modules/miraligner/miraligner.jar?raw=true)
 
 Cite
 ====
@@ -18,6 +21,7 @@ SeqBuster is a bioinformatic tool for the processing and analysis of small RNAs 
 Seqbuster as published in 2010
 =========
 
+**Note:All the below doc is updated and only are here for historical reason**
 
 [See our documentation page](https://github.com/lpantano/seqbuster/wiki/Home)
 
