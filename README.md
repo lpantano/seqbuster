@@ -1,23 +1,25 @@
 seqbuster
 =========
 
-**Please, be aware that the user firendly interface is depecrated. SeqBsuter only keeps updated `miraligner` as an independet file. Read how to annotate miRNAs/isomiRs from fastq files here:** http://seqcluster.readthedocs.org/mirna_annotation.html
+**Please, be aware that the user friendly interface is desecrated. SeqBuster only keeps updated `miraligner` as an independent file.**
 
-Some comparison between many tools [here](https://github.com/lpantano/mypubs/blob/master/mirna/mirannotation/stats.md). 
 
-----
+Read how to annotate miRNAs/isomiRs from fastq files in [our documentation page](https://seqcluster.readthedocs.io/mirna_annotation.html).
 
-[See our documentation page](https://github.com/lpantano/seqbuster/wiki/Home)
+Some comparison between many tools [here](https://github.com/lpantano/mypubs/blob/master/mirna/mirannotation/stats.md).
 
-small RNA analysis of deep sequencing data. SeqBuster offers four tools to analyze all your small RNA data coming from Illumina sequencing.
+Download
+========
+Click [here](https://github.com/lpantano/seqbuster/blob/miraligner/modules/miraligner/miraligner.jar?raw=true)
 
-* [Installation](http://github.com/lpantano/seqbuster/wiki/How-to-start-using-it)
-* [adapter removal](http://github.com/lpantano/seqbuster/wiki/adrec): remove 3' adapter
-* [miraligner](http://github.com/lpantano/seqbuster/wiki/miraligner): miRNA annotation using miRBase database
-*  R package [isomiRs](http://github.com/lpantano/seqbuster/wiki/isomiRs) to visualize isomiRs and miRNA abundances in a group of samples (**new**)
-* [seqcluster](http://github.com/lpantano/seqbuster/wiki/seqcluster) analyzes the rest of small RNAs and annotate to multiple databases in bed format (**new**)
-* SeqBuster team updates periodically the tools with more information about how to be used and new applications. If you have any comment please use: [mailing-list](http://groups.google.com/group/seqbuster). Also visit our [blog](http://seqbuster.blogspot.com/) or [facebook](http://www.facebook.com/pages/SeqBuster/111689848901007) or [twitter](http://twitter.com/seqbuster) to be up-to-day of the new information added in the wiki.
-
-The development of Seqbuster was partly funded by the EU Seventh Framework Programme [FP7/2007-2013, grant number 262055, ESGI]. http://www.esgi-infrastructure.eu/#
-
+Cite
+====
 SeqBuster is a bioinformatic tool for the processing and analysis of small RNAs datasets, reveals ubiquitous miRNA modifications in human embryonic cells. Pantano L, Estivill X, Martí E. Nucleic Acids Res. 2010 Mar;38(5):e34. Epub 2009 Dec 11.
+
+Other tools related to small RNA analysis.
+
+*  R package [isomiRs](http://github.com/lpantano/isomiRs) to visualize isomiRs and miRNA abundances in a group of samples (**new**)
+* [seqcluster](https://seqcluster.readthedocs.io) analyzes the rest of small RNAs and annotate to multiple databases in bed format (**new**)
+
+
+__The development of Seqbuster was partly funded by the EU Seventh Framework Programme [FP7/2007-2013, grant number 262055, ESGI]. http://www.esgi-infrastructure.eu/__

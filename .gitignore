@@ -1,3 +1,4 @@
+*.DS_Store
 R/isomiR_package/isomiRs.Rcheck/*
 modules/seqcluster/libs/*pyc
 misc/libs/*pyc
