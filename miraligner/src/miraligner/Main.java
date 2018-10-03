@@ -7,14 +7,27 @@ package miraligner;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import com.beust.jcommander.*;
+import java.util.logging.Logger;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Handler;
+import java.util.logging.ConsoleHandler;
 
 public class Main {
 
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
+        Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+        logger.setLevel(Level.ALL);
+        logger.addHandler(new ConsoleHandler());
         String format = "None";
         String test="notest";
         if (test.equals("test")){
+            LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.ALL);
+            for (Handler h : logger.getHandlers()){
+                h.setLevel(Level.ALL);
+            }
+            logger.config("Entering in test mode.");
             map.readseq("test/test.fa","DB","hsa",1,3,3,"fasta","test/test",false,true,16);
             System.exit(0);
         }
@@ -47,8 +60,14 @@ public class Main {
         }else{
             format = jct.format;
         }
-        //check directory
         
+        if (jct.debug){
+            LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.ALL);
+            for (Handler h : logger.getHandlers()){
+                h.setLevel(Level.ALL);
+            }
+            logger.finest("Entering in debug mode.");
+        }
         //check species
         boolean sp=tools.checksp(jct.db,jct.species);
         int mism=Integer.parseInt(jct.sub);

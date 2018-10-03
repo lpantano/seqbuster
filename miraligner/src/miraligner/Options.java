@@ -55,4 +55,7 @@ public class Options {
   @Parameter(names = "-minl", description = "minimum size")
   public Integer minl = 16;
   
+  @Parameter(names = "-debug", description = "add verbosity")
+  public boolean debug = false;
+  
 }

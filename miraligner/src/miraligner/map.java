@@ -14,17 +14,18 @@ package miraligner;
 import java.io.*;
 import java.util.Date;
 import java.util.TreeMap;
-
+import java.util.logging.Logger;
 
 /**
  *
  * @author Lorena Pantano
  */
+
 public class map {
 
-   
+    private static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     public static void readseq (String namein,String namedb,String sp,int mm,int tri,int add,String f,String nameo, boolean freq, boolean precursor, Integer minl) throws FileNotFoundException, IOException{
-        System.out.println(new Date()+"\n");
+        LOGGER.info(new Date()+"\n");
         
         String l="";
         int annotate=0;
@@ -60,9 +61,7 @@ public class map {
                 String [] name=l.split(",");
                 for (int i=1;i<name.length;i++){
                   if (name[i].contains("-")){
-                    //System.out.println("#"+name[i]);
                     String [] namepos=name[i].split(":");
-                    //System.out.println(namepos[1]);
                     String [] pos=namepos[1].split("-");
                     Integer [] posi= new Integer[2];
                     posi[0]= Integer.parseInt(pos[0]);
@@ -84,22 +83,18 @@ public class map {
 
         inmi.close();
        
-         TreeMap<String,String>  reads=tools.getseq(namein,f);
+        TreeMap<String,String>  reads=tools.getseq(namein,f);
         
         for (String name : reads.keySet()) {
             l=reads.get(name);
             namecode++;
             nameseq.put(namecode,name);
-            //System.out.println(name+"\n");
             if (l.length()>=minl & l.length()<=50){
                 l=l.replaceAll("U","T");
-                //System.out.println(l+"\n");
                 hashseq.put(namecode,l);
                 String seed1=l.substring(0,8);
                 String seed2=l.substring(8,16);
                 
-                //System.out.println(seed1+"\n");
-                //System.out.println(seed2+"\n");
                 if (clusters.containsKey(seed1)){
 
                     tempclus=clusters.get(seed1);
@@ -125,7 +120,7 @@ public class map {
             }
         }
         
-        System.out.println("Number of reads to be mapped: "+namecode);
+        LOGGER.info("Number of reads to be mapped: "+namecode);
 
         int bi=0;
         int ei=4,numlines=0;
@@ -133,7 +128,7 @@ public class map {
         String name="";
         int pospre=0;
         
-        System.out.println("Searching in precursors");
+        LOGGER.info("Searching in precursors");
         BufferedReader indb= new BufferedReader(new FileReader(namedb+"/hairpin.fa"));
         while ((l=indb.readLine())!=null){
             if (!l.contains(">") & name.contains(sp)){
@@ -153,53 +148,36 @@ public class map {
                 name=pre[0];
                 name=name.replaceAll(">","");
                 
-
             }
 
         }
         for (String namechr : preseq.keySet()) {
                 l=preseq.get(namechr);
                 l=l.toUpperCase();
-
                 pospre=1;
-
                 numlines++;
-                //System.out.println(namechr+"\n");
-                //System.out.println(namechr+" "+l+"\n");
                 for (int i=bi;i<l.length()-8;i++){
-
                     ei=i+8;
                     String nt=l.substring(i, ei);
-                    //System.out.println(i+" seed db: "+nt+"\n");
                     if (clusters.containsKey(nt)){
                         tempclus=clusters.get(nt);
-
-                        //System.out.println("matched\n");
                         for (int codeseq : tempclus.keySet()) {
                             //go to alignments
-
                             int pospretemp=pospre+i;
                             String seqdb=l.substring(i, l.length())+"NNN";
                             int posseed=tempclus.get(codeseq);
                             String seq=hashseq.get(codeseq);
-                            //System.out.println(namechr);
-                            //System.out.println(seq+" "+seqdb+" go to alignment "+i+" "+posseed+"\n");
-
+ 
                             if ((posseed==1 ) | (posseed==2 & i>=8)){
-                                //System.out.println(hashseq.get(codeseq)+" "+
-                                        //seqdb+" posseed "+posseed +" seq len "+
-                                        //seq.length() +" seqdb len "+
-                                        //seqdb.length() +" go to alignment\n");
                                 if (posseed==2 ){
                                     seqdb=l.substring(i-8, l.length())+"NNN";
                                     pospretemp=pospre+i-8;
                                 }
                                 if (seqdb.length()>=seq.length()){
                                 alignment alg=align2(hashseq.get(codeseq),seqdb,posseed);
-                                //System.out.println(namechr+" "+pospretemp+" "+
-                                //alg.scmut+" "+alg.mut+" "+alg.add+"\n");
+                                LOGGER.finest("->mapped: "+namechr+" position:"+pospretemp+" score: "+alg.scmut+" changes: "+alg.mut+" addition: "+alg.add);
                                 if (alg.scmut<=mm & alg.add.length()<=add){
-                                    //System.out.print(namechr+" "+pospretemp+" "+" mapped "+alg.scmut+" "+alg.mut+" "+alg.add+"\n");
+                                    LOGGER.finest("-->It is good.");
                                     alg.pospre=pospretemp;
                                     //do micro alignment
                                     if (!scoreseq.containsKey(codeseq)){
@@ -225,7 +203,6 @@ public class map {
                                             mapinfo.put(codeseq, prealg);
                                         }
                                     }
-                                    // System.out.print(namechr+" "+pospretemp+" "+alg.sc+" "+alg.mut+" "+alg.add+"\n");
                                 }
                                 }
                             }
@@ -243,12 +220,12 @@ public class map {
         }else{
             out.printf("seq\tname\tmir\tstart\tend\tmism\tadd\tt5\tt3\ts5\ts3\tDB\tprecursor\tambiguity\n");
         }
-        //System.out.println("filtering output");
+        LOGGER.finest("filtering output");
         for (int nc : mapinfo.keySet()) {
             TreeMap<String,alignment> pret=mapinfo.get(nc);
             int overlapp=0;
             String seq=hashseq.get(nc);
-            //int ambmir=pret.size();
+            LOGGER.finest("->name: "+nameseq.get(nc)+" sequence: " +seq);
             int ambmir=pret.size();
             listmirna.clear();
             listinfo.clear();
@@ -256,8 +233,7 @@ public class map {
                 overlapp=0;
                 alignment at=pret.get(p);
                 int end=at.pospre+at.hit-1;
-                //System.out.println("\n"+nameseq.get(nc)+" seq "+p+" "+at.pospre+" "+end+" hit "+at.hit+" mut "+at.mut+"\n");
-                //System.out.println("\n"+nameseq.get(nc)+" length "+seq.length()+" add "+at.add+"\n");
+                LOGGER.finest("-->precursor: "+p+" start: "+at.pospre+" end: "+end+" matches: "+at.hit+" changes: "+at.mut);
                 if (micropos.containsKey(p)){
                 TreeMap<String,Integer[]> mi = micropos.get(p);
                 
@@ -266,32 +242,32 @@ public class map {
                    int overlap3=0;
                    int overlap5=0;
                    Integer [] pos=mi.get(m);
-                   //System.out.println("ref "+m+" "+pos[0]+" "+pos[1]+"\n");
+                   LOGGER.finest("--->reference: "+m+" start: "+pos[0]+" end: "+pos[1]);
                    //overlap
                    if (pos[0]-at.pospre<=tri & pos[0]-at.pospre>0){
                         //get t5
                         at.t5=preseq.get(p).substring(at.pospre-1,pos[0]-1).toUpperCase();
-                        //System.out.println("q5"+at.t5);
+                        LOGGER.finest("---->q5 template addition: "+at.t5);
                         overlap5=1;
                    }
                    if (at.pospre-pos[0]<=tri & at.pospre-pos[0]>0){
                         //get t5
                         at.t5=preseq.get(p).substring(pos[0]-1,at.pospre-1).toLowerCase();
-                        //System.out.println("t5"+at.t5);
+                        LOGGER.finest("---->t5 truncation: "+at.t5);
                         overlap5=1;
                    }
 
                    if (pos[1]-end<=tri & pos[1]-end>0){
                         //get t3
                         at.t3=preseq.get(p).substring(end,pos[1]).toLowerCase();;
-                        //System.out.println("t3"+at.t3);
+                        LOGGER.finest("---->t3 truncation: "+at.t3);
                         overlap3=1;
                    }
                    if (preseq.get(p).length()>end){
                     if (end-pos[1]<=tri & end-pos[1]>0 ){
                         //get t3
                         at.t3=preseq.get(p).substring(pos[1],end).toUpperCase();;
-                       //System.out.println("q3"+at.t3);
+                        LOGGER.finest("---->q3 template addition: "+at.t3);
                         overlap3=1;
                     }
                    }else{
@@ -306,9 +282,9 @@ public class map {
                         overlap3=1;
                         at.t3="0";
                    }
-                   //System.out.println("in Loop  "+overlap3+" "+overlap5);
+                   LOGGER.finest("--->is inside miRNA range: "+overlap3+" "+overlap5);
                    if (overlap3==1 & overlap5==1 ){
-                       overlapp=overlap3;
+                       overlapp=1;
                        int min=5;
                        int max=4;
                        if (pos[0]-5<0){min=0;}
@@ -325,8 +301,7 @@ public class map {
                        listinfo.put(seq+m,ann);
                        listmirna.put(m,seq);
                         
-                       //System.out.printf(seq+"\t"+nameseq.get(nc)+"\t"+m+"\t"+at.pospre+"\t"+end+"\t"+at.mut+"\t"+at.add+"\t"+at.t5+"\t"+at.t3+"\t"+at.s5+"\t"+at.s3+"\tmiRNA\t");
-                       //out.printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\tmiRNA\n",seq,m,nameseq.get(nc),at.pospre,end,at.mut,at.add,at.t5,at.t3,at.s5,at.s3);
+                       LOGGER.finest("--->to mirna: " + seq+"\t"+nameseq.get(nc)+"\t"+m+"\t"+at.pospre+"\t"+end+"\t"+at.mut+"\t"+at.add+"\t"+at.t5+"\t"+at.t3+"\t"+at.s5+"\t"+at.s3+"\tmiRNA");
                        
                      }
                 }
@@ -339,19 +314,16 @@ public class map {
                    pann=hashseq.get(nc)+"\t"+nameseq.get(nc)+"\t"+p+"\t"+at.pospre+"\t"+end+"\t"+at.mut+"\t"+at.add.replace("u-", "") +"\t0\t0\t0\t0\tprecursor\tNA\t"+ambmir+"\n";
                }
                   out.printf(pann);
-                  //System.out.printf("PRE %s\t%s\t%s\t%s\t0\t0\t0\t0\tprecursor\n\n",hashseq.get(nc),p,at.mut,at.add);
-                  //System.out.println(seq+"\t"+nameseq.get(nc)+"\t"+p+"\t"+at.pospre+"\t"+end+"\t"+at.mut+"\t"+at.add+"\tNA\tNA\tNA\tNA\tprecursor\t"+ambmir+"\t");      
+                  LOGGER.finest("--->to precursor: "+seq+"\t"+nameseq.get(nc)+"\t"+p+"\t"+at.pospre+"\t"+end+"\t"+at.mut+"\t"+at.add+"\tNA\tNA\tNA\tNA\tprecursor\t"+ambmir);      
             }
             }
             
             ambmir=listmirna.size();
             for (String mirann: listinfo.keySet()){
-                //System.out.printf(listinfo.get(mirann)+ambmir+"\n");
                 out.printf(listinfo.get(mirann)+ambmir+"\n");
             }
 
         }
-        
         
         for (int nc:hashseq.keySet()){
             if (!mapinfo.containsKey(nc)){
@@ -371,7 +343,8 @@ public class map {
         scoreseq.clear();
         preseq.clear();
 
-        System.out.println(new Date()+"\n"+"Num reads annotated: "+annotate+"\n");
+        LOGGER.info("" + new Date());
+        LOGGER.info("Num reads annotated: "+annotate);
     }
 
 
@@ -387,7 +360,6 @@ public class map {
         alignment alg=new alignment();
         int sc=0,mism=0,lastscore=0;
         int ns=0,lp=0,seedmism=0;
-        //System.out.println(seq+"\n"+db +"\n");
         for (int p=0;p<=seq.length()-11;p+=8){
 
             ns++;
@@ -399,42 +371,33 @@ public class map {
             }else{
                 seedmism=p;
             }
-            //System.out.println("ns "+ns+" lp "+lp+" sc "+sc+" seedmism "+seedmism+" "+"\n");
         }
         lp+=8;
-        //System.out.println("ns misma "+ns +" sc: "+sc+"\n");
         if (ns-sc==1){
-         //go to look for mism
+            //go to look for mism
             String seed2=seq.substring(seedmism,seedmism+8);
             String seeddb2=db.substring(seedmism,seedmism+8);
             alg=alignment(seed2,seeddb2,alg,seedmism);
-            //System.out.println("alg scmut "+alg.scmut +"\n");
             if (alg.scmut==1){
-                //System.out.println("1 misma "+mism +" p: "+lp+"\n");
                 String t=seq.substring(lp,seq.length());
                 String tdb=db.substring(lp,lp+t.length());
                 alg=align3end(t,tdb,mism,alg,lp);
-                //System.out.println("triming score "+sc +"\n");
-                //lastscore=seq.length()-sct;
             }else{
                alg.scmut=10;
             }
         }else if (ns-sc==0){
-        //go to trimming
-            //System.out.println("0 misma "+mism +"\n");
+            //go to trimming
             String t=seq.substring(lp,seq.length());
             String tdb=db.substring(lp,lp+t.length());
             alg=align3end(t,tdb,mism,alg,lp);
-            //System.out.println("triming score "+sc +"\n");
         }else{
             alg.scmut=10;
         }
         alg.hit=seq.length()-alg.add.length();
-        if (alg.add == "0"){
+        if (alg.add.equals("0")){
             alg.hit += 1;
         }
         alg.sc=seq.length()-alg.scmut-alg.add.length()*0.5;
-        // System.out.println("alg hit "+alg.hit +"\n");
         return alg;
     }
 
@@ -444,23 +407,17 @@ public class map {
         String [] adNT=db.split("");
         int score=0;
         int minlen=seq.length()-3;
-        //System.out.println("triming align seq: "+seq+" db "+db +" mm "+mm+" minlen "+minlen+"\n");
         alg=alignment(seq.substring(0,minlen),db.substring(0,minlen),alg,pos);
-        //System.out.println("align sc:"+alg.scmut+" before end seq: "+seq.substring(0,minlen)+" db "+db.substring(0,minlen) +"\n");
         for (int i=seq.length()-1;i>minlen-1;i--){
             int sc=substitution(seqNT[i],adNT[i],0,1);
-            //System.out.println(i+" triming subs seq: "+seqNT[i]+" db "+adNT[i] +"\n");
-            //score+=sc;
             if (sc==0){
                 mm++;
                 score=i+1;
             }
         }
-        //System.out.println("#score: "+score+"\n");
         if (mm>0){
             alg.add=seq.substring(score-1,seq.length());
         }
-        // System.out.println("#add: "+alg.add+"\n");
         return alg;
     }
     public static alignment alignment (String seq,String db,alignment alg,int pos){
@@ -476,14 +433,9 @@ public class map {
         String [] adNT=db.split("");
         int minlen;
         minlen=seq.length();
-        //System.out.println(seq);
-        //System.out.println(db);
         for (i=0;i<minlen;i++){
-            
-            //System.out.println(i+" "+seqNT[i]+" "+adNT[i]);
             int sc=substitution(seqNT[i],adNT[i],pe,re);
             if (sc==0){
-                //System.out.println(i+" "+seqNT[i]+" "+adNT[i]);
                 alg.scmut++;
                 int tpos=i+pos+1;
                 alg.mut=tpos+seqNT[i]+""+adNT[i];
@@ -494,8 +446,6 @@ public class map {
                 i=minlen+10;
             }
         }
-        //System.out.println(alg.scmut+" "+alg.mut);
-
         return alg;
      }
 

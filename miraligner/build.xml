@@ -19,17 +19,8 @@
 
      <target name="copy-git-stable">
         
-       
-        <copy  file="miraligner-${version}/miraligner.jar" todir="../../seqbuster/seqbuster/modules/miraligner" />
+        <copy  file="miraligner-${version}/miraligner.jar" todir="../modules/miraligner" />
         
-     </target>
-     
-     <target name="copy-source">
-         
-     <copy todir="../seqbuster/seqbuster/modules/src/miraligner" >
-            <fileset dir="src/miraligner/" />
-     </copy>
-     
      </target>
 
     <!--

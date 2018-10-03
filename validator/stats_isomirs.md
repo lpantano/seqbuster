@@ -13,15 +13,17 @@ parsing = . %>% separate(name, c("fasta", "mature", "position", "trimming",
     t3), nchar(t3), 0), num_3p = ifelse(grepl("[atcg]", t3), -1 * nchar(t3), 
     num_3p))
 
+data32 <- read.table("sim.21.hsa.3.2.mirna", header = T, stringsAsFactors = F) %>% 
+    parsing()
 
-data31 <- read.table("~/repos/seqbuster/validator/sim.21.hsa.3.1.mirna", header = T, 
-    stringsAsFactors = F) %>% parsing()
+data31 <- read.table("sim.21.hsa.3.1.mirna", header = T, stringsAsFactors = F) %>% 
+    parsing()
 
+data3 <- read.table("sim.21.hsa.3.0.mirna", header = T, stringsAsFactors = F) %>% 
+    parsing()
 
-data3 <- read.table("~/repos/seqbuster/validator/sim.21.hsa.3.0.mirna", header = T, 
-    stringsAsFactors = F) %>% parsing()
-
-data <- bind_rows(data3 %>% mutate(version = "3.0"), data31 %>% mutate(version = "3.1"))
+data <- bind_rows(data3 %>% mutate(version = "3.0"), data31 %>% mutate(version = "3.1"), 
+    data32 %>% mutate(version = "3.2"))
 ```
 
 # Overview
@@ -35,7 +37,7 @@ I simulated a bunch of isomirs that can have the following variation:
 
 # Detection
 
-Correct isomir annotation for miraligner.
+Correct miRNA annotation for miraligner.
 
 ``` r
 library(ggplot2)
@@ -46,17 +48,24 @@ ggplot(data, aes(correct_mir, fill = version)) + geom_bar(position = "dodge") +
 
 ![](stats_isomirs_files/figure-gfm/iso-1.png)<!-- -->
 
-\#Accuracy
+# Accuracy
 
   - `correct_iso` is True when the isomiRs is annotated to the correct
-    miRNA
+    miRNA and detecting all the possible variants.
+
+  - `exact_5p` is True when the exact same nucleotides of the 5’ end of
+    the isomiRs are being detected.
+
+  - `exact_3p` is True when the exact same nucleotides of the 3’ end of
+    the isomiRs are being
+detected.
 
 <!-- end list -->
 
 ``` r
 ggplot(data, aes(correct_iso, fill = version)) + geom_bar(position = "dodge") + 
     scale_fill_brewer(palette = "Set1") + theme(axis.text.x = element_text(angle = 90, 
-    hjust = 1))
+    hjust = 1)) + ggtitle("Correct isomiRs detected.")
 ```
 
 ![](stats_isomirs_files/figure-gfm/acc-iso-1.png)<!-- -->
@@ -64,7 +73,7 @@ ggplot(data, aes(correct_iso, fill = version)) + geom_bar(position = "dodge") +
 ``` r
 mutate(data, exact_5p = num_5p == iso5p) %>% ggplot(aes(exact_5p, fill = version)) + 
     geom_bar(position = "dodge") + scale_fill_brewer(palette = "Set1") + theme(axis.text.x = element_text(angle = 90, 
-    hjust = 1))
+    hjust = 1)) + ggtitle("Exact 5' isomiR detected. ")
 ```
 
 ![](stats_isomirs_files/figure-gfm/acc-iso-2.png)<!-- -->
@@ -72,7 +81,7 @@ mutate(data, exact_5p = num_5p == iso5p) %>% ggplot(aes(exact_5p, fill = version
 ``` r
 mutate(data, exact_3p = num_3p == iso3p) %>% # filter(ext == 'add:null') %>%
 ggplot(aes(exact_3p, fill = version)) + geom_bar(position = "dodge") + scale_fill_brewer(palette = "Set1") + 
-    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) + ggtitle("Exact 3' isomiR detected. ")
 ```
 
 ![](stats_isomirs_files/figure-gfm/acc-iso-3.png)<!-- -->
