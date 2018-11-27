@@ -23,12 +23,13 @@ import java.util.logging.Logger;
 
 public class map {
 
-    private static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     public static void readseq (String namein,String namedb,String sp,int mm,int tri,int add,String f,String nameo, boolean freq, boolean precursor, Integer minl) throws FileNotFoundException, IOException{
-        LOGGER.info(new Date()+"\n");
+        LOGGER.info(new Date() + "\n");
         
         String l="";
         int annotate=0;
+        int excluded=0;
         Integer namecode=0;
         String last="";
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(nameo+".mirna")));
@@ -117,10 +118,13 @@ public class map {
                     newclus.put(namecode,2);
                     clusters.put(seed2,newclus);
                 }
+            }else{
+                excluded += 1;
             }
         }
         
-        LOGGER.info("Number of reads to be mapped: "+namecode);
+        LOGGER.info("Number of reads excluded because size: "+excluded);
+        LOGGER.info("Number of reads to be mapped: "+hashseq.size());
 
         int bi=0;
         int ei=4,numlines=0;
