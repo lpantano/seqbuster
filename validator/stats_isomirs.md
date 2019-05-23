@@ -13,6 +13,9 @@ parsing = . %>% separate(name, c("fasta", "mature", "position", "trimming",
     t3), nchar(t3), 0), num_3p = ifelse(grepl("[atcg]", t3), -1 * nchar(t3), 
     num_3p))
 
+data34 <- read.table("sim.21.hsa.3.4.mirna", header = T, stringsAsFactors = F) %>% 
+    parsing()
+
 data33 <- read.table("sim.21.hsa.3.3.mirna", header = T, stringsAsFactors = F) %>% 
     parsing()
 
@@ -26,7 +29,8 @@ data3 <- read.table("sim.21.hsa.3.0.mirna", header = T, stringsAsFactors = F) %>
     parsing()
 
 data <- bind_rows(data3 %>% mutate(version = "3.0"), data31 %>% mutate(version = "3.1"), 
-    data32 %>% mutate(version = "3.2"), data33 %>% mutate(version = "3.3"))
+    data32 %>% mutate(version = "3.2"), data33 %>% mutate(version = "3.3"), 
+    data34 %>% mutate(version = "3.4"))
 ```
 
 # Overview
