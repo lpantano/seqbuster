@@ -28,7 +28,7 @@ public class Main {
                 h.setLevel(Level.ALL);
             }
             logger.config("Entering in test mode.");
-            map.readseq("test/test.fa","DB","hsa",1,3,3,"fasta","test/test",false,true,16);
+            map.readseq("test/test.fa","DB","hsa",1,5,5,"fasta","test/test",false,true,16);
             System.exit(0);
         }
         Options jct = new Options();
@@ -76,13 +76,13 @@ public class Main {
            sp=false;
         }
         int trim=Integer.parseInt(jct.trim);
-        if (trim>3){
-           System.out.println("Only allowed <=3 nucleotides as trimming");
+        if (trim>5){
+           System.out.println("Only allowed <=5 nucleotides as trimming");
            sp=false;
         }
         int add=Integer.parseInt(jct.add);
-        if (add>3){
-           System.out.println("Only allowed <=3 nucleotides as addition");
+        if (add>5){
+           System.out.println("Only allowed <=5 nucleotides as addition");
            sp=false;
         }
         if (jct.minl<16){

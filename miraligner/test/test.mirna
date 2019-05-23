@@ -16,3 +16,8 @@ TGAGGTAGTAGGTTGT	hsa-let-7a-5p-16nt	hsa-let-7a-2	5	20	0	0	0	0	0	0	precursor	NA	5
 TGAGGTAGTAGGTTGT	hsa-let-7a-5p-16nt	hsa-let-7a-3	4	19	0	0	0	0	0	0	precursor	NA	5
 TGAGGTAGTAGGTTGT	hsa-let-7a-5p-16nt	hsa-let-7b	6	21	0	0	0	0	0	0	precursor	NA	5
 TGAGGTAGTAGGTTGT	hsa-let-7a-5p-16nt	hsa-let-7c	11	26	0	0	0	0	0	0	precursor	NA	5
+TGAGGTAGTAGGTTGTA	hsa-let-7a-5p_3p_5loss	hsa-let-7b	6	21	0	A	0	0	0	0	precursor	NA	5
+TGAGGTAGTAGGTTGTA	hsa-let-7a-5p_3p_5loss	hsa-let-7a-5p	4	20	0	0	0	tagtt	GAG	AGTTTGGG	miRNA	hsa-let-7a-3	2
+TGAGGTAGTAGGTTGTA	hsa-let-7a-5p_3p_5loss	hsa-let-7c-5p	11	27	0	0	0	tggtt	GGGTTGAG	GGTTTAGA	miRNA	hsa-let-7c	2
+TAGTAGGTTGTATAGTT	hsa-let-7a-5p_5p_5loss	hsa-let-7a-5p	9	25	0	0	tgagg	0	GAG	AGTTTGGG	miRNA	hsa-let-7a-3	1
+TGGAGTGTGACAATGGTGTTTGAAGT	hsa-miR-122-5p_4Addition_x7	hsa-miR-122-5p	15	37	23AT	AGT	0	T	GCTGTGGA	TTTGTGTC	miRNA	hsa-mir-122	1

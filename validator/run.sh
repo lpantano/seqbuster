@@ -23,6 +23,7 @@ if [ ! -e sim.21.hsa.fa ] ; then
 fi
 
     SECONDS=0
+    java -jar ../miraligner/miraligner-3.4/miraligner.jar -sub 1 -trim 5 -add  5 -s hsa -i sim.21.hsa.fa -db . -o sim.21.hsa.3.4 -pre
     java -jar ../miraligner/miraligner-3.3/miraligner.jar  -sub 1 -trim 3 -add  3 -s hsa -i sim.21.hsa.fa -db . -o sim.21.hsa.3.3 -pre
     java -jar ../miraligner/miraligner-3.2/miraligner.jar  -sub 1 -trim 3 -add  3 -s hsa -i sim.21.hsa.fa -db . -o sim.21.hsa.3.2 -pre
     java -jar ../miraligner/miraligner-3.1/miraligner.jar  -sub 1 -trim 3 -add  3 -s hsa -i sim.21.hsa.fa -db . -o sim.21.hsa.3.1 -pre

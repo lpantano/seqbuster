@@ -10,6 +10,8 @@
 <project name="miraligner" default="default" basedir=".">
     <description>Builds, tests, and runs the project miraligner.</description>
     <import file="nbproject/build-impl.xml"/>
+    <property file="nbproject/project.properties"/>
+
     <target name="-post-jar" >
         <copy  file="README.TXT" tofile="miraligner-${version}/MANUAL.TXT" />
     </target>

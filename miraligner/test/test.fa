@@ -1,5 +1,9 @@
 >hsa-let-7a-5p
 TGAGGTAGTAGGTTGTATAGTT
+>hsa-let-7a-5p_3p_5loss
+TGAGGTAGTAGGTTGTA
+>hsa-let-7a-5p_5p_5loss
+TAGTAGGTTGTATAGTT
 >hsa-let-7a-5p-16nt
 TGAGGTAGTAGGTTGT
 >hsa-let-7a-1_hsa-let-7a-5p_3:25_-3:-2_mut:null_add:AT_x9
@@ -22,3 +26,5 @@ GGATGAGGTAGTAGGTTGTATGGTTTT
 GGATGAGGTAGTAGGTTGTATAGTTTTAA
 >hsa-let-7a-1_hsa-let-7a-5p_6:25_0:-2_mut:null_add:null_x33
 TGAGGTAGTAGGTTGTATAG
+>hsa-miR-122-5p_4Addition_x7
+TGGAGTGTGACAATGGTGTTTGAAGT
