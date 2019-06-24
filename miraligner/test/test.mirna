@@ -1,23 +1,24 @@
-seq	name	mir	start	end	mism	add	t5	t3	s5	s3	DB	precursor	ambiguity
-GGATGAGGTAGTAGGTTGTATAGAA	hsa-let-7a-1_hsa-let-7a-5p_3:25_-3:-2_mut:null_add:AA_x0	hsa-let-7a-5p	3	25	0	AA	GGA	tt	GGGATGAG	AGTTTTAG	miRNA	hsa-let-7a-1	1
-GGATGAGGTAGTAGGTTGTATAGAT	hsa-let-7a-1_hsa-let-7a-5p_3:25_-3:-2_mut:null_add:AT_x9	hsa-let-7a-5p	3	25	0	AT	GGA	tt	GGGATGAG	AGTTTTAG	miRNA	hsa-let-7a-1	1
-GGATGAGGTAGTAGGTTGTATAGTTTAAA	hsa-let-7a-1_hsa-let-7a-5p_3:28_-3:1_mut:null_add:AAA_x17	hsa-let-7a-5p	3	28	0	AAA	GGA	T	GGGATGAG	AGTTTTAG	miRNA	hsa-let-7a-1	1
-GGATGAGGTAGTAGGTTGTATAGTTTA	hsa-let-7a-1_hsa-let-7a-5p_3:28_-3:1_mut:null_add:A_x426	hsa-let-7a-5p	3	28	0	A	GGA	T	GGGATGAG	AGTTTTAG	miRNA	hsa-let-7a-1	1
-GGATGAGGTAGTAGGTTGTATGGTTTT	hsa-let-7a-1_hsa-let-7a-5p_3:29_-3:2_mut:22G_add:null_x100	hsa-let-7a-5p	3	29	22GA	0	GGA	TT	GGGATGAG	AGTTTTAG	miRNA	hsa-let-7a-1	2
-GGATGAGGTAGTAGGTTGTATGGTTTT	hsa-let-7a-1_hsa-let-7a-5p_3:29_-3:2_mut:22G_add:null_x100	hsa-let-7c-5p	8	33	3AT	T	GGT	T	GGGTTGAG	GGTTTAGA	miRNA	hsa-let-7c	2
-GGATGAGGTAGTAGGTTGTATAGTTTTAA	hsa-let-7a-1_hsa-let-7a-5p_3:29_-3:2_mut:null_add:AA_x5	hsa-let-7a-5p	3	30	0	A	GGA	TTA	GGGATGAG	AGTTTTAG	miRNA	hsa-let-7a-1	1
-GATGAGGTAGTAGGTTGTATAT	hsa-let-7a-1_hsa-let-7a-5p_4:25_-2:-2_mut:22T_add:null_x53	hsa-let-7a-5p	4	24	0	T	GA	gtt	GGGATGAG	AGTTTTAG	miRNA	hsa-let-7a-1	1
-GATGAGGTAGTAGGTTGTATAG	hsa-let-7a-1_hsa-let-7a-5p_4:25_-2:-2_mut:null_add:null_x111	hsa-let-7a-5p	4	25	0	0	GA	tt	GGGATGAG	AGTTTTAG	miRNA	hsa-let-7a-1	1
-TGAGGTAGTAGGTTGTATAG	hsa-let-7a-1_hsa-let-7a-5p_6:25_0:-2_mut:null_add:null_x33	hsa-let-7a-5p	4	23	0	0	0	tt	GAG	AGTTTGGG	miRNA	hsa-let-7a-3	1
-GAGGTAGTTGGTTGTATAGTTA	hsa-let-7a-1_hsa-let-7a-5p_7:27_1:0_mut:9T_add:A_x86	hsa-let-7a-5p	5	25	9TA	A	t	0	GAG	AGTTTGGG	miRNA	hsa-let-7a-3	1
-TGAGGTAGTAGGTTGTATAGTT	hsa-let-7a-5p	hsa-let-7a-5p	4	25	0	0	0	0	GAG	AGTTTGGG	miRNA	hsa-let-7a-3	1
-TGAGGTAGTAGGTTGT	hsa-let-7a-5p-16nt	hsa-let-7a-1	6	21	0	0	0	0	0	0	precursor	NA	5
-TGAGGTAGTAGGTTGT	hsa-let-7a-5p-16nt	hsa-let-7a-2	5	20	0	0	0	0	0	0	precursor	NA	5
-TGAGGTAGTAGGTTGT	hsa-let-7a-5p-16nt	hsa-let-7a-3	4	19	0	0	0	0	0	0	precursor	NA	5
-TGAGGTAGTAGGTTGT	hsa-let-7a-5p-16nt	hsa-let-7b	6	21	0	0	0	0	0	0	precursor	NA	5
-TGAGGTAGTAGGTTGT	hsa-let-7a-5p-16nt	hsa-let-7c	11	26	0	0	0	0	0	0	precursor	NA	5
-TGAGGTAGTAGGTTGTA	hsa-let-7a-5p_3p_5loss	hsa-let-7b	6	21	0	A	0	0	0	0	precursor	NA	5
-TGAGGTAGTAGGTTGTA	hsa-let-7a-5p_3p_5loss	hsa-let-7a-5p	4	20	0	0	0	tagtt	GAG	AGTTTGGG	miRNA	hsa-let-7a-3	2
-TGAGGTAGTAGGTTGTA	hsa-let-7a-5p_3p_5loss	hsa-let-7c-5p	11	27	0	0	0	tggtt	GGGTTGAG	GGTTTAGA	miRNA	hsa-let-7c	2
-TAGTAGGTTGTATAGTT	hsa-let-7a-5p_5p_5loss	hsa-let-7a-5p	9	25	0	0	tgagg	0	GAG	AGTTTGGG	miRNA	hsa-let-7a-3	1
-TGGAGTGTGACAATGGTGTTTGAAGT	hsa-miR-122-5p_4Addition_x7	hsa-miR-122-5p	15	37	23AT	AGT	0	T	GCTGTGGA	TTTGTGTC	miRNA	hsa-mir-122	1
+seq	name	freq	mir	start	end	mism	add	t5	t3	s5	s3	DB	precursor	ambiguity
+GGATGAGGTAGTAGGTTGTATAGAA	hsa-let-7a-1_hsa-let-7a-5p_3:25_-3:-2_mut:null_add:AA_x0	0	hsa-let-7a-5p	3	25	0	AA	GGA	tt	GGGATGAG	AGTTTTAG	miRNA	hsa-let-7a-1	1
+GGATGAGGTAGTAGGTTGTATAGAT	hsa-let-7a-1_hsa-let-7a-5p_3:25_-3:-2_mut:null_add:AT_x9	9	hsa-let-7a-5p	3	25	0	AT	GGA	tt	GGGATGAG	AGTTTTAG	miRNA	hsa-let-7a-1	1
+GGATGAGGTAGTAGGTTGTATAGTTTAAA	hsa-let-7a-1_hsa-let-7a-5p_3:28_-3:1_mut:null_add:AAA_x17	17	hsa-let-7a-5p	3	28	0	AAA	GGA	T	GGGATGAG	AGTTTTAG	miRNA	hsa-let-7a-1	1
+GGATGAGGTAGTAGGTTGTATAGTTTA	hsa-let-7a-1_hsa-let-7a-5p_3:28_-3:1_mut:null_add:A_x426	426	hsa-let-7a-5p	3	28	0	A	GGA	T	GGGATGAG	AGTTTTAG	miRNA	hsa-let-7a-1	1
+GGATGAGGTAGTAGGTTGTATGGTTTT	hsa-let-7a-1_hsa-let-7a-5p_3:29_-3:2_mut:22G_add:null_x100	100	hsa-let-7a-5p	3	29	22GA	0	GGA	TT	GGGATGAG	AGTTTTAG	miRNA	hsa-let-7a-1	2
+GGATGAGGTAGTAGGTTGTATGGTTTT	hsa-let-7a-1_hsa-let-7a-5p_3:29_-3:2_mut:22G_add:null_x100	100	hsa-let-7c-5p	8	33	3AT	T	GGT	T	GGGTTGAG	GGTTTAGA	miRNA	hsa-let-7c	2
+GGATGAGGTAGTAGGTTGTATAGTTTTAA	hsa-let-7a-1_hsa-let-7a-5p_3:29_-3:2_mut:null_add:AA_x5	5	hsa-let-7a-5p	3	30	0	A	GGA	TTA	GGGATGAG	AGTTTTAG	miRNA	hsa-let-7a-1	1
+GATGAGGTAGTAGGTTGTATAT	hsa-let-7a-1_hsa-let-7a-5p_4:25_-2:-2_mut:22T_add:null_x53	53	hsa-let-7a-5p	4	24	0	T	GA	gtt	GGGATGAG	AGTTTTAG	miRNA	hsa-let-7a-1	1
+GATGAGGTAGTAGGTTGTATAG	hsa-let-7a-1_hsa-let-7a-5p_4:25_-2:-2_mut:null_add:null_x111	111	hsa-let-7a-5p	4	25	0	0	GA	tt	GGGATGAG	AGTTTTAG	miRNA	hsa-let-7a-1	1
+TGAGGTAGTAGGTTGTATAG	hsa-let-7a-1_hsa-let-7a-5p_6:25_0:-2_mut:null_add:null_x33	33	hsa-let-7a-5p	4	23	0	0	0	tt	GAG	AGTTTGGG	miRNA	hsa-let-7a-3	1
+GAGGTAGTTGGTTGTATAGTTA	hsa-let-7a-1_hsa-let-7a-5p_7:27_1:0_mut:9T_add:A_x86	86	hsa-let-7a-5p	5	25	9TA	A	t	0	GAG	AGTTTGGG	miRNA	hsa-let-7a-3	1
+TGAGGTAGTAGGTTGTATAGTT	hsa-let-7a-5p	0	hsa-let-7a-5p	4	25	0	0	0	0	GAG	AGTTTGGG	miRNA	hsa-let-7a-3	1
+TGAGGTAGTAGGTTGT	hsa-let-7a-5p-16nt	0	hsa-let-7a-1	6	21	0	0	0	0	0	0	precursor	NA	5
+TGAGGTAGTAGGTTGT	hsa-let-7a-5p-16nt	0	hsa-let-7a-2	5	20	0	0	0	0	0	0	precursor	NA	5
+TGAGGTAGTAGGTTGT	hsa-let-7a-5p-16nt	0	hsa-let-7a-3	4	19	0	0	0	0	0	0	precursor	NA	5
+TGAGGTAGTAGGTTGT	hsa-let-7a-5p-16nt	0	hsa-let-7b	6	21	0	0	0	0	0	0	precursor	NA	5
+TGAGGTAGTAGGTTGT	hsa-let-7a-5p-16nt	0	hsa-let-7c	11	26	0	0	0	0	0	0	precursor	NA	5
+TGAGGTAGTAGGTTGTA	hsa-let-7a-5p_3p_5loss	0	hsa-let-7b	6	21	0	A	0	0	0	0	precursor	NA	5
+TGAGGTAGTAGGTTGTA	hsa-let-7a-5p_3p_5loss	0	hsa-let-7a-5p	4	20	0	0	0	tagtt	GAG	AGTTTGGG	miRNA	hsa-let-7a-3	2
+TGAGGTAGTAGGTTGTA	hsa-let-7a-5p_3p_5loss	0	hsa-let-7c-5p	11	27	0	0	0	tggtt	GGGTTGAG	GGTTTAGA	miRNA	hsa-let-7c	2
+TAGTAGGTTGTATAGTT	hsa-let-7a-5p_5p_5loss	0	hsa-let-7a-5p	9	25	0	0	tgagg	0	GAG	AGTTTGGG	miRNA	hsa-let-7a-3	1
+TGAGGTAGTAGGTTGTATAGTT	hsa-let-7a-5p_can-nm_1	0	hsa-let-7a-5p	4	25	0	0	0	0	GAG	AGTTTGGG	miRNA	hsa-let-7a-3	1
+TGGAGTGTGACAATGGTGTTTGAAGT	hsa-miR-122-5p_4Addition_x7	7	hsa-miR-122-5p	15	37	23AT	AGT	0	T	GCTGTGGA	TTTGTGTC	miRNA	hsa-mir-122	1

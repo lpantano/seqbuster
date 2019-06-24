@@ -119,6 +119,9 @@ public class tools {
  public static String getFreq(String name){
   String f="";
   String [] col=name.split("x");
+  if (col.length==1){
+      return "0";
+  }
   f=col[1];
   return f;
  } 

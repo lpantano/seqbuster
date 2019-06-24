@@ -21,14 +21,14 @@ public class Main {
         logger.setLevel(Level.ALL);
         logger.addHandler(new ConsoleHandler());
         String format = "None";
-        String test="notest";
-        if (test.equals("test")){
+        String test="test";
+        if (test.equals("notest")){
             LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.ALL);
             for (Handler h : logger.getHandlers()){
                 h.setLevel(Level.ALL);
             }
             logger.config("Entering in test mode.");
-            map.readseq("test/test.fa","DB","hsa",1,5,5,"fasta","test/test",false,true,16);
+            map.readseq("test/test.fa","DB","hsa",1,5,5,"fasta","test/test",true,true,16);
             System.exit(0);
         }
         Options jct = new Options();
