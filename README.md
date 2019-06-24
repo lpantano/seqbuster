@@ -13,7 +13,7 @@ Some comparison between many tools [here](https://github.com/lpantano/mypubs/blo
 
 ## Download
 
-Click [here](https://github.com/lpantano/seqbuster/raw/miraligner/miraligner/miraligner-3.1/miraligner.jar)
+Click [here](https://github.com/lpantano/seqbuster/raw/miraligner/miraligner/miraligner-3.4/miraligner.jar)
 
 ## Cite
 
